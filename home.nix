@@ -37,6 +37,8 @@
     gnome-extension-manager
     gnome.gnome-tweaks
     gnomeExtensions.pop-shell
+    # gnomeExtensions.unite
+    # gnomeExtensions.pixel-saver
     gnomeExtensions.just-perfection
     gnomeExtensions.appindicator
     gnomeExtensions.blur-my-shell
@@ -71,6 +73,7 @@
       source = config/nvim;
       recursive = true;
     };
+    ".zshrc".source = config/zshrc;
     #".config/alacritty/alacritty.toml".source = config/alacritty/alacritty.toml;
     #".config/alacritty/catppuccin-macchiato.toml".source = config/alacritty/catppuccin-macchiato.toml;
     #".config/nvim/init.lua".source = config/nvim/init.lua
@@ -107,6 +110,14 @@
   };
 
   dconf.settings = with lib.hm.gvariant; {
+    "org/gnome/desktop/background" = {
+      color-shading-type = "solid";
+      picture-options = "zoom";
+      picture-uri = "file:///run/current-system/sw/share/backgrounds/gnome/morphogenesis-l.svg";
+      picture-uri-dark = "file:///run/current-system/sw/share/backgrounds/gnome/morphogenesis-d.svg";
+      primary-color = "#e18477";
+      secondary-color = "#000000";
+    };
     "org/gnome/desktop/interface" = {
       clock-format="24h";
       clock-show-seconds=true;
@@ -118,6 +129,16 @@
     "org/gnome/desktop/input-sources" = {
       sources = [ (mkTuple [ "xkb" "it" ]) ];
       xkb-options = [ "terminate:ctrl_alt_bksp" "caps:escape" ];
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      move-to-workspace-1 = [ "<Shift><Super>1" ];
+      move-to-workspace-2 = [ "<Shift><Super>2" ];
+      move-to-workspace-3 = [ "<Shift><Super>3" ];
+      move-to-workspace-4 = [ "<Shift><Super>4" ];
+      switch-to-workspace-1 = [ "<Super>1" ];
+      switch-to-workspace-2 = [ "<Super>2" ];
+      switch-to-workspace-3 = [ "<Super>3" ];
+      switch-to-workspace-4 = [ "<Super>4" ];
     };
     "org/gnome/settings-daemon/plugins/media-keys" = {
       custom-keybindings = [
@@ -180,6 +201,38 @@
     #   global-rounded-corner-settings = "{'padding': <{'left': <uint32 1>, 'right': <uint32 1>, 'top': <uint32 1>, 'bottom': <uint32 1>}>, 'keep_rounded_corners': <{'maximized': <false>, 'fullscreen': <false>}>, 'border_radius': <uint32 12>, 'smoothing': <uint32 0>}";
     #   settings-version = mkUint32 5;
     # };
+    "org/gnome/shell/extensions/just-perfection" = {
+      enabled = true;
+      accessibility-menu = true;
+      background-menu = true;
+      calendar = true;
+      clock-menu = true;
+      clock-menu-position-offset = 0;
+      controls-manager-spacing-size = 0;
+      dash = true;
+      dash-icon-size = 0;
+      double-super-to-appgrid = true;
+      keyboard-layout = true;
+      max-displayed-search-results = 0;
+      osd = true;
+      panel = true;
+      panel-in-overview = true;
+      ripple-box = true;
+      search = true;
+      show-apps-button = true;
+      startup-status = 1;
+      theme = false;
+      top-panel-position = 1;
+      window-demands-attention-focus = false;
+      window-menu-take-screenshot-button = true;
+      window-picker-icon = true;
+      window-preview-caption = true;
+      window-preview-close-button = true;
+      workspace = true;
+      workspace-background-corner-size = 0;
+      workspace-popup = true;
+      workspaces-in-app-grid = true;
+    };
     "org/gnome/shell/extensions/vitals" = {
       enabled = true;
       alphabetize = true;

@@ -1,0 +1,94 @@
+# --- Utility aliases --- #
+alias cp="cp -i"
+alias mv="mv -i"
+alias rmt='\mv -ft $@ ~/.trash/'
+alias empty-trash='\rm -rf ~/.trash && mkdir ~/.trash'
+alias fuck='sudo $(fc -Lln -1)'
+alias open="xdg-open"
+alias treeh='tree -phDa -I .git -I node_modules -I target'
+alias pgrep="pgrep -a"
+alias vi="nvim"
+alias vim="nvim"
+alias fim='nvim $(fzf)'
+alias rsync="rsync -hv --info=progress2"
+alias lh="ls -lhA --group-directories-first"
+alias lt="ls -lhAtr"
+alias feh="feh --image-bg black -Z -."
+alias present="zathura --mode=presentation"
+alias yt='noglob yt-dlp'
+alias ytmp3="noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3"
+alias yt100m="noglob yt-dlp --format \"[filesize<100M]\""
+alias yt200m="noglob yt-dlp --format \"[filesize<200M]\""
+alias yt500m="noglob yt-dlp --format \"[filesize<500M]\""
+# --- --- #
+
+# --- Dotfiles management --- #
+## with a bare repo
+## How to use:
+##  To manually add a single new file: config add <filename>
+##  To stash all changes and deletion of TRACKED FILES ONLY: config add -u
+##  To commit stashed changes: config commit
+##  To push: config push
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config-tr='ls --group-directories-first --color=auto -d $(config ls-files .)'
+alias config-trh='lh -d $(config ls-files .)'
+alias config-untr='ls --group-directories-first --color=auto -d $(config ls-files . --exclude-standard --others)'
+alias config-untrh='lh -d $(config ls-files . --exclude-standard --others)'
+
+## with stow
+# alias dotstow="stow      --no-folding --dotfiles --dir=$HOME/dotfiles --target=$HOME ."
+alias etcstow="sudo stow --no-folding --dotfiles --dir=$HOME/etcfiles --target=/etc  ."
+# --- --- #
+
+# --- Git aliases --- #
+alias gmain="git checkout main"
+alias gdev="git checkout dev"
+alias glog="git log --all --decorate --oneline --graph -15"
+# --- --- #
+
+# --- Tokei aliases --- #
+alias tkc="tokei -C"
+# --- --- #
+
+# --- Rust test coverage aliases --- #
+alias cclippy="cargo clippy --workspace --all-targets --all-features"
+alias rscov="cargo tarpaulin --skip-clean --ignore-tests --target-dir ./target/test-coverage --out lcov --output-dir ./target/test-coverage"
+# --- --- #
+
+# --- xclip stuff --- #
+alias cbtxt="xclip -selection clipboard"
+alias cbimg="xclip -selection clipboard -t image/png"
+# --- --- #
+
+
+export PATH="$PATH:$HOME/.local/bin"
+export TERM=xterm-256color
+
+
+
+# --- HISTORY --- #
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+setopt SHARE_HISTORY             # Share history between all sessions.
+setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+# --- --- #
+
+
+# --- Bad attempt at changing prompt manually --- #
+autoload -Uz promptinit
+promptinit
+prompt off # necessary in grml's zsh
+autoload -Uz vcs_info
+setopt PROMPT_SUBST
+precmd() { vcs_info }
+NEWLINE=$'\n'
+PROMPT='┌ %B%F{red}%(?..[%?] )%f%b%B%F{blue}%n%f%b@%m %B%80<..<%~%<< %b${vcs_info_msg_0_}${NEWLINE}└> '
+# PROMPT="╭─ %B%F{red}%(?..[%?] )%f%b%B%F{blue}%n%f%b@%m %B%40<..<%~%<< %b${NEWLINE}╰─> "
+# --- --- #
+

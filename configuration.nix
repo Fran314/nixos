@@ -48,8 +48,45 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.gdm.wayland = false;
   services.xserver.desktopManager.gnome.enable = true;
+  services.gnome.core-utilities.enable = false; # Remove additional packages from GNOME
   programs.dconf.enable = true;
+  environment.gnome.excludePackages = [
+  #   # pkgs.adwaita-icon-theme
+  #   pkgs.epiphany
+  #   pkgs.evince
+  #   # pkgs.file-roller
+  #   pkgs.geary
+  #   pkgs.gnome-calendar
+  #   pkgs.gnome-connections
+  #   pkgs.gnome-console
+  #   pkgs.gnome-font-viewer
+  #   pkgs.gnome-system-monitor
+  #   pkgs.gnome-text-editor
+  #   pkgs.gnome-themes-extra
+    pkgs.gnome-tour
+  #   pkgs.gnome-user-docs
+  #   pkgs.gnome.gnome-backgrounds
+  #   pkgs.gnome.gnome-characters
+  #   pkgs.gnome.gnome-clocks
+  #   pkgs.gnome.gnome-contacts
+  #   pkgs.gnome.gnome-logs
+  #   pkgs.gnome.gnome-maps
+  #   pkgs.gnome.gnome-music
+  #   pkgs.gnome.gnome-weather
+  #   pkgs.nautilus
+  #   pkgs.orca
+  #   pkgs.simple-scan
+  #   pkgs.sushi
+  #   pkgs.totem
+  #   pkgs.yelp
+  #   pkgs.baobab
+  #   pkgs.gnome-calculator
+  #   pkgs.loupe
+  #   pkgs.simple-scan
+  #   pkgs.snapshot
+  ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -91,13 +128,16 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  # Enable automatic login for the user.
-  services.displayManager.autoLogin.enable = true;
-  services.displayManager.autoLogin.user = "baldo";
+  programs.zsh.enable = true;
+  users.users.baldo.shell = pkgs.zsh;
 
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
+  # # Enable automatic login for the user.
+  # services.displayManager.autoLogin.enable = true;
+  # services.displayManager.autoLogin.user = "baldo";
+  #
+  # # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  # systemd.services."getty@tty1".enable = false;
+  # systemd.services."autovt@tty1".enable = false;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
