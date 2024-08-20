@@ -128,7 +128,12 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestions.enable = true;
+    # syntaxHighlighting.enable = true;
+  };
   users.users.baldo.shell = pkgs.zsh;
 
   # # Enable automatic login for the user.
