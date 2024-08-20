@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, pkgs-unstable, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -17,10 +17,40 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-      alacritty
-      firefox
-  ];
+  home.packages = (with pkgs; [
+    alacritty
+    firefox
+
+    gnumake
+    cmake
+    gcc
+    ripgrep
+    fzf
+    tree
+    zip
+    unzip
+
+    rust-analyzer
+
+    nodejs
+
+    gnome-extension-manager
+    gnome.gnome-tweaks
+    gnomeExtensions.pop-shell
+    gnomeExtensions.just-perfection
+    gnomeExtensions.appindicator
+    gnomeExtensions.blur-my-shell
+
+    gnomeExtensions.caffeine
+    gnomeExtensions.boost-volume
+
+    gnomeExtensions.vitals
+    gnomeExtensions.runcat
+  ])
+  ++
+  (with pkgs-unstable; [
+    gnomeExtensions.rounded-window-corners-reborn
+  ]);
 
   programs.git = {
     enable = true;
@@ -33,6 +63,17 @@
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+    ".config/alacritty" = {
+      source = config/alacritty;
+      recursive = true;
+    };
+    ".config/nvim" = {
+      source = config/nvim;
+      recursive = true;
+    };
+    #".config/alacritty/alacritty.toml".source = config/alacritty/alacritty.toml;
+    #".config/alacritty/catppuccin-macchiato.toml".source = config/alacritty/catppuccin-macchiato.toml;
+    #".config/nvim/init.lua".source = config/nvim/init.lua
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
@@ -65,29 +106,97 @@
     # EDITOR = "emacs";
   };
 
-
-  # FOR POP-SHELL CONFIGURATION, BUT IT NEEDS HOME-MANAGER
-  dconf.settings = {
+  dconf.settings = with lib.hm.gvariant; {
     "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
+      clock-format="24h";
+      clock-show-seconds=true;
+      color-scheme="prefer-dark";
+      enable-animations=true;
+      enable-hot-corners=false;
+      show-battery-percentage=true;
     };
+    "org/gnome/desktop/input-sources" = {
+      sources = [ (mkTuple [ "xkb" "it" ]) ];
+      xkb-options = [ "terminate:ctrl_alt_bksp" "caps:escape" ];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        # "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
+        # "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
+      ];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        binding = "<Super>z";
+        command = "alacritty";
+        name = "Launch Terminal";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
+      binding = "<Super>F2";
+      command = "firefox";
+      name = "Launch Firefox";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
+      binding = "<Super>F1";
+      command = "alacritty --class 'nvim-memo' --working-directory '/home/baldo/.local/share/nvim/memo' -e nvim -c 'SessionsLoad'";
+      name = "Launch Memo";
+    };
+    # "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" = {
+    #   binding="<Control><Alt>l";
+    #   command="dm-tool lock";
+    #   name="Lockscreen";
+    # };
     "org/gnome/shell" = {
       disable-user-extensions = false;
       enabled-extensions = [
-       	"pop-shell@system76.com" 
+        "pop-shell@system76.com"
+        "Vitals@CoreCoding.com"
+        "rounded-window-corners@fxgn"
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "caffeine@patapon.info"
+        "runcat@kolesnikov.se"
+        "launch-new-instance@gnome-shell-extensions.gcampax.github.com"
+        "blur-my-shell@aunetx"
+        "just-perfection-desktop@just-perfection"
+        "boostvolume@shaquib.dev"
       ];
     };
     "org/gnome/shell/extensions/pop-shell" = {
       enabled = true;
       active-hint = true;
-      active-hint-border-radius = lib.hm.gvariant.mkUint32 15;
-      gap-inner = lib.hm.gvariant.mkUint32 6;
-      gap-outer = lib.hm.gvariant.mkUint32 6;
+      active-hint-border-radius = mkUint32 15;
+      gap-inner = mkUint32 6;
+      gap-outer = mkUint32 6;
       hint-color-rgba = "rgb(145,155,242)";
       show-title = false;
       smart-gaps = false;
       snap-to-grid = true;
       tile-by-default = true;
+    };
+    # "org/gnome/shell/extensions/rounded-window-corners-reborn" = {
+    #   border-width = 0;
+    #   global-rounded-corner-settings = "{'padding': <{'left': <uint32 1>, 'right': <uint32 1>, 'top': <uint32 1>, 'bottom': <uint32 1>}>, 'keep_rounded_corners': <{'maximized': <false>, 'fullscreen': <false>}>, 'border_radius': <uint32 12>, 'smoothing': <uint32 0>}";
+    #   settings-version = mkUint32 5;
+    # };
+    "org/gnome/shell/extensions/vitals" = {
+      enabled = true;
+      alphabetize = true;
+      fixed-widths = true;
+      hide-icons = true;
+      hot-sensors = ["_temperature_k10temp_tctl_" "_processor_usage_" "_storage_free_"];
+      icon-style = 1;
+      menu-centered = false;
+      show-battery = false;
+      show-fan = false;
+      show-network = false;
+      show-voltage = false;
+      use-higher-precision = false;
+    };
+    "org/gnome/shell/extensions/runcat" = {
+      enabled = true;
+      idle-threshold = 5;
     };
     # "org/gnome/desktop/peripherals/touchpad" = {
     #   tap-to-click = true;

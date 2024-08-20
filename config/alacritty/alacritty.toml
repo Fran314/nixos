@@ -1,0 +1,27 @@
+import = [
+# uncomment the flavour you want below:
+# "~/.config/alacritty/catppuccin-latte.toml"
+# "~/.config/alacritty/catppuccin-frappe.toml"
+    "~/.config/alacritty/catppuccin-macchiato.toml"
+# "~/.config/alacritty/catppuccin-mocha.toml"
+]
+
+[colors.primary]
+background = "#282A28"
+
+[font]
+size = 12
+
+[font.normal]
+#family = "Comic Code"
+#style = "Regular"
+
+[window]
+opacity = 0.9
+# opacity = 0.85
+
+[window.padding]
+x = 10
+y = 10
+
+

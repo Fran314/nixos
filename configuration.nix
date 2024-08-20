@@ -51,7 +51,6 @@
   services.xserver.desktopManager.gnome.enable = true;
   programs.dconf.enable = true;
 
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "it";
@@ -100,9 +99,6 @@
   systemd.services."getty@tty1".enable = false;
   systemd.services."autovt@tty1".enable = false;
 
-  # Install firefox.
-  # programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -116,10 +112,6 @@
 
     vim 
     neovim
-
-    gnome.gnome-tweaks
-    gnome-extension-manager
-    gnomeExtensions.pop-shell
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
