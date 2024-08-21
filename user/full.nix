@@ -12,6 +12,22 @@
         ### Daily usage
         alacritty
         firefox
-        gnome.nautilus
+        gnome.nautilus 
+        gnome.gnome-font-viewer # temp
+
+        (pkgs.nerdfonts.override {
+            fonts = [
+                # "FiraCode"
+                # "ComicShannsMono"
+                # "DroidSansMono"
+                # "CascadiaMono"
+                "Recursive"
+                # "RobotoMono"
+                # "SpaceMono"
+                # "UbuntuMono"
+            ];
+        })
     ];
+
+    fonts.fontconfig.enable = true;
 }
