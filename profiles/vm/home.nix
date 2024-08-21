@@ -1,4 +1,4 @@
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, pkgs, ... }:
 
 {
     imports = [ ../../user/full.nix ];

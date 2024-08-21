@@ -1,6 +1,23 @@
-{ config, pkgs, ...}:
+{ config, pkgs, inputs, ...}:
 
 {
+    nixpkgs = {
+        overlays = [
+            (final: prev: {
+                vimPlugins = prev.vimPlugins // {
+                    own-mini-starter = prev.vimUtils.buildVimPlugin {
+                        name = "mini.starter";
+                        src = inputs.plugin-mini-starter;
+                    };
+                    own-sessions = prev.vimUtils.buildVimPlugin {
+                        name = "sessions";
+                        src = inputs.plugin-sessions;
+                    };
+                };
+            })
+        ];
+    };
+
     programs.neovim = 
     {
         enable = true;
@@ -105,6 +122,18 @@
                 type = "lua";
                 config = "require(\"colorizer\").setup()";
             }
+
+            {
+                plugin = own-sessions;
+                type = "lua";
+                config = "require(\"sessions\").setup()";
+            }
+            {
+                plugin = own-mini-starter;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/mini-starter.lua;
+            }
+
 
             # vim-nix
         ];

@@ -53,12 +53,23 @@ end)
 -- 	vim.cmd.w()
 -- end)
 
+-- Autosessions
+vim.keymap.set("n", "<leader>ms", function()
+	local session_path = vim.fn.stdpath("data") .. "/sessions" .. vim.fn.getcwd()
+	require("sessions").save(session_path)
+end)
+vim.keymap.set("n", "<leader>ml", function()
+	local session_path = vim.fn.stdpath("data") .. "/sessions" .. vim.fn.getcwd()
+	local ok, _ = pcall(vim.fn.readfile, session_path)
+	if ok then
+		require("sessions").load(session_path)
+	else
+		print("no session at this path")
+	end
+end)
+
 -- Paste below
 vim.keymap.set("n", "<C-p>", "o<Esc>p")
-
--- Load and save sessions
-vim.keymap.set("n", "<leader>ms", ":SessionsSave! ~/.nvim/sessions/")
-vim.keymap.set("n", "<leader>ml", ":SessionsLoad ~/.nvim/sessions/")
 
 -- Tree explorer
 -- vim.keymap.set("n", "<C-b>", vim.cmd.NvimTreeFocus)

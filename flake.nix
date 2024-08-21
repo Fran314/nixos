@@ -27,16 +27,18 @@
 
         homeConfigurations = {
             latias = inputs.home-manager.lib.homeManagerConfiguration {
-                inherit lib pkgs;
+                inherit pkgs;
                 modules = [ ./profiles/latias/home.nix ];
                 extraSpecialArgs = {
+                    inherit inputs;
                     inherit pkgs-unstable;
                 };
             };
             vm = inputs.home-manager.lib.homeManagerConfiguration {
-                inherit lib pkgs;
+                inherit pkgs;
                 modules = [ ./profiles/vm/home.nix ];
                 extraSpecialArgs = {
+                    inherit inputs;
                     inherit pkgs-unstable;
                 };
             };
@@ -50,5 +52,14 @@
 			url = "github:nix-community/home-manager/release-24.05";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+        
+        plugin-mini-starter = {
+            url = "github:echasnovski/mini.starter";
+            flake = false;
+        };
+        plugin-sessions = {
+            url = "github:natecraddock/sessions.nvim";
+            flake = false;
+        };
 	};
 }
