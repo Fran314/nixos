@@ -127,8 +127,8 @@
             autoload -Uz vcs_info
             setopt prompt_subst
             precmd() { vcs_info }
-            zstyle ':vcs_info:git*' actionformats '%f[%F{2}%b%f|%F{1}%a%f] '
-            zstyle ':vcs_info:git*' formats       '%f[%F{2}%b%f]'
+            zstyle ':vcs_info:git*' actionformats '%f[%B%F{2}%b%f%%b|%B%F{1}%a%f%%b] '
+            zstyle ':vcs_info:git*' formats       '%f[%B%F{2}%b%f%%b]'
 
             if [ $(id -u) -eq 0 ]
             then
@@ -139,6 +139,9 @@
             if [[ $HOST == "umbreon" ]]
             then
                 HOST_ICON='%B%F{yellow}%f%b '
+            elif [[ $HOST == "altaria" ]]
+            then
+                HOST_ICON='%B%F{yellow}󰅟%f%b '
             else
                 HOST_ICON=""
             fi
