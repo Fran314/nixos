@@ -1,38 +1,7 @@
 { config, lib, pkgs, pkgs-unstable, ... }:
 
 {
-  home.username = "baldo";
-  home.homeDirectory = "/home/baldo";
-
   home.packages = (with pkgs; [
-    ### Basics
-    tree
-    rsync
-    ripgrep
-    fzf
-    zip
-    unzip
-    xclip
-    # rar
-    # unrar
-    bottom
-    fastfetch
-
-    ### Daily usage
-    alacritty
-    firefox
-    gnome.nautilus
-
-    ### Various
-    gnumake
-    cmake
-    gcc
-
-    ### Developement
-    rust-analyzer
-    nodejs
-
-    ### GNOME
     gnome-extension-manager
     gnome.gnome-tweaks
     gnomeExtensions.pop-shell
@@ -52,96 +21,6 @@
   (with pkgs-unstable; [
     gnomeExtensions.rounded-window-corners-reborn
   ]);
-
-  xdg.userDirs = {
-      enable = true;
-      desktop = "${config.home.homeDirectory}/desktop";
-      music = "${config.home.homeDirectory}/music";
-      videos = "${config.home.homeDirectory}/videos";
-      pictures = "${config.home.homeDirectory}/pictures";
-      download = "${config.home.homeDirectory}/download";
-      documents = "${config.home.homeDirectory}/documents";
-      publicShare = "${config.home.homeDirectory}/public";
-      templates = "${config.home.homeDirectory}/templates";
-  };
-  programs.git = {
-    enable = true;
-    userName = "Fran314";
-    userEmail = "francesco.ghog@gmail.com";
-    extraConfig = {
-      init.defaultBranch = "main";
-    };
-  };
-  programs.zsh = {
-    enable = true;
-    history = {
-      ignoreAllDups = true;
-      path = "$HOME/.zsh_history";
-      save = 10000000;
-      size = 10000000;
-    };
-    initExtra = ''
-      export PATH="$PATH:$HOME/.local/bin"
-      export TERM=xterm-256color
-
-      setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-      setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
-      setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
-      setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
-
-      # To allow to tab-complete .. to ../
-      zstyle ':completion:*' special-dirs true
-    '';
-    shellAliases = {
-      fuck="sudo $(fc -Lln -1)";
-      open="xdg-open";
-      treeh="tree -phDa -I .git -I node_modules -I target";
-      pgrep="pgrep -a";
-      fim="nvim $(fzf)";
-      rsync="rsync -hv --info=progress2";
-
-      yt="noglob yt-dlp";
-      ytmp3="noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3";
-      yt100m="noglob yt-dlp --format \"[filesize<100M]\"";
-      yt200m="noglob yt-dlp --format \"[filesize<200M]\"";
-      yt500m="noglob yt-dlp --format \"[filesize<500M]\"";
-
-      # Rust stuff
-      cclippy="cargo clippy --workspace --all-targets --all-features";
-      rscov="cargo tarpaulin --skip-clean --ignore-tests --target-dir ./target/test-coverage --out lcov --output-dir ./target/test-coverage";
-
-      # Pipe copy stuff
-      cbtxt="xclip -selection clipboard";
-      cbimg="xclip -selection clipboard -t image/png";
-    };
-  };
-  programs.alacritty = {
-    enable = true;
-    settings = {
-        import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ];
-        colors.primary.background = "#282A28";
-        font.size = 12;
-        window = {
-            opacity = 0.9;
-            padding = {
-                x = 10;
-                y = 10;
-            };
-        };
-    };
-    
-  };
-
-  home.file = {
-    ".config/alacritty" = {
-      source = config/alacritty;
-      recursive = true;
-    };
-    ".config/nvim" = {
-      source = config/nvim;
-      recursive = true;
-    };
-  };
 
   dconf.settings = with lib.hm.gvariant; {
     "org/gnome/desktop/background" = {
@@ -229,11 +108,6 @@
       snap-to-grid = true;
       tile-by-default = true;
     };
-    # "org/gnome/shell/extensions/rounded-window-corners-reborn" = {
-    #   border-width = 0;
-    #   global-rounded-corner-settings = "{'padding': <{'left': <uint32 1>, 'right': <uint32 1>, 'top': <uint32 1>, 'bottom': <uint32 1>}>, 'keep_rounded_corners': <{'maximized': <false>, 'fullscreen': <false>}>, 'border_radius': <uint32 12>, 'smoothing': <uint32 0>}";
-    #   settings-version = mkUint32 5;
-    # };
     "org/gnome/shell/extensions/just-perfection" = {
       enabled = true;
       accessibility-menu = true;
@@ -294,16 +168,4 @@
     #   speed = 0.5;
     # };
   };
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }

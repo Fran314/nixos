@@ -35,7 +35,8 @@
 		homeConfigurations = {
 			baldo = home-manager.lib.homeManagerConfiguration {
 				inherit lib pkgs;
-				modules = [ ./home.nix ];
+				# modules = [ ./home.nix ];
+				modules = [ ./profiles/vm/home.nix ];
                 extraSpecialArgs = {
                     inherit pkgs-unstable;
                 };
