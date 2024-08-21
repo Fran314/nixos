@@ -4,8 +4,10 @@
     programs.alacritty = {
         enable = true;
         settings = {
+            # theme from https://github.com/alacritty/alacritty-theme
             import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ];
-            colors.primary.background = "#282A28";
+
+            colors.primary.background = "#28282A";
             font = {
                 normal = {
                     # family = "FiraCode Nerdfont Mono";
