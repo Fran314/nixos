@@ -21,6 +21,7 @@
     ### Daily usage
     alacritty
     firefox
+    gnome.nautilus
 
     ### Various
     gnumake
@@ -52,6 +53,17 @@
     gnomeExtensions.rounded-window-corners-reborn
   ]);
 
+  xdg.userDirs = {
+      enable = true;
+      desktop = "${config.home.homeDirectory}/desktop";
+      music = "${config.home.homeDirectory}/music";
+      videos = "${config.home.homeDirectory}/videos";
+      pictures = "${config.home.homeDirectory}/pictures";
+      download = "${config.home.homeDirectory}/download";
+      documents = "${config.home.homeDirectory}/documents";
+      publicShare = "${config.home.homeDirectory}/public";
+      templates = "${config.home.homeDirectory}/templates";
+  };
   programs.git = {
     enable = true;
     userName = "Fran314";
