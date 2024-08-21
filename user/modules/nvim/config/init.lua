@@ -67,74 +67,74 @@ require("lazy").setup({
 		-- end,
 	},
 
-	{
-		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		keys = {
-			{ "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "[S]earch [F]iles" },
-			{ "<leader>sg", "<cmd>Telescope git_files<cr>", desc = "[S]earch [G]it files" },
-			{ "<leader>sw", "<cmd>Telescope grep_string<cr>", desc = "[S]earch current [W]ord" },
-			{ "<leader>st", "<cmd>Telescope live_grep<cr>", desc = "[S]earch [T]ext" },
-			{ "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "[S]earch [D]iagnostics" },
-		},
-		opts = {
-			pickers = {
-				find_files = {
-					hidden = true,
-				},
-				live_grep = {
-					additional_args = function(opts)
-						return { "--hidden" }
-					end,
-				},
-			},
-			defaults = {
-				file_ignore_patterns = {
-					".git",
-					"node_modules", -- for nodejs projects
-					"target", -- for rust projects
-				},
-			},
-			extensions = {
-				fzf = {
-					fuzzy = true,
-					override_generic_sorter = true,
-					override_file_sorter = true,
-					case_mode = "smart_case",
-				},
-			},
-		},
-		-- config = function()
-		-- 	require("telescope").setup({
-		-- 		defaults = {
-		-- 			file_ignore_patterns = {
-		-- 				"node_modules", -- for nodejs projects
-		-- 				"target", -- for rust projects
-		-- 			},
-		-- 		},
-		-- 		extensions = {
-		-- 			fzf = {
-		-- 				fuzzy = true,
-		-- 				override_generic_sorter = true,
-		-- 				override_file_sorter = true,
-		-- 				case_mode = "smart_case",
-		-- 			},
-		-- 		},
-		-- 	})
-		-- end,
-	},
-	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-		-- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-		init = function()
-			require("telescope").load_extension("fzf")
-		end,
-		-- config = function()
-		-- 	require("telescope").load_extension("fzf")
-		-- end,
-	},
+	-- {
+	-- 	"nvim-telescope/telescope.nvim",
+	-- 	branch = "0.1.x",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	keys = {
+	-- 		{ "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "[S]earch [F]iles" },
+	-- 		{ "<leader>sg", "<cmd>Telescope git_files<cr>", desc = "[S]earch [G]it files" },
+	-- 		{ "<leader>sw", "<cmd>Telescope grep_string<cr>", desc = "[S]earch current [W]ord" },
+	-- 		{ "<leader>st", "<cmd>Telescope live_grep<cr>", desc = "[S]earch [T]ext" },
+	-- 		{ "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "[S]earch [D]iagnostics" },
+	-- 	},
+	-- 	opts = {
+	-- 		pickers = {
+	-- 			find_files = {
+	-- 				hidden = true,
+	-- 			},
+	-- 			live_grep = {
+	-- 				additional_args = function(opts)
+	-- 					return { "--hidden" }
+	-- 				end,
+	-- 			},
+	-- 		},
+	-- 		defaults = {
+	-- 			file_ignore_patterns = {
+	-- 				".git",
+	-- 				"node_modules", -- for nodejs projects
+	-- 				"target", -- for rust projects
+	-- 			},
+	-- 		},
+	-- 		extensions = {
+	-- 			fzf = {
+	-- 				fuzzy = true,
+	-- 				override_generic_sorter = true,
+	-- 				override_file_sorter = true,
+	-- 				case_mode = "smart_case",
+	-- 			},
+	-- 		},
+	-- 	},
+	-- 	-- config = function()
+	-- 	-- 	require("telescope").setup({
+	-- 	-- 		defaults = {
+	-- 	-- 			file_ignore_patterns = {
+	-- 	-- 				"node_modules", -- for nodejs projects
+	-- 	-- 				"target", -- for rust projects
+	-- 	-- 			},
+	-- 	-- 		},
+	-- 	-- 		extensions = {
+	-- 	-- 			fzf = {
+	-- 	-- 				fuzzy = true,
+	-- 	-- 				override_generic_sorter = true,
+	-- 	-- 				override_file_sorter = true,
+	-- 	-- 				case_mode = "smart_case",
+	-- 	-- 			},
+	-- 	-- 		},
+	-- 	-- 	})
+	-- 	-- end,
+	-- },
+	-- {
+	-- 	"nvim-telescope/telescope-fzf-native.nvim",
+ --        build = "make",
+	-- 	-- build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+	-- 	init = function()
+	-- 		require("telescope").load_extension("fzf")
+	-- 	end,
+	-- 	-- config = function()
+	-- 	-- 	require("telescope").load_extension("fzf")
+	-- 	-- end,
+	-- },
 
 	{
 		"nvim-treesitter/nvim-treesitter",
