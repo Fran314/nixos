@@ -1,22 +1,9 @@
 { config, lib, pkgs, pkgs-unstable, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "baldo";
   home.homeDirectory = "/home/baldo";
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
-
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
   home.packages = (with pkgs; [
     alacritty
     firefox
@@ -62,8 +49,66 @@
       init.defaultBranch = "main";
     };
   };
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
+  programs.zsh = {
+    enable = true;
+    history = {
+      ignoreAllDups = true;
+      path = "$HOME/.zsh_history";
+      save = 10000000;
+      size = 10000000;
+    };
+    initExtra = ''
+      export PATH="$PATH:$HOME/.local/bin"
+      export TERM=xterm-256color
+
+      setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
+      setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
+      setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
+      setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
+
+      # To allow to tab-complete .. to ../
+      zstyle ':completion:*' special-dirs true
+    '';
+    shellAliases = {
+      fuck="sudo $(fc -Lln -1)";
+      open="xdg-open";
+      treeh="tree -phDa -I .git -I node_modules -I target";
+      pgrep="pgrep -a";
+      fim="nvim $(fzf)";
+      rsync="rsync -hv --info=progress2";
+
+      yt="noglob yt-dlp";
+      ytmp3="noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3";
+      yt100m="noglob yt-dlp --format \"[filesize<100M]\"";
+      yt200m="noglob yt-dlp --format \"[filesize<200M]\"";
+      yt500m="noglob yt-dlp --format \"[filesize<500M]\"";
+
+      # Rust stuff
+      cclippy="cargo clippy --workspace --all-targets --all-features";
+      rscov="cargo tarpaulin --skip-clean --ignore-tests --target-dir ./target/test-coverage --out lcov --output-dir ./target/test-coverage";
+
+      # Pipe copy stuff
+      cbtxt="xclip -selection clipboard";
+      cbimg="xclip -selection clipboard -t image/png";
+    };
+  };
+  programs.alacritty = {
+    enable = true;
+    settings = {
+        import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ];
+        colors.primary.background = "#282A28";
+        font.size = 12;
+        window = {
+            opacity = 0.9;
+            padding = {
+                x = 10;
+                y = 10;
+            };
+        };
+    };
+    
+  };
+
   home.file = {
     ".config/alacritty" = {
       source = config/alacritty;
@@ -73,40 +118,6 @@
       source = config/nvim;
       recursive = true;
     };
-    ".zshrc".source = config/zshrc;
-    #".config/alacritty/alacritty.toml".source = config/alacritty/alacritty.toml;
-    #".config/alacritty/catppuccin-macchiato.toml".source = config/alacritty/catppuccin-macchiato.toml;
-    #".config/nvim/init.lua".source = config/nvim/init.lua
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
-  };
-
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/baldo/etc/profile.d/hm-session-vars.sh
-  #
-  home.sessionVariables = {
-    # EDITOR = "emacs";
   };
 
   dconf.settings = with lib.hm.gvariant; {
@@ -261,6 +272,15 @@
     #   speed = 0.5;
     # };
   };
+
+  # This value determines the Home Manager release that your configuration is
+  # compatible with. This helps avoid breakage when a new Home Manager release
+  # introduces backwards incompatible changes.
+  #
+  # You should not change this value, even if you update Home Manager. If you do
+  # want to update the value, then make sure to first check the Home Manager
+  # release notes.
+  home.stateVersion = "23.11"; # Please read the comment before changing.
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

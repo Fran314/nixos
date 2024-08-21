@@ -128,13 +128,49 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  # ONLY FOR TESTING
+  security.sudo.wheelNeedsPassword = false;
+
+  # To enable system packages completion
+  # See: https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enableCompletion
+  environment.pathsToLink = [ "/share/zsh" ];
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     autosuggestions.enable = true;
+    
+    shellAliases = {
+      cp = "cp -i";
+      mv = "mv -i";
+      rmt="\\mv -ft $@ ~/.trash/";
+      empty-trash="\\rm -rf ~/.trash && mkdir ~/.trash";
+      lh="ls -lhA --group-directories-first";
+      lt="ls -lhAtr";
+    };
+
+    promptInit = ''
+      autoload -Uz vcs_info
+      setopt prompt_subst
+      precmd() { vcs_info }
+      zstyle ':vcs_info:git*' actionformats '%f[%F{2}%b%f|%F{1}%a%f] '
+      zstyle ':vcs_info:git*' formats       '%f[%F{2}%b%f]'
+      
+      if [ $(id -u) -eq 0 ]
+      then
+          USERNAME_PROMPT='%B%F{red}%n'
+      else
+          USERNAME_PROMPT='%B%F{blue}%n'
+      fi
+      PROMPT='┌ '                        # Arrow start
+      PROMPT+='%(?..%B%F{red}[%?]%f%b )' # Error code
+      PROMPT+=$USERNAME_PROMPT           # Username
+      PROMPT+='%f%b@%m %B%80<..<%~%<<%b' # Truncated path
+      PROMPT+=' ''${vcs_info_msg_0_}'    # Git info
+      PROMPT+=$'\n└> '                   # New line and end arrow
+    '';
     # syntaxHighlighting.enable = true;
   };
-  users.users.baldo.shell = pkgs.zsh;
+  users.defaultUserShell = pkgs.zsh;
 
   # # Enable automatic login for the user.
   # services.displayManager.autoLogin.enable = true;
