@@ -3,11 +3,7 @@
 
     outputs = inputs@{ self, ...}:
     let
-        #-- Settings --#
-        profile = "vm";
         system = "x86_64-linux";
-        #-- --#
-
         lib = inputs.nixpkgs.lib;
         pkgs = import inputs.nixpkgs { inherit system; };
         pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
@@ -15,17 +11,31 @@
         nixosConfigurations = {
             latias = lib.nixosSystem {
                 inherit system;
-                modules = [ ./profiles/${profile}/configuration.nix ];
+                modules = [ ./profiles/latias/configuration.nix ];
                 specialArgs = {
-                    inherit pkgs-unstable;
+                    # inherit pkgs-unstable;
+                };
+            };
+            vm = lib.nixosSystem {
+                inherit system;
+                modules = [ ./profiles/vm/configuration.nix ];
+                specialArgs = {
+                    # inherit pkgs-unstable;
                 };
             };
         };
 
         homeConfigurations = {
-            baldo = inputs.home-manager.lib.homeManagerConfiguration {
+            latias = inputs.home-manager.lib.homeManagerConfiguration {
                 inherit lib pkgs;
-                modules = [ ./profiles/${profile}/home.nix ];
+                modules = [ ./profiles/latias/home.nix ];
+                extraSpecialArgs = {
+                    inherit pkgs-unstable;
+                };
+            };
+            vm = inputs.home-manager.lib.homeManagerConfiguration {
+                inherit lib pkgs;
+                modules = [ ./profiles/vm/home.nix ];
                 extraSpecialArgs = {
                     inherit pkgs-unstable;
                 };

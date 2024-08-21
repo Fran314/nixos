@@ -6,13 +6,11 @@
         ../../system/minimal.nix
     ];
 
+    # CHECK THAT THESE ARE ACTUALLY THE CORRECT VALUES
     # Bootloader.
     boot.loader.grub.enable = true;
     boot.loader.grub.device = "/dev/sda";
     boot.loader.grub.useOSProber = true;
 
-    networking.hostName = "vm";
-
-    # ONLY FOR TESTING
-    security.sudo.wheelNeedsPassword = false;
+    networking.hostName = "latias";
 }

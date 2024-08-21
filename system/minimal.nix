@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
 {
-    networking.hostName = "latias"; # Define your hostname.
-
     networking.networkmanager.enable = true;
 
     time.timeZone = "Europe/Rome";
