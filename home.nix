@@ -4,23 +4,34 @@
   home.username = "baldo";
   home.homeDirectory = "/home/baldo";
 
+  nixpkgs.config.allowUnfree = true;
   home.packages = (with pkgs; [
+    ### Basics
+    tree
+    rsync
+    ripgrep
+    fzf
+    zip
+    unzip
+    # rar
+    # unrar
+    bottom
+    fastfetch
+
+    ### Daily usage
     alacritty
     firefox
 
+    ### Various
     gnumake
     cmake
     gcc
-    ripgrep
-    fzf
-    tree
-    zip
-    unzip
 
+    ### Developement
     rust-analyzer
-
     nodejs
 
+    ### GNOME
     gnome-extension-manager
     gnome.gnome-tweaks
     gnomeExtensions.pop-shell
