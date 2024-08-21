@@ -9,12 +9,7 @@
     ];
 
     home.packages = with pkgs; [
-        ### Daily usage
-        alacritty
-        firefox
-        gnome.nautilus 
-        gnome.gnome-font-viewer # temp
-
+        ### Font(s)
         (pkgs.nerdfonts.override {
             fonts = [
                 # "FiraCode"
@@ -27,6 +22,14 @@
                 # "UbuntuMono"
             ];
         })
+
+        ### Daily usage
+        alacritty
+        firefox
+        gnome.nautilus 
+
+        ### Utility
+        bitwarden-cli
     ];
 
     fonts.fontconfig.enable = true;
