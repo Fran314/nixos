@@ -25,7 +25,8 @@
 		nixosConfigurations = {
 			latias = lib.nixosSystem {
 				system = "x86_64-linux";
-				modules = [ ./configuration.nix ];
+				# modules = [ ./configuration.nix ];
+				modules = [ ./profiles/vm/configuration.nix ];
                 specialArgs = {
                     inherit pkgs-unstable;
                 };

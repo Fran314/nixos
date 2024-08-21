@@ -1,30 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
-
-  # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
-
   networking.hostName = "latias"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "Europe/Rome";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -48,11 +30,11 @@
   services.xserver.desktopManager.gnome.enable = true;
   services.gnome.core-utilities.enable = false; # Remove additional packages from GNOME
   programs.dconf.enable = true;
-  environment.gnome.excludePackages = [
-  #   # pkgs.adwaita-icon-theme
+  environment.gnome.excludePackages = [         # Remove even more packages from GNOME
+  #   pkgs.adwaita-icon-theme
   #   pkgs.epiphany
   #   pkgs.evince
-  #   # pkgs.file-roller
+  #   pkgs.file-roller
   #   pkgs.geary
   #   pkgs.gnome-calendar
   #   pkgs.gnome-connections
@@ -124,9 +106,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  # ONLY FOR TESTING
-  security.sudo.wheelNeedsPassword = false;
-
   # To enable system packages completion
   # See: https://nix-community.github.io/home-manager/options.xhtml#opt-programs.zsh.enableCompletion
   environment.pathsToLink = [ "/share/zsh" ];
@@ -168,14 +147,6 @@
   };
   users.defaultUserShell = pkgs.zsh;
 
-  # # Enable automatic login for the user.
-  # services.displayManager.autoLogin.enable = true;
-  # services.displayManager.autoLogin.user = "baldo";
-  #
-  # # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  # systemd.services."getty@tty1".enable = false;
-  # systemd.services."autovt@tty1".enable = false;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -190,25 +161,6 @@
     vim 
     neovim
   ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
