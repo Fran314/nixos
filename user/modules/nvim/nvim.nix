@@ -68,9 +68,14 @@
             }
             neodev-nvim
             {
-              plugin = fidget-nvim;
-              type = "lua";
-              config = builtins.readFile ./nvim/plugin/fidget.lua;
+                plugin = fidget-nvim;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/fidget.lua;
+            }
+            {
+                plugin = otter-nvim;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/otter.lua;
             }
 
             {
@@ -92,7 +97,7 @@
             {
               plugin = comment-nvim;
               type = "lua";
-              config = "require(\"Comment\").setup()";
+              config = ''require("Comment").setup()'';
             }
 
             {

@@ -3,9 +3,9 @@ local sources = {
 	-- General purpose
 	null_ls.builtins.formatting.prettierd.with({
 	    filetypes = {},
-		-- env = {
-		-- 	PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linter-config/.prettierrc.json"),
-		-- },
+		env = {
+			PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linter-config/.prettierrc.json"),
+		},
 	}),
 
 	null_ls.builtins.formatting.rustfmt,
