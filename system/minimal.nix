@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 
 {
-    imports = [
-        ./modules/nvim.nix
-    ];
-
     networking.networkmanager.enable = true;
 
     time.timeZone = "Europe/Rome";
@@ -169,6 +165,9 @@
         git
 
         home-manager
+
+        vim
+        neovim
     ];
 
     # This value determines the NixOS release from which the default

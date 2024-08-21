@@ -21,17 +21,6 @@
         # unrar
         bottom
         fastfetch
-
-        ### Neovim plugins build dependencies
-        gnumake
-        cmake
-        gcc
-
-        ### Neovim LSP
-        rust-analyzer
-
-        ### Developement
-        nodejs
     ];
 
     # This value determines the Home Manager release that your configuration is

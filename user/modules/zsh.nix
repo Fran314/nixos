@@ -26,10 +26,6 @@
             nix-update="sudo nixos-rebuild switch --flake ~/.dotfiles";
             hm-update="home-manager switch --flake ~/.dotfiles#$HOST";
 
-            # TEMP, TO BE REMOVED ONCE DONE WITH CONFIGURING NVIM
-            nvim="nvim -u ~/.config/nvim.bak/init.lua";
-            nnvim="\\nvim";
-
             # General purpose
             fuck="sudo $(fc -Lln -1)";
             open="xdg-open";

@@ -1,18 +1,7 @@
 { config, pkgs, ...}:
 
 {
-    # programs.neovim = {
-    #     enable = true;
-    #
-    #     viAlias = true;
-    #     vimAlias = true;
-    #     vimdiffAlias = true;
-    # };
     programs.neovim = 
-    let
-        toLua = str: "lua << EOF\n${str}\nEOF\n";
-        toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
-    in
     {
         enable = true;
 
@@ -21,8 +10,15 @@
         vimdiffAlias = true;
 
         extraPackages = with pkgs; [
+            #-- LSP --#
+            rust-analyzer
             lua-language-server
 
+            #-- Formatters --#
+            prettierd
+            stylua
+
+            #-- Utility --#
             xclip
             # wl-clipboard
         ];
@@ -32,7 +28,6 @@
                 plugin = catppuccin-nvim;
                 type = "lua";
                 config = builtins.readFile ./nvim/plugin/catppuccin.lua;
-                # config = toLuaFile ./nvim/plugin/catppuccin.lua;
             }
 
             {
@@ -43,74 +38,93 @@
             telescope-fzf-native-nvim
 
             {
-                # plugin = (nvim-treesitter.withPlugins (p: [
-                #             p.tree-sitter-nix
-                #             p.tree-sitter-vim
-                #             p.tree-sitter-bash
-                #             p.tree-sitter-lua
-                #             p.tree-sitter-python
-                #             p.tree-sitter-json
-                # ]));
                 plugin = nvim-treesitter.withAllGrammars;
-                config = toLuaFile ./nvim/plugin/treesitter.lua;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/treesitter.lua;
             }
+            nvim-treesitter-textobjects
 
             {
                 plugin = nvim-lspconfig;
-                config = toLuaFile ./nvim/plugin/lsp.lua;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/lsp.lua;
+            }
+            neodev-nvim
+            {
+              plugin = fidget-nvim;
+              type = "lua";
+              config = builtins.readFile ./nvim/plugin/fidget.lua;
             }
 
             {
-                plugin = comment-nvim;
-                config = toLua "require(\"Comment\").setup()";
+                plugin = null-ls-nvim;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/null-ls.lua;
             }
-
-
-            neodev-nvim
 
             nvim-cmp 
             {
                 plugin = nvim-cmp;
-                config = toLuaFile ./nvim/plugin/cmp.lua;
+                type = "lua";
+                config = builtins.readFile ./nvim/plugin/cmp.lua;
             }
-
-
             cmp_luasnip
             cmp-nvim-lsp
-
             luasnip
-            friendly-snippets
 
+            {
+              plugin = comment-nvim;
+              type = "lua";
+              config = "require(\"Comment\").setup()";
+            }
 
-            lualine-nvim
+            {
+              plugin = lualine-nvim;
+              type = "lua";
+              config = builtins.readFile ./nvim/plugin/lualine.lua;
+            }
+
             nvim-web-devicons
 
+            barbar-nvim
 
+            {
+                plugin = gitsigns-nvim;
+                type = "lua";
+                config = "require(\"gitsigns\").setup()";
+            }
 
-            vim-nix
+            {
+                plugin = nvim-autopairs;
+                type = "lua";
+                config = "require(\"nvim-autopairs\").setup()";
+            }
 
-            # {
-            #   plugin = vimPlugins.own-onedark-nvim;
-            #   config = "colorscheme onedark";
-            # }
+            {
+                plugin = nvim-colorizer-lua;
+                type = "lua";
+                config = "require(\"colorizer\").setup()";
+            }
+
+            # vim-nix
         ];
 
         extraLuaConfig = ''
             ${builtins.readFile ./nvim/options.lua}
+            ${builtins.readFile ./nvim/remaps.lua}
+            ${builtins.readFile ./nvim/autowrap.lua}
+            ${builtins.readFile ./nvim/persistent-undo.lua}
+            ${builtins.readFile ./nvim/restore-cursor-position.lua}
         '';
-
-        # extraLuaConfig = ''
-        #   ${builtins.readFile ./nvim/options.lua}
-        #   ${builtins.readFile ./nvim/plugin/lsp.lua}
-        #   ${builtins.readFile ./nvim/plugin/cmp.lua}
-        #   ${builtins.readFile ./nvim/plugin/telescope.lua}
-        #   ${builtins.readFile ./nvim/plugin/treesitter.lua}
-        #   ${builtins.readFile ./nvim/plugin/other.lua}
-        # '';
     };
+
     home.file = {
-        ".config/nvim.bak" = {
-            source = ./config;
+        ".config/nvim/luasnippets" = {
+            source = ./nvim/luasnippets;
+            recursive = true;
+        };
+        ".config/nvim/utils" = {
+            source = ./nvim/utils;
             recursive = true;
         };
     };

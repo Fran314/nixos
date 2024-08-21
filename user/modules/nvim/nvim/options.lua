@@ -28,3 +28,4 @@ vim.opt.isfname:append("@-@")
 vim.o.fillchars = "eob: "
 ------------------------------
 --
+
