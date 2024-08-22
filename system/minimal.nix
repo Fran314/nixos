@@ -135,7 +135,7 @@
         promptInit = ''
             setopt prompt_subst
             
-            precmd() {
+            function precmd() {
                 HOST_ICON=""
                 if [[ $HOST == "umbreon" ]]; then
                     HOST_ICON=' %B%F{3}%f%b'
@@ -160,12 +160,13 @@
                 if git rev-parse --is-inside-work-tree > /dev/null 2>&1
                 then
                     GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-                    STATUS=$(git status --short | cut -c 1-2)
+                    GIT_STATUS=$(git status --short | cut -c 1-2)
+                    GIT_UPSTREAM=$(git rev-parse --abbrev-ref $GIT_BRANCH@{upstream} 2> /dev/null)
             
                     STATUS_PROMPT=""
-                    if [[ $STATUS != "" ]]; then
-                        INDEX=$(echo "$STATUS" | cut -c 1)
-                        TREE=$(echo "$STATUS" | cut -c 2)
+                    if [[ $GIT_STATUS != "" ]]; then
+                        INDEX=$(echo "$GIT_STATUS" | cut -c 1)
+                        TREE=$(echo "$GIT_STATUS" | cut -c 2)
             
                         INDEX_A=$(echo $INDEX | tr -cd 'A' | wc -c)
                         INDEX_M=$(echo $INDEX | tr -cd 'MTRCU' | wc -c)
@@ -191,7 +192,31 @@
                         STATUS_PROMPT=" ($INDEX_PROMPT%f|$TREE_PROMPT%f)"
                     fi
             
-                    GIT_PROMPT=" [%B%F{2}$GIT_BRANCH%b%f]"
+                    UPSTREAM_PROMPT=""
+                    if [[ $GIT_UPSTREAM != "" ]]; then
+                        GIT_AHEAD=$(git log $GIT_BRANCH..$GIT_UPSTREAM --oneline --no-decorate | wc -l)
+                        GIT_BEHIND=$(git log $GIT_UPSTREAM..$GIT_BRANCH --oneline --no-decorate | wc -l)
+            
+                        if [[ $GIT_AHEAD != "0" ]]; then
+                            UPSTREAM_PROMPT+="%F{4}↑"
+                            if [[ $GIT_AHEAD != "1" ]]; then
+                                UPSTREAM_PROMPT+=$GIT_AHEAD
+                            fi
+                        fi
+            
+                        if [[ $GIT_BEHIND != "0" ]]; then
+                            UPSTREAM_PROMPT+="%F{3}↓"
+                            if [[ $GIT_BEHIND != "1" ]]; then
+                                UPSTREAM_PROMPT+=$GIT_BEHIND
+                            fi
+                        fi
+            
+                        if [[ $UPSTREAM_PROMPT != "" ]]; then
+                            UPSTREAM_PROMPT="|$UPSTREAM_PROMPT%f"
+                        fi
+                    fi
+            
+                    GIT_PROMPT=" [%B%F{2}$GIT_BRANCH%b%f$UPSTREAM_PROMPT]"
                     GIT_PROMPT+=$STATUS_PROMPT
                 fi
             
