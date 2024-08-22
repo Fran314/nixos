@@ -9,10 +9,6 @@
     ];
 
     home.packages = with pkgs; [
-        ### TEMP
-        dconf2nix
-        gnome.dconf-editor
-
         ### Font(s)
         (pkgs.nerdfonts.override {
             fonts = [
