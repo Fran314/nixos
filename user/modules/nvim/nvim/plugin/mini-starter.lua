@@ -22,4 +22,5 @@ mini_starter.setup({
 		mini_starter.sections.recent_files(5, false, false),
 		mini_starter.sections.builtin_actions,
 	},
+    footer = "",
 })
