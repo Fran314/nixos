@@ -64,7 +64,7 @@
         };
 
         "org/gnome/settings-daemon/plugins/media-keys" = {
-            custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/" ];
+            custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/" ];
         };
 
         "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -73,11 +73,11 @@
             name = "Launch Terminal";
         };
 
-        # "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
-        #   binding = "<Super>t";
-        #   command = "telegram-desktop";
-        #   name = "Launch Telegram";
-        # };
+        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
+          binding = "<Super>t";
+          command = "telegram-desktop";
+          name = "Launch Telegram";
+        };
 
         "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2" = {
             binding = "<Super>F2";

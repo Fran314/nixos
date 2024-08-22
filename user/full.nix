@@ -27,7 +27,7 @@
         alacritty
         firefox
         gnome.nautilus 
-
+        telegram-desktop
         ### Utility
         bitwarden-cli
     ];
