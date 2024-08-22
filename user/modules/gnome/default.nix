@@ -87,7 +87,7 @@
 
         "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
             binding = "<Super>F1";
-            command = "alacritty --class 'nvim-memo' --working-directory '/home/baldo/.local/share/nvim/memo' -e nvim -c 'SessionsLoad'";
+            command = "alacritty --working-directory '/home/baldo/.local/share/nvim/memo' -e nvim -c 'SessionsLoad'";
             name = "Launch Memo";
         };
 

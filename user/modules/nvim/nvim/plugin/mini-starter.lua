@@ -3,7 +3,7 @@ local mini_starter = require("mini.starter")
 mini_starter.setup({
 	items = {
 		function()
-			local session_path = vim.fn.stdpath("data") .. "/sessions" .. vim.fn.getcwd()
+			local session_path = vim.fn.stdpath("cache") .. "/sessions" .. vim.fn.getcwd()
 			local ok, _ = pcall(vim.fn.readfile, session_path)
 			if ok then
 				return {

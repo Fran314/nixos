@@ -55,11 +55,11 @@ end)
 
 -- Autosessions
 vim.keymap.set("n", "<leader>ms", function()
-	local session_path = vim.fn.stdpath("data") .. "/sessions" .. vim.fn.getcwd()
+	local session_path = vim.fn.stdpath("cache") .. "/sessions" .. vim.fn.getcwd()
 	require("sessions").save(session_path)
 end)
 vim.keymap.set("n", "<leader>ml", function()
-	local session_path = vim.fn.stdpath("data") .. "/sessions" .. vim.fn.getcwd()
+	local session_path = vim.fn.stdpath("cache") .. "/sessions" .. vim.fn.getcwd()
 	local ok, _ = pcall(vim.fn.readfile, session_path)
 	if ok then
 		require("sessions").load(session_path)
