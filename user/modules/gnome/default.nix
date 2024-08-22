@@ -27,6 +27,7 @@
 
         gnomeExtensions.vitals
         gnomeExtensions.runcat
+        gnomeExtensions.no-overview
     ])
     ++
     (with pkgs-unstable; [
@@ -93,7 +94,7 @@
 
         "org/gnome/shell" = {
             disable-user-extensions = false;
-            enabled-extensions = [ "Vitals@CoreCoding.com" "rounded-window-corners@fxgn" "appindicatorsupport@rgcjonas.gmail.com" "caffeine@patapon.info" "runcat@kolesnikov.se" "launch-new-instance@gnome-shell-extensions.gcampax.github.com" "blur-my-shell@aunetx" "just-perfection-desktop@just-perfection" "boostvolume@shaquib.dev" ];
+            enabled-extensions = [ "Vitals@CoreCoding.com" "rounded-window-corners@fxgn" "appindicatorsupport@rgcjonas.gmail.com" "caffeine@patapon.info" "runcat@kolesnikov.se" "launch-new-instance@gnome-shell-extensions.gcampax.github.com" "blur-my-shell@aunetx" "just-perfection-desktop@just-perfection" "boostvolume@shaquib.dev" "no-overview@fthx" ];
         };
 
         "org/gnome/shell/extensions/just-perfection" = {
