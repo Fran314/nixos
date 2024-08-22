@@ -1,3 +1,5 @@
+![Showcase of the desktop environment of vm](showcase.png)
+
 # My NixOS configuration
 
 This repo contains my multi-profile NixOS configuration.
