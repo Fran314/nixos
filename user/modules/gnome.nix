@@ -3,9 +3,9 @@
 {
     home.pointerCursor = {
         gtk.enable = true;
-        x11.enable = true;
         name = "Adwaita";
         package = pkgs.gnome.adwaita-icon-theme;
+        size = 22;
     };
   home.packages = (with pkgs; [
     gnome-extension-manager
