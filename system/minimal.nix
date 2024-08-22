@@ -194,8 +194,8 @@
             
                     UPSTREAM_PROMPT=""
                     if [[ $GIT_UPSTREAM != "" ]]; then
-                        GIT_AHEAD=$(git log $GIT_BRANCH..$GIT_UPSTREAM --oneline --no-decorate | wc -l)
-                        GIT_BEHIND=$(git log $GIT_UPSTREAM..$GIT_BRANCH --oneline --no-decorate | wc -l)
+                        GIT_AHEAD=$(git log $GIT_UPSTREAM..$GIT_BRANCH --oneline --no-decorate | wc -l)
+                        GIT_BEHIND=$(git log $GIT_BRANCH..$GIT_UPSTREAM --oneline --no-decorate | wc -l)
             
                         if [[ $GIT_AHEAD != "0" ]]; then
                             UPSTREAM_PROMPT+="%F{4}↑"
