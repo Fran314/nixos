@@ -9,6 +9,8 @@
 #   To solve this issue, pop-shell uses a configuration script that disables
 #   some of the hidden GNOME keybindings and sets the default pop-shell
 #   keybindings.
+#   This issue is slightly documented here
+#   https://www.reddit.com/r/pop_os/comments/k236zt/comment/gdrwj7v/
 #   See the configuration script at the time of writing
 #   https://github.com/pop-os/shell/blob/8e176f14029a2c3bb54c52e1e7a5c697b9eb2171/scripts/configure.sh
 #
