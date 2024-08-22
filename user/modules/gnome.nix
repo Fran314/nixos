@@ -1,6 +1,12 @@
 { config, lib, pkgs, pkgs-unstable, ... }:
 
 {
+    home.pointerCursor = {
+        gtk.enable = true;
+        x11.enable = true;
+        name = "Adwaita";
+        package = pkgs.gnome.adwaita-icon-theme;
+    };
   home.packages = (with pkgs; [
     gnome-extension-manager
     gnome.gnome-tweaks

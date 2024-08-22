@@ -26,6 +26,7 @@
                 size = 12;
             };
             window = {
+                decorations = "none";
                 opacity = 0.9;
                 padding = {
                     x = 10;
