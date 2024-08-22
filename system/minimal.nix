@@ -220,7 +220,6 @@
                     GIT_PROMPT+=$STATUS_PROMPT
                 fi
             
-            
                 PROMPT='┌'
                 PROMPT+=$HOST_ICON
                 PROMPT+=$ERROR_CODE_PROMPT
