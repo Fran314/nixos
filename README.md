@@ -19,8 +19,8 @@ me know.
 
 #### Install default NixOS image
 
-First, install NixOS on the desired machine via a (installer
-ISO)[https://nixos.org/download/#nixos-iso] (for your own sake, use the
+First, install NixOS on the desired machine via a [installer
+ISO](https://nixos.org/download/#nixos-iso) (for your own sake, use the
 Graphical ISO image, as this choice still allows you to use a
 desktop-environment-less profile, and it's much easier to use).
 
