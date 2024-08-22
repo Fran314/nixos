@@ -133,34 +133,78 @@
         };
 
         promptInit = ''
-            autoload -Uz vcs_info
             setopt prompt_subst
-            precmd() { vcs_info }
-            zstyle ':vcs_info:git*' actionformats '%f[%B%F{2}%b%f%%b|%B%F{1}%a%f%%b] '
-            zstyle ':vcs_info:git*' formats       '%f[%B%F{2}%b%f%%b]'
-
-            if [ $(id -u) -eq 0 ]
-            then
-                USERNAME_PROMPT='%B%F{red}%n'
-            else
-                USERNAME_PROMPT='%B%F{blue}%n'
-            fi
-            if [[ $HOST == "umbreon" ]]
-            then
-                HOST_ICON='%B%F{yellow}%f%b '
-            elif [[ $HOST == "altaria" ]]
-            then
-                HOST_ICON='%B%F{yellow}󰅟%f%b '
-            else
+            
+            precmd() {
                 HOST_ICON=""
-            fi
-            PROMPT='┌ '                        # Arrow start
-            PROMPT+=$HOST_ICON                 # Host icon
-            PROMPT+='%(?..%B%F{red}[%?]%f%b )' # Error code
-            PROMPT+=$USERNAME_PROMPT           # Username
-            PROMPT+='%f%b@%m %B%80<..<%~%<<%b' # Truncated path
-            PROMPT+=' ''${vcs_info_msg_0_}'    # Git info
-            PROMPT+=$'\n└> '                   # New line and end arrow
+                if [[ $HOST == "umbreon" ]]; then
+                    HOST_ICON=' %B%F{3}%f%b'
+                elif [[ $HOST == "altaria" ]]; then
+                    HOST_ICON=' %B%F{3}󰅟%f%b'
+                fi
+            
+            
+                ERROR_CODE_PROMPT='%(?.. %B%F{1}[%?]%b%f)'
+            
+            
+                USERNAME_PROMPT=' %B%F{4}%n%b%f@%m'
+                if [ $(id -u) -eq 0 ]; then
+                    USERNAME_PROMPT=' %B%F{1}%n%b%f@%m'
+                fi
+            
+            
+                CWD_PROMPT=' %B%80<..<%~%<<%b'
+            
+            
+                GIT_PROMPT=""
+                if git rev-parse --is-inside-work-tree > /dev/null 2>&1
+                then
+                    GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+                    STATUS=$(git status --short | cut -c 1-2)
+            
+                    STATUS_PROMPT=""
+                    if [[ $STATUS != "" ]]; then
+                        INDEX=$(echo "$STATUS" | cut -c 1)
+                        TREE=$(echo "$STATUS" | cut -c 2)
+            
+                        INDEX_A=$(echo $INDEX | tr -cd 'A' | wc -c)
+                        INDEX_M=$(echo $INDEX | tr -cd 'MTRCU' | wc -c)
+                        INDEX_D=$(echo $INDEX | tr -cd 'D' | wc -c)
+            
+                        TREE_A=$(echo $TREE | tr -cd 'A?' | wc -c)
+                        TREE_M=$(echo $TREE | tr -cd 'MTRCU' | wc -c)
+                        TREE_D=$(echo $TREE | tr -cd 'D' | wc -c)
+            
+                        INDEX_PROMPT=""
+                        TREE_PROMPT=""
+            
+                        if [[ $INDEX_A != "0" ]];     then; INDEX_PROMPT+="%F{2}+$INDEX_A"; fi
+                        if [[ $INDEX_M != "0" ]];     then; INDEX_PROMPT+="%F{3}~$INDEX_M"; fi
+                        if [[ $INDEX_D != "0" ]];     then; INDEX_PROMPT+="%F{1}-$INDEX_D"; fi
+                        if [[ $INDEX_PROMPT == "" ]]; then; INDEX_PROMPT="%F{0}-";          fi
+            
+                        if [[ $TREE_A != "0" ]];     then; TREE_PROMPT+="%F{2}+$TREE_A"; fi
+                        if [[ $TREE_M != "0" ]];     then; TREE_PROMPT+="%F{3}~$TREE_M"; fi
+                        if [[ $TREE_D != "0" ]];     then; TREE_PROMPT+="%F{1}-$TREE_D"; fi
+                        if [[ $TREE_PROMPT == "" ]]; then; TREE_PROMPT="%F{0}-";         fi
+            
+                        STATUS_PROMPT=" ($INDEX_PROMPT%f|$TREE_PROMPT%f)"
+                    fi
+            
+                    GIT_PROMPT=" [%B%F{2}$GIT_BRANCH%b%f]"
+                    GIT_PROMPT+=$STATUS_PROMPT
+                fi
+            
+            
+                PROMPT='┌'
+                PROMPT+=$HOST_ICON
+                PROMPT+=$ERROR_CODE_PROMPT
+                PROMPT+=$USERNAME_PROMPT
+                PROMPT+=$CWD_PROMPT
+                PROMPT+=$GIT_PROMPT
+                PROMPT+=$'\n'
+                PROMPT+='└> '
+            }
         '';
         # syntaxHighlighting.enable = true;
     };
