@@ -4,7 +4,7 @@
     imports = [
         ./modules/zsh.nix
         ./modules/git.nix
-        ./modules/nvim/nvim.nix
+        ./modules/nvim
     ];
     home.username = "baldo";
     home.homeDirectory = "/home/baldo";

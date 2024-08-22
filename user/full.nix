@@ -4,8 +4,8 @@
     imports = [
         ./minimal.nix
         ./modules/xdg.nix
-        ./modules/gnome.nix
-        ./modules/alacritty/alacritty.nix
+        ./modules/gnome
+        ./modules/alacritty
     ];
 
     home.packages = with pkgs; [

@@ -9,6 +9,7 @@ mini_starter.setup({
 				return {
 					{
 						action = function()
+							print(" ") -- Clear the output
 							require("sessions").load(session_path)
 						end,
 						name = "Load session",
