@@ -3,7 +3,7 @@
 {
     imports = [
         ./minimal.nix
-        ./modules/xdg.nix
+        ./modules/xdg
         ./modules/gnome
         ./modules/alacritty
     ];
@@ -28,6 +28,7 @@
         firefox
         gnome.nautilus 
         telegram-desktop
+
         ### Utility
         bitwarden-cli
     ];

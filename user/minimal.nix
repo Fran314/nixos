@@ -2,8 +2,8 @@
 
 {
     imports = [
-        ./modules/zsh.nix
-        ./modules/git.nix
+        ./modules/zsh
+        ./modules/git
         ./modules/nvim
     ];
     home.username = "baldo";

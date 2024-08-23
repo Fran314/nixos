@@ -3,7 +3,7 @@
 {
     imports = [
         ./hardware-configuration.nix
-        ../../system/minimal.nix
+        ../../system/full.nix
     ];
 
     # Bootloader.
