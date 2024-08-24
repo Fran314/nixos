@@ -6,7 +6,6 @@
         enableCompletion = true;
         autosuggestions = {
             enable = true;
-            strategy = [ "history" "completion" ];
         };
 
         shellAliases = {
