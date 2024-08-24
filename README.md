@@ -8,20 +8,19 @@ This configuration is still a work in progress and I wouldn't consider it ready
 for use, but it can be taken as an example on how to structure a NixOS
 configuration.
 
-## Usage
+## Installation
 
-I'm not 100% sure that this is the correct way to install a NixOS configuration
-from github, but it is what I am using. If you know of a better way (mainly, how
-to handle the hardware-configuration and bootloader configurations) please let
-me know.
+> [!NOTE]  
+> I'm not 100% sure that this is the correct way to install a NixOS
+> configuration from github, but it is what I am using. If you know of a better
+> way (mainly, how to handle the hardware-configuration and bootloader
+> configurations) please let me know.
 
-### Installation
+### Install default NixOS image
 
-#### Install default NixOS image
-
-First, install NixOS on the desired machine via a [installer
-ISO](https://nixos.org/download/#nixos-iso) (for your own sake, use the
-Graphical ISO image, as this choice still allows you to use a
+First, install NixOS on the desired machine via a
+[installer ISO](https://nixos.org/download/#nixos-iso) (for your own sake, use
+the Graphical ISO image, as this choice still allows you to use a
 desktop-environment-less profile, and it's much easier to use).
 
 For this installation, install with Swap (with Hibernate) and set Allow Unfree
@@ -31,7 +30,7 @@ Software to true.
 finish. Just make the logs visible next to the progress bar to make sure that
 something is actually happening)
 
-#### Apply profile
+### Apply profile
 
 With NixOS installed, you should have your own version of `configuration.nix`
 and `hardware-configuration.nix` stored in `/etc/nixos`. These are created by
@@ -63,7 +62,7 @@ sudo nix-build switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
 home-manager switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
 ```
 
-### Post-installation
+## Post-installation
 
 Despite NixOS being an 100% declarative OS, a couple of finalization steps are
 required. It's a bit of a bummer, but they're the last imperative configuration
