@@ -5,6 +5,7 @@
         ./modules/zsh
         ./modules/git
         ./modules/nvim
+        ./modules/fastfetch
     ];
     home.username = "baldo";
     home.homeDirectory = "/home/baldo";
@@ -20,7 +21,6 @@
         # rar
         # unrar
         bottom
-        fastfetch
         jq
     ];
 
