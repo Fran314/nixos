@@ -1,7 +1,7 @@
 {
 	description = "Flake of Fran314";
 
-    outputs = inputs@{ self, ...}:
+    outputs = inputs@{ self, ... }:
     let
         system = "x86_64-linux";
         lib = inputs.nixpkgs.lib;
@@ -12,6 +12,13 @@
             latias = lib.nixosSystem {
                 inherit system;
                 modules = [ ./profiles/latias/configuration.nix ];
+                specialArgs = {
+                    # inherit pkgs-unstable;
+                };
+            };
+            umbreon = lib.nixosSystem {
+                inherit system;
+                modules = [ ./profiles/umbreon/configuration.nix ];
                 specialArgs = {
                     # inherit pkgs-unstable;
                 };
@@ -29,6 +36,14 @@
             latias = inputs.home-manager.lib.homeManagerConfiguration {
                 inherit pkgs;
                 modules = [ ./profiles/latias/home.nix ];
+                extraSpecialArgs = {
+                    inherit inputs;
+                    inherit pkgs-unstable;
+                };
+            };
+            umbreon = inputs.home-manager.lib.homeManagerConfiguration {
+                inherit pkgs;
+                modules = [ ./profiles/umbreon/home.nix ];
                 extraSpecialArgs = {
                     inherit inputs;
                     inherit pkgs-unstable;
