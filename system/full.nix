@@ -110,4 +110,10 @@
         # no need to redefine it in your config for now)
         #media-session.enable = true;
     };
+
+    environment.systemPackages = with pkgs; [
+        appimage-run
+    ];
+    # Enable running AppImages with `appimage-run`
+    programs.appimage.binfmt = true;
 }
