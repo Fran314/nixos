@@ -6,7 +6,6 @@
         ./modules/xdg
         ./modules/gnome
         ./modules/alacritty
-        ./modules/productivity/octave
         ./modules/productivity/3d-modeling
     ];
 
@@ -30,6 +29,13 @@
         firefox
         gnome.nautilus 
         telegram-desktop
+
+        ### Productivity
+        (octaveFull.withPackages (ps: with ps; [
+            # Search for `octavePackages` in NixOS packages to see all the possible options
+            # Once in octave, load the package with `pkg load <name-of-the-package>`
+            nurbs
+        ]))
 
         ### Utility
         bitwarden-cli
