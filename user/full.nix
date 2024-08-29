@@ -7,6 +7,7 @@
         ./modules/gnome
         ./modules/alacritty
         ./modules/productivity/octave
+        ./modules/productivity/3d-modeling
     ];
 
     home.packages = with pkgs; [
