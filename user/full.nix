@@ -30,6 +30,9 @@
         gnome.nautilus 
         telegram-desktop
 
+        ### Developement
+        cargo
+
         ### Productivity
         (octaveFull.withPackages (ps: with ps; [
             # Search for `octavePackages` in NixOS packages to see all the possible options
@@ -39,6 +42,7 @@
 
         ### Utility
         bitwarden-cli
+        yt-dlp
     ];
 
     fonts.fontconfig.enable = true;
