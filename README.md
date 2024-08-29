@@ -40,19 +40,32 @@ profile of your choice from this configuration
 Clone this repo to `~/.dotfiles` with
 
 ```bash
-git clone git@github.com:Fran314/nixos.git ~/.dotfiles
+git clone https://github.com/Fran314/nixos.git ~/.dotfiles
 ```
 
 Then, in the `~/.dotfiles/profiles` directory, copy the profile directory of
 your choice, so to have a clone that you can edit to adapt to your hardware.
 
-Add your version of `hardware-configuration.nix` (the one from `/etc/nixos`)
-into your profile directory. Then, compare your version of `configuration.nix`
-with the one from the cloned profile (and look at the imported modules too): it
-is possible for some hardware configuration to end in this file (such as the
-bootloader options), and they have to be adjusted for your hardware.
+In the cloned profile directory, copy your version of
+`hardware-configuration.nix` (the one from `/etc/nixos`) to adapt the profile to
+your specific hardware.
 
-Finally, edit the `flake.nix` file in the repo to add your new profiles.
+> [!IMPORTANT]  
+> Cloning `hardware-configuration.nix` might not be enough! `configuration.nix`
+> might also contain configurations relevant to your specific setup, such as the
+> location of the boot partition.
+>
+> It's important that you check your `/etc/nixos/configuration.nix` for these
+> settings and that you copy them into the `configuration.nix` of the profile
+> you cloned. In particular, pay attention to the following settings:
+>
+> -   `boot.loader.*` for the boot loader location and type
+> -   `networking.hostName` for the hostname of the machine (I guess this isn't
+>     strictly necessary but it also isn't set anywhere else and you might want
+>     to customise it)
+
+Finally, edit the `flake.nix` file in the repo to add your new profile by
+cloning the existing profile and changing the paths.
 
 Then, update the system with
 
