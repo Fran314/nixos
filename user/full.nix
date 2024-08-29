@@ -6,6 +6,7 @@
         ./modules/xdg
         ./modules/gnome
         ./modules/alacritty
+        ./modules/productivity/octave
     ];
 
     home.packages = with pkgs; [
