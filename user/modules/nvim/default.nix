@@ -30,6 +30,7 @@
             #-- LSP --#
             rust-analyzer
             lua-language-server
+            nil                     # Nix language server
 
             #-- Formatters --#
             prettierd

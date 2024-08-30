@@ -74,9 +74,11 @@ local servers = {
 				disable = { "undefined-global" },
 			},
 			workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
+			telemetry = { enable = false },
 		},
 	},
+
+	nil_ls = {},
 }
 
 require("neodev").setup()
@@ -87,7 +89,7 @@ capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 local lspconfig = require("lspconfig")
 
 for name, settings in pairs(servers) do
-    lspconfig[name].setup({
+	lspconfig[name].setup({
 		capabilities = capabilities,
 		on_attach = on_attach_lsp,
 		settings = settings,
