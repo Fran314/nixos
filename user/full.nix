@@ -30,6 +30,11 @@
         gnome.nautilus 
         telegram-desktop
 
+        ### Occasional usage
+        vlc
+        inkscape
+        krita
+
         ### Developement
         cargo
         clippy
