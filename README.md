@@ -83,9 +83,18 @@ you'll ever have to do.
 
 These operation might be necessary:
 
--   change your user's password,
--   move the xdg-dirs (such as `~/Desktop` to `~/desktop`),
+-   ~~change your user's password~~ (you probably already set your password
+    during the NixOS installation),
 -   copy your secrets to this machine (such as SSH keys)
+
+Additionally if you're running the **latias** profile (or a profile that uses
+`user/full.nix`) you might want to
+
+-   move the xdg-dirs (such as `~/Desktop` to `~/desktop`),
+-   create a folder at `~/.local/share/nvim/memo` for nvim's memo at Super+F1
+    (and since you're already at it, open the memos and start the session with
+    ms)
+-   Download the weekly build appimage for freecad
 
 ## Profiles
 
