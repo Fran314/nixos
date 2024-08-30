@@ -32,6 +32,7 @@
 
         ### Developement
         cargo
+        clippy
 
         ### Productivity
         (octaveFull.withPackages (ps: with ps; [

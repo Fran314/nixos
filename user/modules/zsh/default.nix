@@ -26,20 +26,20 @@
             # Git
             glog="git log --all --decorate --oneline --graph -15";
 
-            # # yt-dlp
-            # yt="noglob yt-dlp";
-            # ytmp3="noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3";
-            # yt100m="noglob yt-dlp --format \"[filesize<100M]\"";
-            # yt200m="noglob yt-dlp --format \"[filesize<200M]\"";
-            # yt500m="noglob yt-dlp --format \"[filesize<500M]\"";
+            # yt-dlp
+            yt="noglob yt-dlp";
+            ytmp3="noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3";
+            yt100m="noglob yt-dlp --format \"[filesize<100M]\"";
+            yt200m="noglob yt-dlp --format \"[filesize<200M]\"";
+            yt500m="noglob yt-dlp --format \"[filesize<500M]\"";
 
-            # # Rust stuff
-            # cclippy="cargo clippy --workspace --all-targets --all-features";
+            # Rust stuff
+            cclippy="cargo clippy --workspace --all-targets --all-features";
             # rscov="cargo tarpaulin --skip-clean --ignore-tests --target-dir ./target/test-coverage --out lcov --output-dir ./target/test-coverage";
 
-            # Pipe copy stuff
-            cbtxt="xclip -selection clipboard";
-            cbimg="xclip -selection clipboard -t image/png";
+            # # Pipe copy stuff
+            # cbtxt="xclip -selection clipboard";
+            # cbimg="xclip -selection clipboard -t image/png";
         };
     };
 }
