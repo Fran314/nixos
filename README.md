@@ -86,6 +86,7 @@ These operation might be necessary:
 -   ~~change your user's password~~ (you probably already set your password
     during the NixOS installation),
 -   copy your secrets to this machine (such as SSH keys)
+-   run `git remote set-url origin git@github.com:Fran314/nixos.git`
 
 Additionally if you're running the **latias** profile (or a profile that uses
 `user/full.nix`) you might want to
