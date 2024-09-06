@@ -1,4 +1,4 @@
-![Showcase of the desktop environment of vm](showcase.png)
+![Showcase of the desktop environment of latias](showcase.png)
 
 # My NixOS configuration
 
@@ -107,6 +107,3 @@ This configuration is structured around three profiles:
 -   **umbreon**: this is the profile for my homelab. It's supposed to be a
     CLI-only but comfortable environment, intended to be used for managing
     self-hosted applications via ssh,
--   **vm**: this is a testing profile intended to be used ONLY for developing
-    this configuration. This profile should NOT be used on actual systems as it
-    contains some possible security issues (eg sudo without password).
