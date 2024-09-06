@@ -23,13 +23,6 @@
                     # inherit pkgs-unstable;
                 };
             };
-            vm = lib.nixosSystem {
-                inherit system;
-                modules = [ ./profiles/vm/configuration.nix ];
-                specialArgs = {
-                    # inherit pkgs-unstable;
-                };
-            };
         };
 
         homeConfigurations = {
@@ -44,14 +37,6 @@
             umbreon = inputs.home-manager.lib.homeManagerConfiguration {
                 inherit pkgs;
                 modules = [ ./profiles/umbreon/home.nix ];
-                extraSpecialArgs = {
-                    inherit inputs;
-                    inherit pkgs-unstable;
-                };
-            };
-            vm = inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [ ./profiles/vm/home.nix ];
                 extraSpecialArgs = {
                     inherit inputs;
                     inherit pkgs-unstable;
