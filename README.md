@@ -93,6 +93,7 @@ Additionally if you're running the **latias** profile (or a profile that uses
 -   remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
 -   download the weekly build appimage for freecad and save it as
     `~/applications/FreeCAD.AppImage`
+-   add the nvim-memo window to the floating exceptions for pop-shell
 
 ## Profiles
 
