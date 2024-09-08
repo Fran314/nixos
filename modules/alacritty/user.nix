@@ -37,6 +37,26 @@
 
     };
 
+    home.packages = with pkgs; [
+        alacritty 
+
+        ### Font(s)
+        (pkgs.nerdfonts.override {
+            fonts = [
+                # "FiraCode"
+                # "ComicShannsMono"
+                # "DroidSansMono"
+                # "CascadiaMono"
+                "Recursive"
+                # "RobotoMono"
+                # "SpaceMono"
+                # "UbuntuMono"
+            ];
+        })
+    ];
+
+    fonts.fontconfig.enable = true;
+
     home.file = {
         ".config/alacritty" = {
             source = ./config;

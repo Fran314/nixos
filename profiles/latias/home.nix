@@ -10,22 +10,7 @@
     ];
 
     home.packages = with pkgs; [
-        ### Font(s)
-        (pkgs.nerdfonts.override {
-            fonts = [
-                # "FiraCode"
-                # "ComicShannsMono"
-                # "DroidSansMono"
-                # "CascadiaMono"
-                "Recursive"
-                # "RobotoMono"
-                # "SpaceMono"
-                # "UbuntuMono"
-            ];
-        })
-
         ### Daily usage
-        alacritty
         firefox
         gnome.nautilus 
         telegram-desktop
@@ -49,16 +34,5 @@
         ### Utility
         bitwarden-cli
         yt-dlp
-    ];
-
-    fonts.fontconfig.enable = true;
-
-    systemd.user.tmpfiles.rules = [
-        "L %h/archivio - - - - /data/archivio"
-        "L %h/desktop - - - - /data/desktop"
-        "L %h/documents - - - - /data/documents"
-        "L %h/pictures - - - - /data/pictures"
-        "L %h/universita - - - - /data/universita"
-        "L %h/videos - - - - /data/videos"
     ];
 }
