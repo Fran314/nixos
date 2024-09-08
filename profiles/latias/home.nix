@@ -5,6 +5,7 @@
         ../../modules/minimal/user.nix
         ../../modules/xdg/user.nix
         ../../modules/gnome/user.nix
+        ../../modules/nvim/user-with-gnome.nix
         ../../modules/alacritty/user.nix
         ../../modules/productivity/3d-modeling/user.nix
     ];

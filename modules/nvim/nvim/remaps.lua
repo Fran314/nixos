@@ -67,6 +67,22 @@ vim.keymap.set("n", "<leader>ml", function()
 		print("no session at this path")
 	end
 end)
+vim.api.nvim_create_user_command("TrySessionsLoadCwd", function()
+	local session_path = vim.fn.stdpath("cache") .. "/sessions" .. vim.fn.getcwd()
+	local ok, _ = pcall(vim.fn.readfile, session_path)
+	if ok then
+		require("sessions").load(session_path)
+	end
+end, {})
+vim.api.nvim_create_user_command("SessionsLoadCwd", function()
+	local session_path = vim.fn.stdpath("cache") .. "/sessions" .. vim.fn.getcwd()
+	local ok, _ = pcall(vim.fn.readfile, session_path)
+	if ok then
+		require("sessions").load(session_path)
+	else
+		error("\n\nError when loading session. Session file doesn't exist\nCreate session file with `<leader>ms`\n")
+	end
+end, {})
 
 -- Paste below
 vim.keymap.set("n", "<C-p>", "o<Esc>p")

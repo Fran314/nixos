@@ -71,7 +71,6 @@
                 "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
                 "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
                 "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/"
-                "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4/"
             ];
         };
 
@@ -94,12 +93,6 @@
         };
 
         "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
-            binding = "<Super>F1";
-            command = "alacritty --working-directory '/home/baldo/.local/share/nvim/memo' -e nvim -c 'SessionsLoad'";
-            name = "Launch Memo";
-        };
-
-        "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom4" = {
             binding = "<Ctrl><Alt>l";
             command = "dm-tool lock";
             name = "Lock Screen";

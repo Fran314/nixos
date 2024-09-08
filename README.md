@@ -70,7 +70,6 @@ cloning the existing profile and changing the paths.
 Then, update the system with
 
 ```bash
-sudo nix flake update
 sudo nix-build switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
 home-manager switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
 ```
@@ -85,17 +84,15 @@ These operation might be necessary:
 
 -   ~~change your user's password~~ (you probably already set your password
     during the NixOS installation),
--   copy your secrets to this machine (such as SSH keys)
+-   copy your secrets to this machine (see `restore-secrets.sh`)
 -   run `git remote set-url origin git@github.com:Fran314/nixos.git`
 
 Additionally if you're running the **latias** profile (or a profile that uses
 `user/full.nix`) you might want to
 
--   move the xdg-dirs (such as `~/Desktop` to `~/desktop`),
--   create a folder at `~/.local/share/nvim/memo` for nvim's memo at Super+F1
-    (and since you're already at it, open the memos and start the session with
-    ms)
--   Download the weekly build appimage for freecad
+-   remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
+-   download the weekly build appimage for freecad and save it as
+    `~/applications/FreeCAD.AppImage`
 
 ## Profiles
 
@@ -106,4 +103,4 @@ This configuration is structured around three profiles:
     simple daily browsing, to coding, 3D modeling and more,
 -   **umbreon**: this is the profile for my homelab. It's supposed to be a
     CLI-only but comfortable environment, intended to be used for managing
-    self-hosted applications via ssh,
+    self-hosted applications via ssh.
