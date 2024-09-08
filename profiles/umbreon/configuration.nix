@@ -3,7 +3,7 @@
 {
     imports = [
         ./hardware-configuration.nix
-        ../../system/minimal.nix
+        ../../modules/minimal/system.nix
     ];
 
     # CHECK THAT THESE ARE ACTUALLY THE CORRECT VALUES

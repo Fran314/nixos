@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 
 {
-    imports = [ ../../user/minial.nix ];
+    imports = [ ../../modules/minial/user.nix ];
 
 }

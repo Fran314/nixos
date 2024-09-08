@@ -2,10 +2,10 @@
 
 {
     imports = [
-        ./modules/zsh
-        ./modules/git
-        ./modules/nvim
-        ./modules/fastfetch
+        ../zsh/user.nix
+        ../git/user.nix
+        ../nvim/user.nix
+        ../fastfetch/user.nix
     ];
     home.username = "baldo";
     home.homeDirectory = "/home/baldo";

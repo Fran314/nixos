@@ -2,7 +2,7 @@
 
 {
     imports = [
-        ./modules/zsh
+        ../zsh/system.nix
     ];
 
     networking.networkmanager.enable = true;
@@ -47,11 +47,6 @@
         home-manager
     ];
     
-    fileSystems."/data" = {
-        device = "/dev/disk/by-uuid/1185790a-d766-4bd9-bda7-39c8e1e016de";
-        fsType = "ext4";
-    };
-
     # # I tried to add a service to make lock-on-sleep work on GNOME w/ lightdm
     # # but for some reason this doesn't work and I don't feel like investigating
     # # it right now
