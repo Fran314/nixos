@@ -15,10 +15,4 @@
             name = "Launch Memo";
         };
     };
-
-    home.activation = {
-        ensureNvimMemo = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-            mkdir -p ${config.xdg.userDirs.desktop}/.nvim-memo
-        '';
-    };
 }
