@@ -8,7 +8,10 @@
         ../../modules/nvim/user-with-gnome.nix
         ../../modules/alacritty/user.nix
         ../../modules/productivity/3d-modeling/user.nix
+        ../../modules/productivity/lean4/user.nix
     ];
+
+    nixpkgs.config.allowUnfree = true;
 
     home.packages = with pkgs; [
         ### Daily usage
@@ -17,6 +20,7 @@
         telegram-desktop
 
         ### Occasional usage
+        spotify
         vlc
         inkscape
         krita
@@ -24,6 +28,8 @@
         ### Developement
         cargo
         clippy
+        python3Full
+        nodejs
 
         ### Productivity
         (octaveFull.withPackages (ps: with ps; [
