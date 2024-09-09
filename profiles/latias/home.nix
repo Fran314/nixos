@@ -30,6 +30,7 @@
         clippy
         python3Full
         nodejs
+        godot_4
 
         ### Productivity
         (octaveFull.withPackages (ps: with ps; [
