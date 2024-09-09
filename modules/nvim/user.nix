@@ -34,6 +34,7 @@
 
             #-- Formatters --#
             prettierd
+            rustfmt
             stylua
 
             #-- Utility --#
