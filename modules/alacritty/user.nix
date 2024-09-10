@@ -17,7 +17,7 @@
                     # family = "RecMonoLinear Nerdfont Mono";
                     # family = "RecMonoCasual Nerdfont Mono";
                     # family = "RecMonoSmCasual Nerdfont Mono";
-                    family = "RecMonoDuotone Nerdfont Mono";
+                    family = "RecMonoDuotone Nerdfont"; # Actually, don't add 'Mono' at the end for bigger icons!
                     # family = "RobotoMono Nerdfont Mono";
                     # family = "SpaceMono Nerd Font Mono";
                     # family = "UbuntuMono Nerdfont Mono";
