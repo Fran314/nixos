@@ -67,29 +67,12 @@
         "type": "github"
       }
     },
-    "plugin-sessions": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1720433744,
-        "narHash": "sha256-Wb43+v9l3XVLlroTHq/9ruJzuK/dNAsqNCL9kpLhFEk=",
-        "owner": "natecraddock",
-        "repo": "sessions.nvim",
-        "rev": "f13158483e0b6255c6dfe473145ce4ee3495d844",
-        "type": "github"
-      },
-      "original": {
-        "owner": "natecraddock",
-        "repo": "sessions.nvim",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "plugin-mini-starter": "plugin-mini-starter",
-        "plugin-sessions": "plugin-sessions"
+        "plugin-mini-starter": "plugin-mini-starter"
       }
     }
   },

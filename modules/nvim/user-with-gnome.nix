@@ -10,8 +10,7 @@
 
         "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/nvimMemo" = {
             binding = "<Super>F1";
-            # Use custom defined command SessionsLoadCwd (see remaps.lua)
-            command = "alacritty --class 'nvim-memo' --working-directory '${config.xdg.userDirs.desktop}/.nvim-memo' -e nvim -c 'SessionsLoadCwd'";
+            command = "alacritty --class 'nvim-memo' --working-directory '${config.xdg.userDirs.desktop}/.nvim-memo' -e nvim";
             name = "Launch Memo";
         };
     };

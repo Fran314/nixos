@@ -9,10 +9,6 @@
                         name = "mini.starter";
                         src = inputs.plugin-mini-starter;
                     };
-                    own-sessions = prev.vimUtils.buildVimPlugin {
-                        name = "sessions";
-                        src = inputs.plugin-sessions;
-                    };
                 };
             })
         ];
@@ -129,11 +125,11 @@
                 type = "lua";
                 config = "require(\"colorizer\").setup()";
             }
-
+            
             {
-                plugin = own-sessions;
+                plugin = auto-session;
                 type = "lua";
-                config = "require(\"sessions\").setup()";
+                config = "require(\"auto-session\").setup()";
             }
             {
                 plugin = own-mini-starter;

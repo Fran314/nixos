@@ -57,9 +57,5 @@
             url = "github:echasnovski/mini.starter";
             flake = false;
         };
-        plugin-sessions = {
-            url = "github:natecraddock/sessions.nvim";
-            flake = false;
-        };
 	};
 }
