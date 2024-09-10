@@ -5,6 +5,7 @@
         ./hardware-configuration.nix
         ../../modules/minimal/system.nix
         ../../modules/gnome/system.nix
+        ../../modules/xmonad/system.nix
         ../../modules/productivity/3d-modeling/system.nix
     ];
 
