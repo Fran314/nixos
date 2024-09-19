@@ -52,7 +52,8 @@
                 # General purpose
                 fuck="sudo $(fc -Lln -1)";
                 open="xdg-open";
-                treeh="tree -phDa -I .git -I node_modules -I target";
+                tree="tree -I node_modules -I target";
+                treeh="\\tree -phDa -I .git -I node_modules -I target";
                 pgrep="pgrep -a";
                 fim="nvim $(fzf)";
                 rsync="rsync -hv --info=progress2";
