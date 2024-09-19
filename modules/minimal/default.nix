@@ -4,6 +4,8 @@
     imports = [
         ../zsh
         ../git
+        ../nvim
+        ../fastfetch
     ];
 
     networking.networkmanager.enable = true;
@@ -68,11 +70,6 @@
 
     home-manager.users.baldo = { lib, pkgs, pkgs-unstable, ... }:
     {
-        imports = [
-            # ../git/user.nix
-            ../nvim/user.nix
-            ../fastfetch/user.nix
-        ];
         home.username = "baldo";
         home.homeDirectory = "/home/baldo";
 

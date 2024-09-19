@@ -33,24 +33,24 @@
             };
         };
 
-        homeConfigurations = {
-            latias = inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [ ./profiles/latias/home.nix ];
-                extraSpecialArgs = {
-                    inherit inputs;
-                    inherit pkgs-unstable;
-                };
-            };
-            umbreon = inputs.home-manager.lib.homeManagerConfiguration {
-                inherit pkgs;
-                modules = [ ./profiles/umbreon/home.nix ];
-                extraSpecialArgs = {
-                    inherit inputs;
-                    inherit pkgs-unstable;
-                };
-            };
-        };
+        # homeConfigurations = {
+        #     latias = inputs.home-manager.lib.homeManagerConfiguration {
+        #         inherit pkgs;
+        #         modules = [ ./profiles/latias/home.nix ];
+        #         extraSpecialArgs = {
+        #             inherit inputs;
+        #             inherit pkgs-unstable;
+        #         };
+        #     };
+        #     umbreon = inputs.home-manager.lib.homeManagerConfiguration {
+        #         inherit pkgs;
+        #         modules = [ ./profiles/umbreon/home.nix ];
+        #         extraSpecialArgs = {
+        #             inherit inputs;
+        #             inherit pkgs-unstable;
+        #         };
+        #     };
+        # };
     };
 
 	inputs = {

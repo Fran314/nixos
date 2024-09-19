@@ -7,7 +7,7 @@
         ../../modules/gnome
         ../../modules/xmonad
         ../../modules/alacritty
-        ../../modules/productivity/3d-modeling/system.nix
+        ../../modules/productivity/3d-modeling
     ];
 
     boot.loader.systemd-boot.enable = true;
@@ -49,5 +49,46 @@
         #media-session.enable = true;
     };
 
-    home-manager.users.baldo = import ./home.nix;
+    home-manager.users.baldo = { config, pkgs, ... }:
+    {
+        imports = [
+            ../../modules/xdg/user.nix
+            ../../modules/xdg/user-with-data.nix
+            ../../modules/nvim/user-with-gnome.nix
+            ../../modules/productivity/lean4/user.nix
+        ];
+
+        nixpkgs.config.allowUnfree = true;
+
+        home.packages = with pkgs; [
+            ### Daily usage
+            firefox
+            gnome.nautilus 
+            telegram-desktop
+
+            ### Occasional usage
+            spotify
+            vlc
+            inkscape
+            krita
+
+            ### Developement
+            cargo
+            clippy
+            python3Full
+            nodejs
+            godot_4
+
+            ### Productivity
+            (octaveFull.withPackages (ps: with ps; [
+                # Search for `octavePackages` in NixOS packages to see all the possible options
+                # Once in octave, load the package with `pkg load <name-of-the-package>`
+                nurbs
+            ]))
+
+            ### Utility
+            bitwarden-cli
+            yt-dlp
+        ];
+    };
 }
