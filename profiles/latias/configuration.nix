@@ -4,10 +4,14 @@
     imports = [
         ./hardware-configuration.nix
         ../../modules/minimal
+        ../../modules/xdg
+        ../../modules/xdg/with-data.nix
         ../../modules/gnome
+        ../../modules/nvim/with-gnome.nix
         ../../modules/xmonad
         ../../modules/alacritty
         ../../modules/productivity/3d-modeling
+        ../../modules/productivity/lean4
     ];
 
     boot.loader.systemd-boot.enable = true;
@@ -51,15 +55,6 @@
 
     home-manager.users.baldo = { config, pkgs, ... }:
     {
-        imports = [
-            ../../modules/xdg/user.nix
-            ../../modules/xdg/user-with-data.nix
-            ../../modules/nvim/user-with-gnome.nix
-            ../../modules/productivity/lean4/user.nix
-        ];
-
-        nixpkgs.config.allowUnfree = true;
-
         home.packages = with pkgs; [
             ### Daily usage
             firefox

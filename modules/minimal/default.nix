@@ -73,6 +73,8 @@
         home.username = "baldo";
         home.homeDirectory = "/home/baldo";
 
+        nixpkgs.config.allowUnfree = true;
+
         home.packages = with pkgs; [
             tree
             rsync

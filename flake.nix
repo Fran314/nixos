@@ -26,31 +26,20 @@
             };
             umbreon = lib.nixosSystem {
                 inherit system;
-                modules = [ ./profiles/umbreon/configuration.nix ];
+                modules = [
+                    ./profiles/umbreon/configuration.nix
+                    inputs.home-manager.nixosModules.default {
+                        home-manager.extraSpecialArgs = {
+                            inherit inputs;
+                            inherit pkgs-unstable;
+                        };
+                    }
+                ];
                 specialArgs = {
                     # inherit pkgs-unstable;
                 };
             };
         };
-
-        # homeConfigurations = {
-        #     latias = inputs.home-manager.lib.homeManagerConfiguration {
-        #         inherit pkgs;
-        #         modules = [ ./profiles/latias/home.nix ];
-        #         extraSpecialArgs = {
-        #             inherit inputs;
-        #             inherit pkgs-unstable;
-        #         };
-        #     };
-        #     umbreon = inputs.home-manager.lib.homeManagerConfiguration {
-        #         inherit pkgs;
-        #         modules = [ ./profiles/umbreon/home.nix ];
-        #         extraSpecialArgs = {
-        #             inherit inputs;
-        #             inherit pkgs-unstable;
-        #         };
-        #     };
-        # };
     };
 
 	inputs = {
