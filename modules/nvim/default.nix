@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ...}:
 
 {
-    home-manager.users.baldo = { lib, pkgs, pkgs-unstable, inputs, ... }:
+    home-manager.users.baldo = { config, pkgs, inputs, ... }:
     {
         nixpkgs = {
             overlays = [

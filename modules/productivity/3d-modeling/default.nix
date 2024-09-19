@@ -11,7 +11,7 @@
     ];
     programs.appimage.binfmt = true;
 
-    home-manager.users.baldo = { config, lib, pkgs, pkgs-unstable, ... }:
+    home-manager.users.baldo = { config, pkgs, pkgs-unstable, ... }:
     {
         home.packages = with pkgs-unstable; [
             prusa-slicer

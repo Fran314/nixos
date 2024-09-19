@@ -19,7 +19,7 @@
 # overrides the <Super>1..4 keybindings, but in a separated block at the bottom
 # so that you can easily omit it if this is your preference
 
-{ config, lib, pkgs, pkgs-unstable, ... }:
+{ config, lib, pkgs, ... }:
 
 {
     home.packages = with pkgs; [

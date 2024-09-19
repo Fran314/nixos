@@ -44,8 +44,20 @@
         git
         vim
         neovim
+
         bat
         bottom
+        tree
+        rsync
+        ripgrep
+        fzf
+        zip
+        unzip
+        xclip
+        # rar
+        # unrar
+        bottom
+        jq
 
         home-manager
     ];
@@ -68,26 +80,12 @@
     #     wantedBy = [ "sleep.target" ];
     # };
 
-    home-manager.users.baldo = { lib, pkgs, pkgs-unstable, ... }:
+    home-manager.users.baldo = { config, pkgs, ... }:
     {
         home.username = "baldo";
         home.homeDirectory = "/home/baldo";
 
         nixpkgs.config.allowUnfree = true;
-
-        home.packages = with pkgs; [
-            tree
-            rsync
-            ripgrep
-            fzf
-            zip
-            unzip
-            xclip
-            # rar
-            # unrar
-            bottom
-            jq
-        ];
 
         # This value determines the Home Manager release that your configuration is
         # compatible with. This helps avoid breakage when a new Home Manager release

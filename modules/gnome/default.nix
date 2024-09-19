@@ -72,7 +72,7 @@
     ]);
     #--- ---#
 
-    home-manager.users.baldo = { lib, pkgs, pkgs-unstable, ... }:
+    home-manager.users.baldo = { config, lib, pkgs, pkgs-unstable, ... }:
     {
         imports = [
             ./pop-shell.nix

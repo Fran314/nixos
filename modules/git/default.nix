@@ -1,7 +1,7 @@
 { config, pkgs, ...}:
 
 {
-    home-manager.users.baldo = { lib, pkgs, pkgs-unstable, ... }:
+    home-manager.users.baldo = { config, pkgs, ... }:
     {
         programs.git = {
             enable = true;

@@ -33,7 +33,7 @@
 
     users.defaultUserShell = pkgs.zsh;
 
-    home-manager.users.baldo = { lib, pkgs, pkgs-unstable, ... }:
+    home-manager.users.baldo = { config, pkgs, ... }:
     {
         programs.zsh = {
             enable = true;
