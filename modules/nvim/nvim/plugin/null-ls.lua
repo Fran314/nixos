@@ -1,22 +1,23 @@
 local null_ls = require("null-ls")
-local sources = {
-	-- General purpose
-	null_ls.builtins.formatting.prettierd.with({
-	    filetypes = {},
-		env = {
-			PRETTIERD_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linter-config/.prettierrc.json"),
-		},
-	}),
-
-	null_ls.builtins.formatting.rustfmt,
-
-	-- Lua
-	null_ls.builtins.formatting.stylua,
-}
 
 null_ls.setup({
-	sources = sources,
+	sources = {
+		-- General purpose
+		null_ls.builtins.formatting.prettier.with({
+			filetypes = {},
+			env = {
+				PRETTIER_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linter-config/.prettierrc.json"),
+			},
+		}),
+		-- null_ls.builtins.formatting.prettier,
+
+		null_ls.builtins.formatting.rustfmt,
+
+		-- Lua
+		null_ls.builtins.formatting.stylua,
+	},
 })
+
 null_ls.register({
 	name = "my-todo-reminder",
 	method = null_ls.methods.DIAGNOSTICS,

@@ -35,7 +35,7 @@
                 texlab
 
                 #-- Formatters --#
-                prettierd
+                nodePackages.prettier
                 rustfmt
                 stylua
 
