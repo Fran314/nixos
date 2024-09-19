@@ -4,8 +4,9 @@
     imports = [
         ./hardware-configuration.nix
         ../../modules/minimal/system.nix
-        ../../modules/gnome/system.nix
+        ../../modules/gnome
         ../../modules/xmonad/system.nix
+        ../../modules/alacritty
         ../../modules/productivity/3d-modeling/system.nix
     ];
 
@@ -47,4 +48,6 @@
         # no need to redefine it in your config for now)
         #media-session.enable = true;
     };
+
+    home-manager.users.baldo = import ./home.nix;
 }

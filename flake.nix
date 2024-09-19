@@ -11,7 +11,15 @@
         nixosConfigurations = {
             latias = lib.nixosSystem {
                 inherit system;
-                modules = [ ./profiles/latias/configuration.nix ];
+                modules = [
+                    ./profiles/latias/configuration.nix
+                    inputs.home-manager.nixosModules.default {
+                        home-manager.extraSpecialArgs = {
+                            inherit inputs;
+                            inherit pkgs-unstable;
+                        };
+                    }
+                ];
                 specialArgs = {
                     # inherit pkgs-unstable;
                 };
