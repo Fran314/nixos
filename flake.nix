@@ -24,21 +24,6 @@
                     # inherit pkgs-unstable;
                 };
             };
-            umbreon = lib.nixosSystem {
-                inherit system;
-                modules = [
-                    ./profiles/umbreon/configuration.nix
-                    inputs.home-manager.nixosModules.default {
-                        home-manager.extraSpecialArgs = {
-                            inherit inputs;
-                            inherit pkgs-unstable;
-                        };
-                    }
-                ];
-                specialArgs = {
-                    # inherit pkgs-unstable;
-                };
-            };
         };
     };
 

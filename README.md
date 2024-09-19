@@ -32,12 +32,13 @@ something is actually happening)
 
 ### Apply profile
 
-With NixOS installed, you should have your own version of `configuration.nix`
-and `hardware-configuration.nix` stored in `/etc/nixos`. These are created by
-NixOS for you own hardware specifically, and will be used to fine tune the
-profile of your choice from this configuration
+With NixOS installed, start a shell with `git` and `neovim` using
 
-Clone this repo to `~/.dotfiles` with
+```bash
+nix-shell -p git neovim
+```
+
+Using this shell, clone this repo to `~/.dotfiles` with
 
 ```bash
 git clone https://github.com/Fran314/nixos.git ~/.dotfiles
@@ -71,7 +72,6 @@ Then, update the system with
 
 ```bash
 sudo nix-build switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
-home-manager switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
 ```
 
 ## Post-installation
@@ -82,8 +82,6 @@ you'll ever have to do.
 
 These operation might be necessary:
 
--   ~~change your user's password~~ (you probably already set your password
-    during the NixOS installation),
 -   copy your secrets to this machine (see `restore-secrets.sh`)
 -   run `git remote set-url origin git@github.com:Fran314/nixos.git`
 
@@ -102,6 +100,6 @@ This configuration is structured around three profiles:
 -   **latias**: this is the profile for my personal computer. It's supposed to
     be a full-featured environment intended for multiple possible uses, from
     simple daily browsing, to coding, 3D modeling and more,
--   **umbreon**: this is the profile for my homelab. It's supposed to be a
+-   ~~**umbreon**: this is the profile for my homelab. It's supposed to be a
     CLI-only but comfortable environment, intended to be used for managing
-    self-hosted applications via ssh.
+    self-hosted applications via ssh.~~
