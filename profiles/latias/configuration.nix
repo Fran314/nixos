@@ -3,9 +3,9 @@
 {
     imports = [
         ./hardware-configuration.nix
-        ../../modules/minimal/system.nix
+        ../../modules/minimal
         ../../modules/gnome
-        ../../modules/xmonad/system.nix
+        ../../modules/xmonad
         ../../modules/alacritty
         ../../modules/productivity/3d-modeling/system.nix
     ];

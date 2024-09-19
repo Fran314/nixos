@@ -2,7 +2,6 @@
 
 {
     imports = [
-        ../../modules/minimal/user.nix
         ../../modules/xdg/user.nix
         ../../modules/xdg/user-with-data.nix
         ../../modules/nvim/user-with-gnome.nix
