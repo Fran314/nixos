@@ -58,16 +58,10 @@ local servers = {
 		},
 	}, -- Rust lsp
 
-	-- pyright = {}, -- Python lsp
-	--
-	-- tsserver = {}, -- Typescript lsp
-	-- volar = {}, -- Vue lsp
-	-- cssls = {}, -- CSS lsp
-	--
-	-- texlab = {}, -- LaTeX lsp
-	--
-	-- -- hls = {},
-	--
+	pyright = {}, -- Python lsp
+
+	hls = {},
+
 	lua_ls = {
 		Lua = {
 			diagnostics = {
@@ -79,6 +73,15 @@ local servers = {
 	},
 
 	nil_ls = {},
+
+	astro = {},
+
+	cssls = {}, -- CSS lsp
+
+	texlab = {}, -- LaTeX lsp
+
+	-- tsserver = {}, -- Typescript lsp
+	-- volar = {}, -- Vue lsp
 }
 
 require("neodev").setup()

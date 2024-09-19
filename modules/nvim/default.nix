@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ...}:
 
 {
-    home-manager.users.baldo = { config, pkgs, inputs, ... }:
+    home-manager.users.baldo = { config, pkgs, pkgs-unstable, inputs, ... }:
     {
         nixpkgs = {
             overlays = [
@@ -24,11 +24,15 @@
             vimAlias = true;
             vimdiffAlias = true;
 
-            extraPackages = with pkgs; [
+            extraPackages = (with pkgs; [
                 #-- LSP --#
                 rust-analyzer
                 lua-language-server
                 nil                     # Nix language server
+                pyright
+                haskell-language-server
+                vscode-langservers-extracted    # For cssls
+                texlab
 
                 #-- Formatters --#
                 prettierd
@@ -38,7 +42,9 @@
                 #-- Utility --#
                 xclip
                 # wl-clipboard
-            ];
+            ]) ++ (with pkgs-unstable; [
+                astro-language-server
+            ]);
 
             plugins = with pkgs.vimPlugins; [
                 {
