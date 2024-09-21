@@ -6,17 +6,19 @@
         enableContribAndExtras = true;
         config = builtins.readFile ./xmonad.hs;
     };
-
-    services.xserver.displayManager.sessionCommands = ''
-        xset -dpms      # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
-        xset s blank    # `noblank` may be useful for debugging 
-        xset s 300      # seconds
-        ${pkgs.lightlocker}/bin/light-locker --idle-hint &
-    '';
-    systemd.targets.hybrid-sleep.enable = true;
-    services.logind.extraConfig = ''
-        IdleAction=hybrid-sleep
-        IdleActionSec=20s
-    '';
-
+    
+    # services.xserver.displayManager.sessionCommands = ''
+    #     ${pkgs.feh}/bin/feh --bg-scale <path/to/image>
+    # '';
+    # 
+    # home-manager.users.baldo = { config, pkgs, ... }:
+    # {
+    #     home.packages = with pkgs; [
+    #         feh
+    #     ];
+    #
+    #     gtk.enable = true;
+    #     gtk.theme.package = pkgs.nordic;
+    #     gtk.theme.name = "Nordic";
+    # };
 }
