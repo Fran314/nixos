@@ -58,7 +58,8 @@ local servers = {
 		},
 	}, -- Rust lsp
 
-	pyright = {}, -- Python lsp
+	-- pyright = {}, -- Python lsp
+	ruff = {},
 
 	hls = {},
 

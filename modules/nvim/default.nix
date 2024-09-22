@@ -29,7 +29,8 @@
                 rust-analyzer
                 lua-language-server
                 nil                     # Nix language server
-                pyright
+                # pyright
+                ruff
                 haskell-language-server
                 vscode-langservers-extracted    # For cssls
                 texlab
