@@ -16,9 +16,5 @@
     #     home.packages = with pkgs; [
     #         feh
     #     ];
-    #
-    #     gtk.enable = true;
-    #     gtk.theme.package = pkgs.nordic;
-    #     gtk.theme.name = "Nordic";
     # };
 }

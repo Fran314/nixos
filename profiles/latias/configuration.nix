@@ -45,10 +45,13 @@
     services.xserver.xkb = {
         layout = "it";
         variant = "";
+        options = "caps:escape";
     };
 
     # Configure console keymap
     console.keyMap = "it2";
+
+    services.libinput.touchpad.naturalScrolling = true;
 
     # Enable CUPS to print documents.
     services.printing.enable = true;

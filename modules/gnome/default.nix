@@ -78,6 +78,18 @@
             ./pop-shell.nix
         ];
 
+        gtk = {
+            enable = true;
+            theme = {
+                package = pkgs.nordic;
+                name = "Nordic";
+            };
+            # theme = {
+            #     package = pkgs.pop-gtk-theme;
+            #     name = "Pop";
+            # };
+        };
+
         # Fixes a bug for Wayland where the cursor doesn't render correctly
         # (wrong size or doesn't render at all) for some GTK applications such as
         # Alacritty
