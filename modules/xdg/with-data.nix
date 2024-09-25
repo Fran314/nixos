@@ -1,6 +1,6 @@
-{ config, ...}:
+{ lib, config, ...}:
 
-{
+lib.mkIf config.my.options.xdg.symlink-data {
     home-manager.users.baldo = { config, pkgs, ... }:
     {
         # For reasons unclear to me, home manager will create these files only if

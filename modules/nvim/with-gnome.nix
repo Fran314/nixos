@@ -1,6 +1,6 @@
 { lib, config, pkgs, inputs, ...}:
 
-{
+lib.mkIf ((config.my.options.wm or null) == "gnome") {
     home-manager.users.baldo = { config, pkgs, ... }:
     {
         dconf.settings = {

@@ -1,6 +1,10 @@
 { config, pkgs, inputs, ...}:
 
 {
+    imports = [
+        ./with-gnome.nix
+    ];
+
     home-manager.users.baldo = { config, pkgs, pkgs-unstable, inputs, ... }:
     {
         nixpkgs = {

@@ -47,7 +47,7 @@
             shellAliases = {
                 # Nix & Home-Manager
                 nix-update="sudo nixos-rebuild switch --flake ~/.dotfiles";
-                hm-update="home-manager switch --flake ~/.dotfiles#$HOST";
+                nix-boot="sudo nixos-rebuild boot --flake ~/.dotfiles";
 
                 # General purpose
                 fuck="sudo $(fc -Lln -1)";

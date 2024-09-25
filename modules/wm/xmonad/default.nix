@@ -1,6 +1,6 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
-{
+lib.mkIf ((config.my.options.wm or null) == "xmonad") {
     services.xserver.windowManager.xmonad = {
         enable = true;
         enableContribAndExtras = true;

@@ -26,6 +26,9 @@
         LC_TIME = "en_US.UTF-8";
     };
 
+    # Configure console keymap
+    console.keyMap = "it2";
+
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.baldo = {
         isNormalUser = true;
@@ -62,24 +65,6 @@
         home-manager
     ];
     
-    # # I tried to add a service to make lock-on-sleep work on GNOME w/ lightdm
-    # # but for some reason this doesn't work and I don't feel like investigating
-    # # it right now
-    # # For reference: https://www.perfacilis.com/blog/systeembeheer/linux/lock-screen-after-switching-from-gdm-to-lightdm.html
-    # systemd.user.services.locker = {
-    #     enable = true;
-    #     description = "Turning light-locker on before sleep";
-    #     before = [ "sleep.target" ];
-    #     serviceConfig = {
-    #         # User = "%I";
-    #         Type = "forking";
-    #         Environment = "XDG_SEAT_PATH=\"/org/freedesktop/DisplayManager/Seat0\"";
-    #         ExecStart = "${pkgs.lightdm}/bin/dm-tool lock";
-    #         ExecStartPost = "${pkgs.coreutils-full}/bin/sleep 1";
-    #     };
-    #     wantedBy = [ "sleep.target" ];
-    # };
-
     home-manager.users.baldo = { config, pkgs, ... }:
     {
         home.username = "baldo";

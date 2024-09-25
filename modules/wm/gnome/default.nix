@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
-{
+lib.mkIf ((config.my.options.wm or null) == "gnome") {
     services.xserver.desktopManager.gnome.enable = true;
     programs.dconf.enable = true;   # Enables editing dconf via dconf.settings in home-manager
 
