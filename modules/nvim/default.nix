@@ -38,6 +38,7 @@
                 haskell-language-server
                 vscode-langservers-extracted    # For cssls
                 texlab
+                ghc
 
                 #-- Formatters --#
                 nodePackages.prettier

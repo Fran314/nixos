@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="48"
+   viewBox="0 -960 960 960"
+   width="48"
+   version="1.1"
+   id="svg44"
+   sodipodi:docname="color-pipette.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs48" />
+  <sodipodi:namedview
+     id="namedview46"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="15.528775"
+     inkscape:cx="23.15057"
+     inkscape:cy="24.148717"
+     inkscape:window-width="1900"
+     inkscape:window-height="1022"
+     inkscape:window-x="10"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg44" />
+  <path
+     d="M150-120q-13 0-21.5-8.5T120-150v-126q0-6 2-11t7-10l368-368-52-52q-8-8-8-20t9-21q8-8 20-8t21 8l71 72 142-142q11-11 23.5-11t23.5 11l81 81q11 11 11 23.5T828-700L686-558l72 72q8 8 8 20t-8 20q-9 9-21 9t-20-9l-52-51-368 368q-5 5-10 7t-11 2H150Zm30-60h87l355-355-87-87-355 355v87Z"
+     id="path42"
+     style="fill:#fff59d;fill-opacity:1" />
+</svg>

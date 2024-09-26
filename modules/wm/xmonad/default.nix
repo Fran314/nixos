@@ -1,20 +1,27 @@
 { lib, config, pkgs, ... }:
 
-lib.mkIf ((config.my.options.wm or null) == "xmonad") {
-    services.xserver.windowManager.xmonad = {
-        enable = true;
-        enableContribAndExtras = true;
-        config = builtins.readFile ./xmonad.hs;
+with lib; {
+    imports = [
+        ./picom
+        ./eww
+    ];
+
+    options.my.options.wm.xmonad = {
+        enable = mkEnableOption "";
     };
-    
-    # services.xserver.displayManager.sessionCommands = ''
-    #     ${pkgs.feh}/bin/feh --bg-scale <path/to/image>
-    # '';
-    # 
-    # home-manager.users.baldo = { config, pkgs, ... }:
-    # {
-    #     home.packages = with pkgs; [
-    #         feh
-    #     ];
-    # };
+
+    config = mkIf config.my.options.wm.xmonad.enable {
+        services.xserver.windowManager.xmonad = {
+            enable = true;
+            enableContribAndExtras = true;
+            config = builtins.readFile ./xmonad.hs;
+        };
+
+        my.options.wm.xmonad.eww.enable = true;
+        my.options.wm.xmonad.picom.enable = true;
+
+        environment.systemPackages = with pkgs; [
+            feh
+        ];
+    };
 }

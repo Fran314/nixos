@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="24"
+   viewBox="0 -960 1680 960"
+   width="42"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="split.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="12.68395"
+     inkscape:cx="10.840472"
+     inkscape:cy="10.091494"
+     inkscape:window-width="1896"
+     inkscape:window-height="1017"
+     inkscape:window-x="12"
+     inkscape:window-y="51"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <path
+     id="path1"
+     style="fill:#fff59d;fill-opacity:1"
+     d="m 120,-840 c -21.99998,0 -40.81772,7.84897 -56.48438,23.51562 C 47.848974,-800.81772 40,-781.99998 40,-760 v 440 c 0,21.99998 7.848974,40.81772 23.51562,56.48438 C 79.18228,-247.84897 98.00002,-240 120,-240 h 640 c 21.99998,0 40.81772,-7.84897 56.48438,-23.51562 C 832.15103,-279.18228 840,-298.00002 840,-320 v -440 c 0,-21.99998 -7.84897,-40.81772 -23.51562,-56.48438 C 800.81772,-832.15103 781.99998,-840 760,-840 Z m 840,0 c -22.00002,0 -40.81772,7.84897 -56.48438,23.51562 C 887.84895,-800.81772 880,-781.99998 880,-760 v 480 c 0,21.99998 7.84895,40.81772 23.51562,56.48438 C 919.18228,-207.84897 937.99998,-200 960,-200 h 160 v 80 h 320 v -80 h 160 c 22,0 40.8177,-7.84897 56.4844,-23.51562 C 1672.151,-239.18228 1680,-258.00002 1680,-280 v -480 c 0,-21.99998 -7.849,-40.81772 -23.5156,-56.48438 C 1640.8177,-832.15103 1622,-840 1600,-840 Z m -840,80 h 640 v 440 H 120 Z m 840,0 h 640 v 480 H 960 Z M 40,-200 c -11.333322,0 -20.848966,3.81772 -28.515625,11.48438 C 3.817716,-180.84897 0,-171.33332 0,-160 c 0,11.33332 3.817716,20.84897 11.484375,28.51562 C 19.151034,-123.81772 28.666678,-120 40,-120 h 800 c 11.33332,0 20.84897,-3.81772 28.51562,-11.48438 C 876.18228,-139.15103 880,-148.66668 880,-160 c 0,-11.33332 -3.81772,-20.84897 -11.48438,-28.51562 C 860.84897,-196.18228 851.33332,-200 840,-200 Z" />
+</svg>

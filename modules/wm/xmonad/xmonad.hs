@@ -263,8 +263,7 @@ myLayout =
                     )
                 )
         )
-        ( smartBorders $
-            spacingWithEdge 6 $
+        ( spacingWithEdge 6 $
                 avoidStruts $
                     ( IfMax
                         2
@@ -401,7 +400,7 @@ main =
         def
             { modMask = mod4Mask
             , terminal = "alacritty"
-            , borderWidth = 2
+            , borderWidth = 3
             -- , normalBorderColor = "#388E3C"
             -- , focusedBorderColor = "#28282A"
             , normalBorderColor = "#28282A"

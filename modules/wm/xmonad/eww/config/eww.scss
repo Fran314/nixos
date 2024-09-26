@@ -1,0 +1,174 @@
+* {
+  all: unset;
+  font-family: "Fira Sans";
+  font-weight: bold;
+}
+
+.divider {
+  background-color: #388e3c;
+  min-height: 20px;
+  min-width: 2px;
+}
+
+.topbar {
+  // border-radius: 12px;
+  // border: 3px solid #388e3c;
+  background-color: rgba(#282a28, 0.6);
+}
+
+.topbar_content {
+  padding: 0 15px;
+
+  .ws_bar {
+    .extra_ws_container {
+      .ws_dot {
+        border-radius: 4px;
+        background-color: transparent;
+
+        &.visible {
+          background-color: #666;
+        }
+        &.current {
+          background-color: #fff59d;
+        }
+      }
+    }
+
+    // .ws_bar_divider {
+    //   // background-color: #388E3C;
+    //   border-left: 1px solid #388e3c;
+    //   min-height: 20px;
+    //   min-width: 3px;
+    // }
+  }
+
+  // .stats_bar {
+  //   .cpu-overlay {
+  //     .cpu-graph {
+  //       color: #388e3c;
+  //     }
+  //     .temp-graph {
+  //       color: #fff59d;
+  //     }
+  //   }
+  //   .vertical-thingy {
+  //     scale trough {
+  //       background-color: #4e4e4e;
+  //       border-radius: 10px;
+  //       min-height: 5px;
+  //       min-width: 50px;
+  //
+  //       highlight {
+  //         border-radius: 10px;
+  //       }
+  //     }
+  //     scale.disk-bar trough highlight {
+  //       background-color: #fff59d;
+  //     }
+  //
+  //     scale.battery-bar {
+  //       trough highlight {
+  //         background-color: #fff59d;
+  //       }
+  //
+  //       &.low trough highlight {
+  //         background-color: #f58a2c;
+  //       }
+  //
+  //       &.critical trough highlight {
+  //         background-color: #ff0000;
+  //       }
+  //
+  //       &.Charging trough highlight {
+  //         background-color: #8bc344;
+  //       }
+  //     }
+  //   }
+  //
+  //   .battery-stats {
+  //     scale trough {
+  //       // background-color: #4e4e4e;
+  //       // border-radius: 10px;
+  //       min-height: 8px;
+  //       min-width: 10px;
+  //
+  //       highlight {
+  //         background-color: #fff59d;
+  //         // border-radius: 10px;
+  //       }
+  //     }
+  //     scale.battery-bar {
+  //       trough highlight {
+  //         background-color: #fff59d;
+  //       }
+  //
+  //       &.low trough highlight {
+  //         background-color: #f58a2c;
+  //       }
+  //
+  //       &.critical trough highlight {
+  //         background-color: #ff0000;
+  //       }
+  //
+  //       &.Charging trough highlight {
+  //         background-color: #8bc344;
+  //       }
+  //     }
+  //   }
+  //
+  //   .volume-bar {
+  //     color: #fff59d;
+  //
+  //     &.muted {
+  //       color: #666;
+  //     }
+  //   }
+  //   .highvolume-bar {
+  //     color: #ff0000;
+  //
+  //     // &.high {
+  //     // }
+  //     // &.critical {
+  //     //     color: #FF0000;
+  //     // }
+  //     // &.muted {
+  //     //     color: #AAA;
+  //     // }
+  //   }
+  //   // scale.volume-bar trough highlight {
+  //   //     background-color: #8BC344;
+  //   // }
+  //   // scale.volume-bar.muted trough highlight {
+  //   //     background-color: #666;
+  //   // }
+  //   scale.highvolume-bar trough {
+  //     background-color: transparent;
+  //     highlight {
+  //       background-color: #fff59d;
+  //     }
+  //   }
+  //   scale.highvolume-bar.muted trough highlight {
+  //     background-color: #888;
+  //   }
+  // }
+}
+
+.calendar_popup {
+  padding: 10px 10px 0 10px;
+  background-color: rgba($color: #282a28, $alpha: 0.85);
+
+  calendar {
+    padding: 0.5rem 0rem;
+
+    &:selected {
+      color: #388e3c;
+    }
+    &.header,
+    &.highlight {
+      color: #fff59d;
+    }
+    &:indeterminate {
+      color: #666;
+    }
+  }
+}

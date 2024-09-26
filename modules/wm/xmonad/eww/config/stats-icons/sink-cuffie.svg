@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="48"
+   viewBox="0 -960 960 960"
+   width="48"
+   version="1.1"
+   id="svg2903"
+   sodipodi:docname="sink-cuffie.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2907" />
+  <sodipodi:namedview
+     id="namedview2905"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="10.786324"
+     inkscape:cx="22.574883"
+     inkscape:cy="23.177498"
+     inkscape:window-width="1900"
+     inkscape:window-height="1022"
+     inkscape:window-x="10"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2903" />
+  <path
+     d="M189-97q-38.775 0-66.388-27.612Q95-152.225 95-191v-289q0-80 30-150t82.5-122.5Q260-805 330-835.5T480-866q80 0 150 30.5t122.5 83Q805-700 835.5-630T866-480v289q0 38.775-27.906 66.388Q810.188-97 771-97h-65q-39.725 0-67.362-27.612Q611-152.225 611-191v-154q0-38.775 27.638-66.388Q666.275-439 706-439h65v-41q0-121.596-84.653-206.298Q601.695-771 480.169-771t-206.348 84.702Q189-601.596 189-480v41h66q38.775 0 66.388 27.612Q349-383.775 349-345v154q0 38.775-27.612 66.388Q293.775-97 255-97h-66Z"
+     id="path2901"
+     style="fill:#fff59d;fill-opacity:1" />
+</svg>

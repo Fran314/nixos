@@ -13,7 +13,8 @@
 
     networking.hostName = "latias";
 
-    my.options.wm = "gnome";
+    # my.options.wm.gnome.enable = true;
+    my.options.wm.xmonad.enable = true;
     my.options.xdg.symlink-data = true;
 
     # Enable CUPS to print documents.
@@ -60,10 +61,6 @@
             # Once in octave, load the package with `pkg load <name-of-the-package>`
             nurbs
         ]))
-
-        ### Utility
-        bitwarden-cli
-        yt-dlp
     ];
 
     ##################

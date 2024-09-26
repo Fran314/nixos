@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="48"
+   viewBox="0 -960 960 960"
+   width="48"
+   version="1.1"
+   id="svg2903"
+   sodipodi:docname="bluetooth-dot-disconnected.svg"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   xml:space="preserve"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs2907" /><sodipodi:namedview
+     id="namedview2905"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="10.786324"
+     inkscape:cx="22.574883"
+     inkscape:cy="23.177498"
+     inkscape:window-width="1896"
+     inkscape:window-height="1017"
+     inkscape:window-x="12"
+     inkscape:window-y="51"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2903" /><path
+     d="m 217,-466.95919 32,-243 q 2,-16 11.5,-28 9.5,-12 23.5,-19 l 334,-132.99999 q 27,-10 51,4.5 24,14.5 27,43.49999 l 47,375 z m 159,401.000001 q -84,0 -138.5,-63.000001 -54.5,-63 -44.5,-146 l 13,-97 h 549 l 12,100 q 10,82 -44.5,144 Q 668,-65.959189 585,-65.959189 Z"
+     id="path3489"
+     style="fill:#666666;fill-opacity:1" /></svg>

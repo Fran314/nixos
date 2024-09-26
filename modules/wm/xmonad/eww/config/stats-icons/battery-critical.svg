@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="22.452999"
+   viewBox="0 -960 960 449.05998"
+   width="48"
+   version="1.1"
+   id="svg44"
+   sodipodi:docname="battery-critical.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs48" />
+  <sodipodi:namedview
+     id="namedview46"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="18.291667"
+     inkscape:cx="24.027335"
+     inkscape:cy="16.127563"
+     inkscape:window-width="1900"
+     inkscape:window-height="1022"
+     inkscape:window-x="10"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg44" />
+  <path
+     d="m 0,-548.88679 q 0,16.4903 10.85983,27.21786 10.85853,10.72893 26.91098,10.72893 h 806.62681 q 15.03086,0 26.40085,-10.85986 11.37135,-10.85851 11.37135,-26.91234 v -94.42847 h 40.07867 q 16.05383,0 26.91234,-10.8585 10.85986,-10.85987 10.85986,-26.91234 v -109.11698 q 0,-16.05247 -10.85986,-26.91234 -10.85851,-10.8585 -26.91234,-10.8585 h -40.07867 v -94.42847 q 0,-16.05383 -11.37135,-26.91234 Q 859.42848,-960 844.39762,-960 H 37.77081 q -16.05245,0 -26.91098,10.85986 Q 0,-938.28163 0,-922.2278 Z m 41.9677,-4.02232 v -365.12178 h 799.28325 v 365.12178 z"
+     id="path42"
+     style="stroke-width:1.36396;fill:#ff0000;fill-opacity:1" />
+</svg>

@@ -1,6 +1,8 @@
 { config, pkgs, ...}:
 
-{
+let
+    font-size = if (config.my.options.wm.xmonad.enable or false) then 7 else 12;
+in {
     home-manager.users.baldo = { config, pkgs, ... }:
     {
         programs.alacritty = {
@@ -28,8 +30,7 @@
                         # family = "UbuntuMono Nerdfont Mono";
                         style = "Regular";
                     };
-                    size = 12;
-                    # size = 8;
+                    size = font-size;
                 };
                 window = {
                     decorations = "none";

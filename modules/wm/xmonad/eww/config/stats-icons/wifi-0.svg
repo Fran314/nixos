@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="48"
+   viewBox="0 -960 960 960"
+   width="48"
+   version="1.1"
+   id="svg2781"
+   sodipodi:docname="wifi-0.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2785" />
+  <sodipodi:namedview
+     id="namedview2783"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="18.291667"
+     inkscape:cx="24.027335"
+     inkscape:cy="24"
+     inkscape:window-width="1900"
+     inkscape:window-height="1022"
+     inkscape:window-x="10"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2781" />
+  <path
+     d="m 480,-146 q -6,0 -11,-2 -5,-2 -10,-7 L 21,-593 q -9,-9 -8.5,-21.5 0.5,-12.5 9.5,-20.5 96,-85 212,-132 116,-47 246,-47 130,0 246,47 116,47 212,132 9,8 9.5,20.5 0.5,12.5 -8.5,21.5 l -438,438 q -5,5 -10,7 -5,2 -11,2 z m 0,-70 392,-392 Q 785,-676 687.5,-715 590,-754 480,-754 370,-754 272.5,-715 175,-676 88,-608 Z"
+     id="path2779"
+     style="fill:#fff59d;fill-opacity:1" />
+</svg>
