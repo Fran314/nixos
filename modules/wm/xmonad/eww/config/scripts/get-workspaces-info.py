@@ -9,7 +9,7 @@ aliases = [
     [lambda n: n == "Spotify",                                              "spotify"        ],
     [lambda n: n == "GNU Image Manipulation Program" or n.endswith("GIMP"), "gimp"           ],
     [lambda n: n.endswith("Inkscape"),                                      "inkscape"       ],
-    [lambda n: n.startswith("baldo@latias:"),                               "terminal"       ]
+    [lambda n: n == "Alacritty",                                            "terminal"       ]
 ]
 
 def get_process_type(name):

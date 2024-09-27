@@ -12,7 +12,7 @@ with lib; {
 
         services.xserver.displayManager.sessionCommands = ''
             ${pkgs.picom}/bin/picom &
-            '';
+        '';
 
         home-manager.users.baldo = { config, pkgs, ... }:
         {

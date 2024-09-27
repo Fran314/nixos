@@ -37,6 +37,9 @@
     };
 
     environment.systemPackages = with pkgs; [
+        # for pactl
+        pulseaudioFull
+
         ### Daily usage
         firefox
         gnome.nautilus 

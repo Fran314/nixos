@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 
 SINK_NAME=$(pamixer --get-default-sink | grep -oP '".*" "\K.*(?=")')

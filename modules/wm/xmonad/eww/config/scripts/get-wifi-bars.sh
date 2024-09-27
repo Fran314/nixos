@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 BARS=$(nmcli -f IN-USE,BARS dev wifi | sed -n 's/\*\s*\(.*\)\s/\1/p')
 

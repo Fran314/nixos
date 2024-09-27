@@ -3,6 +3,7 @@
 with lib; {
     imports = [
         ./picom
+        ./dunst
         ./eww
     ];
 
@@ -17,10 +18,15 @@ with lib; {
             config = builtins.readFile ./xmonad.hs;
         };
 
-        my.options.wm.xmonad.eww.enable = true;
         my.options.wm.xmonad.picom.enable = true;
+        my.options.wm.xmonad.dunst.enable = true;
+        my.options.wm.xmonad.eww.enable = true;
 
+        services.xserver.displayManager.sessionCommands = ''
+            ~/.fehbg &
+        '';
         environment.systemPackages = with pkgs; [
+            pamixer
             feh
         ];
     };

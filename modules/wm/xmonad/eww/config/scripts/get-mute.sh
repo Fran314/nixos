@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 MUTE=$(pamixer --get-mute)
 if [[ $MUTE == "true" ]]

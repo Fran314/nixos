@@ -13,8 +13,11 @@
             mv = "mv -i";
             rmt="\\mv -ft $@ ~/.trash/";
             empty-trash="\\rm -rf ~/.trash && mkdir ~/.trash";
+
             lh="ls -lhA --group-directories-first";
             lt="ls -lhAtr";
+
+            dir-size-sort="du -sh ./* ./.* 2>/dev/null | sort -h";
         };
 
         promptInit = builtins.readFile ./prompt-init.sh;
@@ -48,6 +51,7 @@
                 # Nix & Home-Manager
                 nix-update="sudo nixos-rebuild switch --flake ~/.dotfiles";
                 nix-boot="sudo nixos-rebuild boot --flake ~/.dotfiles";
+                nix-gc="sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
 
                 # General purpose
                 fuck="sudo $(fc -Lln -1)";
