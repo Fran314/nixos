@@ -49,6 +49,16 @@
     programs.dconf.enable = true;   # Enables editing dconf via dconf.settings in home-manager
     home-manager.users.baldo = { config, pkgs, ... }:
     {
+        # Fixes a bug for Wayland where the cursor doesn't render correctly
+        # (wrong size or doesn't render at all) for some GTK applications such as
+        # Alacritty
+        home.pointerCursor = {
+            gtk.enable = true;
+            name = "Adwaita";
+            package = pkgs.gnome.adwaita-icon-theme;
+            size = 22;
+        };
+
         gtk = {
             enable = true;
             theme = {

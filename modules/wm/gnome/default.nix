@@ -82,16 +82,6 @@ with lib; {
                 ./pop-shell.nix
             ];
 
-            # Fixes a bug for Wayland where the cursor doesn't render correctly
-            # (wrong size or doesn't render at all) for some GTK applications such as
-            # Alacritty
-            home.pointerCursor = {
-                gtk.enable = true;
-                name = "Adwaita";
-                package = pkgs.gnome.adwaita-icon-theme;
-                size = 22;
-            };
-
             home.packages = (with pkgs; [
                 gnome-extension-manager
                 gnome.gnome-tweaks

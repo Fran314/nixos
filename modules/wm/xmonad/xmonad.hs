@@ -183,7 +183,7 @@ persistentProcesses =
             ( "memo"
             ,
                 ( \w -> runQuery (className =? "nvim-memo") w
-                , spawn "alacritty --class 'nvim-memo' --working-directory '/home/baldo/desktop/memo' -e nvim -c 'SessionsLoad'"
+                , spawn "alacritty --class 'nvim-memo' --working-directory '/home/baldo/desktop/.nvim-memo' -e nvim"
                 )
             )
         ,

@@ -2,6 +2,7 @@
 
 let
     font-size = if (config.my.options.wm.xmonad.enable or false) then 7 else 12;
+    padding = if (config.my.options.wm.xmonad.enable or false) then 5 else 10;
 in {
     home-manager.users.baldo = { config, pkgs, ... }:
     {
@@ -36,8 +37,8 @@ in {
                     decorations = "none";
                     opacity = 0.9;
                     padding = {
-                        x = 10;
-                        y = 10;
+                        x = padding;
+                        y = padding;
                     };
                 };
             };
