@@ -1,6 +1,15 @@
 { lib, config, pkgs, ... }:
 
-with lib; {
+let
+    eww-hello = pkgs.writeShellApplication {
+        name = "eww-hello";
+        runtimeInputs = [ pkgs.sl pkgs.lolcat ];
+        text = ''
+            sl | lolcat
+        '';
+
+    };
+in with lib; {
     options.my.options.wm.xmonad.eww = {
         enable = mkEnableOption "";
     };
@@ -10,6 +19,7 @@ with lib; {
             eww
             fira
             wmctrl
+            eww-hello
         ];
 
         home-manager.users.baldo = { config, pkgs, ... }:

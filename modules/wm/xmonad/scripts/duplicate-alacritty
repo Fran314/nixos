@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Spawn a new instance of Alacritty using the CWD of the currently focused
+# Alacritty process.
+
+WINDOW_CLASS=$(xdotool getactivewindow getwindowclassname)
+WINDOW_PID=$(xdotool getactivewindow getwindowpid)
+if [[ "$WINDOW_CLASS" != "Alacritty" ]]
+then
+    exit 1
+fi
+
+# Get last child of terminal window (should be shell)
+SHELL_PID=$(pgrep -P "$WINDOW_PID" | tail -n 1)
+if [[ "$SHELL_PID" == "" ]]
+then
+    exit 1
+fi
+
+# Get current working directory of shell
+CWD=$(readlink -e "/proc/$SHELL_PID/cwd")
+
+alacritty --working-directory "$CWD"
