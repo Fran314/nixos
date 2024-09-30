@@ -1,20 +1,9 @@
 { lib, config, pkgs, ... }:
 
-let
-    xmonad-duplicate-alacritty = pkgs.writeShellApplication {
-        name = "xmonad-duplicate-alacritty";
-        runtimeInputs = [
-            pkgs.xdotool
-            pkgs.procps     # pgrep
-        ];
-        text = builtins.readFile ./scripts/duplicate-alacritty;
-    };
-    xmonad-set-brightness = pkgs.writeShellApplication {
-        name = "xmonad-set-brightness";
-        text = builtins.readFile ./scripts/set-brightness;
-    };
-in with lib; {
+with lib; {
     imports = [
+        ./scripts
+
         ./picom
         ./dunst
         ./eww
@@ -41,9 +30,6 @@ in with lib; {
         environment.systemPackages = with pkgs; [
             pamixer
             feh
-
-            xmonad-duplicate-alacritty
-            xmonad-set-brightness
         ];
     };
 }
