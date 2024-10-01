@@ -1,15 +1,6 @@
 { lib, config, pkgs, ... }:
 
-let
-    eww-hello = pkgs.writeShellApplication {
-        name = "eww-hello";
-        runtimeInputs = [ pkgs.sl pkgs.lolcat ];
-        text = ''
-            sl | lolcat
-        '';
-
-    };
-in with lib; {
+with lib; {
     options.my.options.wm.xmonad.eww = {
         enable = mkEnableOption "";
     };
@@ -19,7 +10,6 @@ in with lib; {
             eww
             # fira
             wmctrl
-            eww-hello
 
             (pkgs.nerdfonts.override {
                 fonts = [

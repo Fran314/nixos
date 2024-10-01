@@ -1,22 +1,22 @@
 { lib, config, pkgs, ... }:
 
 with lib; {
-    options.my.options.wm.xmonad.dunst = {
+    options.my.options.wm.xmonad.rofi = {
         enable = mkEnableOption "";
     };
 
-    config = mkIf config.my.options.wm.xmonad.dunst.enable {
+    config = mkIf config.my.options.wm.xmonad.rofi.enable {
         environment.systemPackages = with pkgs; [
-            dunst
+            rofi
         ];
 
         home-manager.users.baldo = { config, pkgs, ... }:
         {
             home.file = {
-                ".config/dunst/dunstrc" = {
-                    source = ./dunstrc;
+                ".config/rofi/config.rasi" = {
+                    source = ./config.rasi;
                 };
-            };
+           };
         };
     };
 }

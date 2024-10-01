@@ -8,6 +8,7 @@ with lib; {
         ./feh
         ./dunst
         ./eww
+        ./rofi
     ];
 
     options.my.options.wm.xmonad = {
@@ -25,6 +26,7 @@ with lib; {
         my.options.wm.xmonad.feh.enable = true;
         my.options.wm.xmonad.dunst.enable = true;
         my.options.wm.xmonad.eww.enable = true;
+        my.options.wm.xmonad.rofi.enable = true;
 
         environment.systemPackages = with pkgs; [
             pamixer
