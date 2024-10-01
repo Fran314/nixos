@@ -316,17 +316,18 @@ myKeyBindings =
     -- , ((0, xF86XK_MonBrightnessDown), spawn "~/.local/bin/set-brightness -")
     , ((0, xF86XK_MonBrightnessUp), spawn "my-set-brightness +")
     , ((0, xF86XK_MonBrightnessDown), spawn "my-set-brightness -")
-    , ((mod1Mask .|. controlMask, xK_l), spawn "~/.local/bin/lockscreen blur")
+    -- , ((mod1Mask .|. controlMask, xK_l), spawn "~/.local/bin/lockscreen blur")
     , ((0, xK_Print), spawn "my-screenshot")
-    , ((mod4Mask, xK_g), spawn "~/.local/bin/screencast")
-    , ((mod4Mask .|. shiftMask, xK_g), spawn "pkill -SIGINT screencast")
-    , ((mod4Mask, xK_p), spawn "xcolor | xclip -selection clipboard")
+    , ((mod4Mask, xK_g), spawn "my-screencast")
+    , ((mod4Mask .|. shiftMask, xK_g), spawn "pkill -SIGINT my-screencast")
     -- , ((mod4Mask, xK_u), spawn "~/.local/bin/reload-connection-that-occasionally-drops")
+    -- , ((mod4Mask, xK_p), spawn "xcolor | xclip -selection clipboard")
+    , ((mod4Mask, xK_p), spawn "my-color-picker hex")
     ,
         ( (mod4Mask .|. shiftMask, xK_p)
         , (spawn "eww open color-picker-menu")
             >> ( submapDefault (spawn "eww close color-picker-menu") . M.fromList $
-                    [ ((0, k), spawn ("eww close color-picker-menu; ~/.local/bin/color-picker " ++ c))
+                    [ ((0, k), spawn ("eww close color-picker-menu; my-color-picker " ++ c))
                     | (k, c) <-
                         [ (xK_a, "hex")
                         , (xK_s, "HEX")
@@ -344,7 +345,7 @@ myKeyBindings =
         ( (mod4Mask, xK_b)
         , (spawn "eww open bluetooth-menu")
             >> ( submap . M.fromList $
-                    [((0, k), spawn ("~/.local/bin/bluetooth-manager toggle " ++ c)) | (k, c) <- midrowMappings]
+                    [((0, k), spawn ("my-bluetooth-manager toggle " ++ c)) | (k, c) <- midrowMappings]
                )
             >> (spawn "eww close bluetooth-menu")
         )
@@ -352,7 +353,7 @@ myKeyBindings =
         ( (mod4Mask, xK_s)
         , (spawn "eww open monitor-menu")
             >> ( submap . M.fromList $
-                    [ ((0, k), spawn ("~/.local/bin/monitor-manager " ++ c))
+                    [ ((0, k), spawn ("my-monitor-manager " ++ c))
                     | (k, c) <-
                         [ (xK_a, "auto")
                         , (xK_s, "split")

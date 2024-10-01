@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")"
+
+DIR="$(xdg-user-dir VIDEOS)/Screencasts"
+mkdir -p "$DIR"
+
+TS=$(date +%F_%T)
+
+PIDFILE="/tmp/screenrcast.pid"
+WINIDFILE="/tmp/screencast.winid"
+
+trap resolve INT QUIT
+function resolve() {
+    echo "prova 1"
+    PID=$(cat "$PIDFILE")
+    kill "$PID"
+    echo "prova 2"
+    pkill my-shadowbox
+    echo "prova 3"
+    # wait "$PID"
+    echo "prova 4"
+    rm "$PIDFILE"
+    echo "prova 5"
+
+    ID=$(cat "$WINIDFILE")
+    echo "prova 6"
+    xprop -id "$ID" -remove _PICOM_STOP_ROUNDED
+    echo "prova 7"
+    notify-send "screencast: done"
+    echo "prova 8"
+}
+
+{
+    SLOP=$(slop -t 30 -c 1,1,1 -D -f "%x %y %w %h %i")
+} || exit 1
+
+read -r X Y W H ID <<< "$SLOP"
+WININFO=$(xwininfo -id "$ID" | grep -E "Absolute|Width|Height|Border")
+WINX=$(grep -oP "Absolute upper-left X:\s*\K.*" <<< "$WININFO")
+WINY=$(grep -oP "Absolute upper-left Y:\s*\K.*" <<< "$WININFO")
+WINW=$(grep -oP "Width:\s*\K[0-9]*" <<< "$WININFO")
+WINH=$(grep -oP "Height:\s*\K.*" <<< "$WININFO")
+WINB=$(grep -oP "Border width:\s*\K.*" <<< "$WININFO")
+if [[ $((WINW + 2*WINB == W)) && $((WINH + 2*WINB == H)) && $((WINX == X)) && $((WINY == Y)) ]]; then
+    X=$((X + WINB))
+    Y=$((Y + WINB))
+    W=$((W - 2 * WINB))
+    H=$((H - 2 * WINB))
+
+    xprop -id "$ID" -f _PICOM_STOP_ROUNDED 8c -set _PICOM_STOP_ROUNDED 1
+fi
+
+# It's ok to always try to remove the _PICOM_STOP_ROUNDED property from
+# whatever is the window targeted. At worst, nothing happens. Otherwise, it
+# does what it's meant to do
+echo "$ID" > "$WINIDFILE"
+
+my-shadowbox "$X" "$Y" "$W" "$H" &
+sleep 0.25
+ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+"$X","$Y" "$DIR/$TS.mp4" &
+echo $! > "$PIDFILE"
+
+wait

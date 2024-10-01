@@ -1,7 +1,6 @@
 * {
   all: unset;
   font-family: "Fira Sans";
-  font-weight: bold;
 }
 
 .divider {
@@ -14,6 +13,8 @@
   // border-radius: 12px;
   // border: 3px solid #388e3c;
   background-color: rgba(#282a28, 0.6);
+  // font-weight: bold;
+  font-size: 1.05rem;
 }
 
 .topbar_content {
@@ -171,4 +172,48 @@
       color: #666;
     }
   }
+}
+
+.powermenu {
+  border-radius: 12px;
+  border: 3px solid #388e3c;
+  background-color: rgba(#282a28, 0.85);
+}
+.powermenu_content {
+  padding: 20px;
+}
+.pmbutton {
+  padding: 10px;
+  border-radius: 8px;
+}
+.pmbutton:hover {
+  background-color: rgba(#ffffff, 0.1);
+}
+.pmbutton box {
+  padding: 10px;
+}
+
+.color_picker_content,
+.monitor_content {
+  border-radius: 12px;
+  border: 3px solid #388e3c;
+  padding: 20px;
+  background-color: rgba(#282a28, 0.85);
+
+  font-size: 1.3rem;
+}
+.key-label {
+  padding: 5px;
+  border: 2 solid #666;
+  border-radius: 4px;
+  background-color: rgba(#fff, 0.15);
+}
+
+.bluetooth_content {
+  border-radius: 12px;
+  border: 3px solid #0099ff;
+  padding: 20px;
+  background-color: rgba(#282a28, 0.85);
+
+  font-size: 1.3rem;
 }

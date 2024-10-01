@@ -1,6 +1,6 @@
 (defpoll   date              :initial '{}'    :interval "1s" 'scripts/get-date.sh')
 (defpoll   bluetooth         :initial '{}'    :interval "1s" 'scripts/get-bluetooth.sh')
-;; (defpoll   bluetooth_devices :initial '[]'    :interval "2s" '~/.local/bin/bluetooth-manager info_devices')
+(defpoll   bluetooth_devices :initial '[]'    :interval "2s" 'my-bluetooth-manager info_devices')
 (deflisten audio             :initial '{}'    'scripts/listen-audio.sh')
 (deflisten ws_info           :initial '{}'    'scripts/listen-workspaces.sh')
 (deflisten wifi_info         :initial '{}'    'scripts/listen-wifi.sh')
@@ -8,7 +8,48 @@
 (defpoll   notifications     :initial 'false' :interval "1s" 'dunstctl is-paused')
 
 (defvar force_expand_all false)
-;; (defvar midrow_keys "[ \"a\", \"s\", \"d\", \"f\" ]")
+(defvar midrow_keys "[ \"a\", \"s\", \"d\", \"f\" ]")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;          POWER MENU          ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget pmbutton [icon command]
+    (eventbox
+        :class "pmbutton"
+        :onclick command
+        (box
+            (image
+                :path "pm-icons/${icon}.svg"
+                :image-width 50
+                :image-height 50
+            )
+        )
+    )
+)
+(defwindow powermenu
+    :class "powermenu"
+    :monitor 0
+    :geometry (geometry :anchor "center")
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+    (box
+        :class "powermenu_content"
+        :orientation "vertical"
+        :spacing 5
+        (box
+            :spacing 5
+            (pmbutton :icon "power" :command "shutdown -h now")
+            (pmbutton :icon "reboot" :command "reboot")
+        )
+        (box
+            :spacing 5
+            (pmbutton :icon "logout" :command "pkill xmonad")
+            (pmbutton :icon "close-red" :command "${EWW_CMD} close powermenu")
+        )
+    )
+)
+
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;            TOPBAR            ;
@@ -207,28 +248,28 @@
         )
     )
 )
-;; (defwidget bluetooth_stats []
-;;     (box
-;;         :space-evenly false
-;;         :visible {bluetooth["status"] == "connected"}
-;;         :spacing 8
-;;         (box
-;;             (image
-;;                 :visible {bluetooth["icon"] != ""}
-;;                 :path 'stats-icons/bluetooth-${bluetooth["icon"]}.svg'
-;;                 :image-width 16
-;;                 :image-height 16
-;;             )
-;;             (label
-;;                 :style 'color: #0099FF;'
-;;                 :visible {bluetooth["icon"] == ""}
-;;                 :text {bluetooth["device"]}
-;;             )
-;;         )
-;;         (divider)
-;;     )
-;; )
-;;
+(defwidget bluetooth_stats []
+    (box
+        :space-evenly false
+        :visible {bluetooth["status"] == "connected"}
+        :spacing 8
+        (box
+            (image
+                :visible {bluetooth["icon"] != ""}
+                :path 'stats-icons/bluetooth-${bluetooth["icon"]}.svg'
+                :image-width 16
+                :image-height 16
+            )
+            (label
+                :style 'color: #0099FF;'
+                :visible {bluetooth["icon"] == ""}
+                :text {bluetooth["device"]}
+            )
+        )
+        (divider)
+    )
+)
+
 (defvar audio_stats_should_expand false)
 (defwidget audio_stats []
     (eventbox
@@ -366,7 +407,7 @@
         (notification_stats)
         (wifi_stats)
         (divider)
-        ;; (bluetooth_stats)
+        (bluetooth_stats)
         (audio_stats)
         (divider)
         (cpu_stats)
@@ -389,5 +430,165 @@
         (ws_bar)
         (date_bar)
         (stats_bar)
+    )
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;       COLOR PICKER MENU      ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow color-picker-menu
+    :class "color-picker-menu"
+    :monitor 0
+    :geometry (geometry
+        :x "-30"
+        ;; :y "-30"
+        :y '-67'
+        :anchor "bottom right"
+    )
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+    (box
+        :class 'color_picker_content' 
+        :orientation 'vertical'
+        :spacing 16
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label'  :text 'a')
+            (image :path 'menus-icons/color-pipette-gray.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'hex')
+        )
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label' :text 's')
+            (image :path 'menus-icons/color-pipette-gray.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'HEX')
+        )
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label' :text 'd')
+            (image :path 'menus-icons/color-pipette-gray.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'rgb (0-255)')
+        )
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label' :text 'f')
+            (image :path 'menus-icons/color-pipette-gray.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'rgb (0-1)')
+        )
+    )
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;        BLUETOOTH MENU        ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow bluetooth-menu
+    :monitor 0
+    :geometry (geometry
+        :x '-30'
+        ;; :y '-30'
+        :y '-67'
+        :anchor 'bottom right'
+    )
+    :stacking 'fg'
+    :windowtype 'dialog'
+    :wm-ignore true
+    (box
+        :class 'bluetooth_content' 
+        :orientation 'vertical'
+        :spacing 16
+        (for device in bluetooth_devices
+            (box
+                :space-evenly false
+                :spacing 12
+                (label :class 'key-label'  :text {midrow_keys[device["index"]]})
+                (image :path "bm-icons/bluetooth-${device["icon"]}-${device["status"]}.svg"
+                    :image-width 30
+                    :image-height 30
+                )
+                (label :text {device["name"]})
+            )
+        )
+    )
+)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;         MONITOR MENU         ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwindow monitor-menu
+    :class "monitor-menu"
+    :monitor 0
+    :geometry (geometry
+        :x "-30"
+        ;; :y "-30"
+        :y '-67'
+        :anchor "bottom right"
+    )
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+    (box
+        :class 'monitor_content' 
+        :orientation 'vertical'
+        :spacing 16
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label'  :text 'a')
+            (image :path 'mm-icons/laptop.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'Auto')
+        )
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label' :text 's')
+            (image :path 'mm-icons/split.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'Split')
+        )
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label' :text 'd')
+            (image :path 'mm-icons/duplicate.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'Duplicate')
+        )
+        (box
+            :space-evenly false
+            :spacing 12
+            (label :class 'key-label' :text 'f')
+            (image :path 'mm-icons/monitor.svg'
+                :image-width 30
+                :image-height 30
+            )
+            (label :text 'Follow')
+        )
     )
 )
