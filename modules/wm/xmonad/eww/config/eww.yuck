@@ -335,7 +335,7 @@
 (defwidget cpu_stats []
     (box
         :style "min-width: 80px;"
-        (label :text '${round(EWW_CPU["avg"], 0)}%   ${round(EWW_TEMPS["K10TEMP_TCTL"], 0)}°C')
+        (label :text '${round(EWW_CPU["avg"], 0)}%  ${round(EWW_TEMPS["K10TEMP_TCTL"], 0)}°C')
         ;; (overlay
         ;;     :class "cpu-overlay"
         ;;     :height 20
