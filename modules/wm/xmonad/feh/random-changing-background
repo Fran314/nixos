@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+MIN=10
+MAX=15
+BG_FOLDER="$HOME/.local/share/backgrounds/ghibli/high-res"
+
+# Start randomly changing background
+while true
+do
+    BG=$(find "$BG_FOLDER" | shuf -n 1)
+    feh --no-fehbg --bg-scale "$BG"
+
+    TIME=$(shuf -i $((MIN*60))-$((MAX*60)) -n1)
+    sleep "$TIME"
+done

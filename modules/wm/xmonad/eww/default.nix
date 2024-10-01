@@ -17,9 +17,15 @@ in with lib; {
     config = mkIf config.my.options.wm.xmonad.eww.enable {
         environment.systemPackages = with pkgs; [
             eww
-            fira
+            # fira
             wmctrl
             eww-hello
+
+            (pkgs.nerdfonts.override {
+                fonts = [
+                    "Recursive"
+                ];
+            })
         ];
 
         home-manager.users.baldo = { config, pkgs, ... }:

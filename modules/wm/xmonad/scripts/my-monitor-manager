@@ -20,5 +20,4 @@ then
     xrandr --output HDMI-1 --auto
 fi
 
-# pkill background.sh
-# ~/background.sh &
+systemctl --user restart random-changing-background.service

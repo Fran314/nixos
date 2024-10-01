@@ -5,6 +5,7 @@ with lib; {
         ./scripts
 
         ./picom
+        ./feh
         ./dunst
         ./eww
     ];
@@ -21,15 +22,12 @@ with lib; {
         };
 
         my.options.wm.xmonad.picom.enable = true;
+        my.options.wm.xmonad.feh.enable = true;
         my.options.wm.xmonad.dunst.enable = true;
         my.options.wm.xmonad.eww.enable = true;
 
-        services.xserver.displayManager.sessionCommands = ''
-            ~/.fehbg &
-        '';
         environment.systemPackages = with pkgs; [
             pamixer
-            feh
         ];
     };
 }
