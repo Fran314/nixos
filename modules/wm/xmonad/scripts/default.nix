@@ -79,6 +79,13 @@ let
         ];
         text = builtins.readFile ./my-bluetooth-manager;
     };
+    my-lockscreen = pkgs.writeShellApplication {
+        name = "my-lockscreen";
+        runtimeInputs = with pkgs; [
+            lightdm     # dm-tool
+        ];
+        text = ''dm-tool lock'';
+    };
 in lib.mkIf config.my.options.wm.xmonad.enable {
     environment.systemPackages = [
         my-duplicate-alacritty
@@ -89,6 +96,7 @@ in lib.mkIf config.my.options.wm.xmonad.enable {
         my-monitor-manager
         my-color-picker
         my-bluetooth-manager
+        my-lockscreen
     ];
 
     home-manager.users.baldo = { config, pkgs, ... }:
