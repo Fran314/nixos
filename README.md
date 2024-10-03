@@ -60,10 +60,10 @@ your specific hardware.
 > settings and that you copy them into the `configuration.nix` of the profile
 > you cloned. In particular, pay attention to the following settings:
 >
-> -   `boot.loader.*` for the boot loader location and type
-> -   `networking.hostName` for the hostname of the machine (I guess this isn't
->     strictly necessary but it also isn't set anywhere else and you might want
->     to customise it)
+> - `boot.loader.*` for the boot loader location and type
+> - `networking.hostName` for the hostname of the machine (I guess this isn't
+>   strictly necessary but it also isn't set anywhere else and you might want
+>   to customise it)
 
 Finally, edit the `flake.nix` file in the repo to add your new profile by
 cloning the existing profile and changing the paths.
@@ -71,7 +71,7 @@ cloning the existing profile and changing the paths.
 Then, update the system with
 
 ```bash
-sudo nix-build switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
+sudo nixos-rebuild switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
 ```
 
 ## Post-installation
@@ -82,24 +82,24 @@ you'll ever have to do.
 
 These operation might be necessary:
 
--   copy your secrets to this machine (see `restore-secrets.sh`)
--   run `git remote set-url origin git@github.com:Fran314/nixos.git`
+- copy your secrets to this machine (see `restore-secrets.sh`)
+- run `git remote set-url origin git@github.com:Fran314/nixos.git`
 
 Additionally if you're running the **latias** profile (or a profile that uses
 `user/full.nix`) you might want to
 
--   remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
--   download the weekly build appimage for freecad and save it as
-    `~/applications/FreeCAD.AppImage`
--   add the nvim-memo window to the floating exceptions for pop-shell
+- remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
+- download the weekly build appimage for freecad and save it as
+  `~/applications/FreeCAD.AppImage`
+- add the nvim-memo window to the floating exceptions for pop-shell
 
 ## Profiles
 
 This configuration is structured around three profiles:
 
--   **latias**: this is the profile for my personal computer. It's supposed to
-    be a full-featured environment intended for multiple possible uses, from
-    simple daily browsing, to coding, 3D modeling and more,
--   ~~**umbreon**: this is the profile for my homelab. It's supposed to be a
-    CLI-only but comfortable environment, intended to be used for managing
-    self-hosted applications via ssh.~~
+- **latias**: this is the profile for my personal computer. It's supposed to
+  be a full-featured environment intended for multiple possible uses, from
+  simple daily browsing, to coding, 3D modeling and more,
+- ~~**umbreon**: this is the profile for my homelab. It's supposed to be a
+  CLI-only but comfortable environment, intended to be used for managing
+  self-hosted applications via ssh.~~
