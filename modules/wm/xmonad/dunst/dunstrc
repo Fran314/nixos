@@ -460,14 +460,16 @@
 #
 # vim: ft=cfg
 #
-[spotify_as_minecraft_advancement]
-    appname = "Spotify"
-    background = "#292929"
-    foreground = "#ffffff"
-    frame_color = "#5b5b5b"
-    format = <tt><span font_family="Minecraft" line_height="1.5"><span foreground="yellow" text_transform="capitalize"><b>%s!     </b></span>\n<span text_transform="capitalize">%b     </span></span></tt>
-    min_icon_size = 40
-    max_icon_size = 40
+
+
+# [spotify_as_minecraft_advancement]
+#     appname = "Spotify"
+#     background = "#292929"
+#     foreground = "#ffffff"
+#     frame_color = "#5b5b5b"
+#     format = <tt><span font_family="Minecraft" line_height="1.5"><span foreground="yellow" text_transform="capitalize"><b>%s!     </b></span>\n<span text_transform="capitalize">%b     </span></span></tt>
+#     min_icon_size = 40
+#     max_icon_size = 40
 
 [telegram]
     appname = "Telegram Desktop"
