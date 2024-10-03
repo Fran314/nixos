@@ -6,15 +6,16 @@
     # weekly appimage build available at https://github.com/FreeCAD/FreeCAD-Bundle/releases/tag/weekly-builds
     # This is extremely annoying but I don't really know any workaround as of now
 
-    environment.systemPackages = with pkgs; [
-        appimage-run
-    ];
-    programs.appimage.binfmt = true;
+    # environment.systemPackages = with pkgs; [
+    #     appimage-run
+    # ];
+    # programs.appimage.binfmt = true;
 
     home-manager.users.baldo = { config, pkgs, pkgs-unstable, ... }:
     {
         home.packages = with pkgs-unstable; [
             prusa-slicer
+            freecad
         ];
 
         # I would very much like to add freecad to home.packages, but at the time
@@ -29,13 +30,13 @@
         # https://github.com/FreeCAD/FreeCAD-Bundle/releases/tag/weekly-builds
         # and save it as ~/applications/FreeCAD.AppImage
 
-        xdg.desktopEntries = {
-            freecad = {
-                name = "FreeCAD";
-                exec = "appimage-run ${config.home.homeDirectory}/applications/FreeCAD.AppImage";
-                type = "Application";
-                categories = [ "Development" ];
-            };
-        };
+        # xdg.desktopEntries = {
+        #     freecad = {
+        #         name = "FreeCAD";
+        #         exec = "appimage-run ${config.home.homeDirectory}/applications/FreeCAD.AppImage";
+        #         type = "Application";
+        #         categories = [ "Development" ];
+        #     };
+        # };
     };
 }
