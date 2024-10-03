@@ -420,7 +420,7 @@
     :monitor 0
     ;; :geometry (geometry :x 0 :y 10 :width "1900" :height "30px" :anchor "top center")
     :geometry (geometry :x 0 :y 0 :width "1920" :height "32px" :anchor "bottom center")
-    :reserve (struts :distance "42px" :side "bottom")
+    :reserve (struts :distance "40px" :side "bottom")
     :stacking "bg"
     :windowtype "dock"
     ;; :style "border: 2px solid #388e3c"
@@ -443,7 +443,7 @@
     :geometry (geometry
         :x "-30"
         ;; :y "-30"
-        :y '-67'
+        :y '-65'
         :anchor "bottom right"
     )
     :stacking "fg"
@@ -505,7 +505,7 @@
     :geometry (geometry
         :x '-30'
         ;; :y '-30'
-        :y '-67'
+        :y '-65'
         :anchor 'bottom right'
     )
     :stacking 'fg'
@@ -540,7 +540,7 @@
     :geometry (geometry
         :x "-30"
         ;; :y "-30"
-        :y '-67'
+        :y '-65'
         :anchor "bottom right"
     )
     :stacking "fg"
