@@ -167,7 +167,8 @@ updateStickyWindow win = do
     p <- return (min_sticky_size + (s % sticky_size_steps) * (s % sticky_size_steps) * (max_sticky_size - min_sticky_size))
     x <- if isLeft then return (28 / 1920) else return (1 - p - 28 / 1920)
     -- y <- if isTop then return (28 / 1080) else return (1 - p - 28 / 1080)
-    y <- if isTop then return (96 / 1080) else return (1 - p - 28 / 1080) -- Leave margin for firefox tabs
+    -- y <- if isTop then return (96 / 1080) else return (1 - p - 28 / 1080) -- Leave margin for firefox tabs
+    y <- if isTop then return (28 / 1080) else return (1 - p - 64 / 1080)   -- Topbar at bottom (bottombar I guess)
     windows $ W.float win (W.RationalRect x y p p)
 
 hasTagHook :: String -> Query Bool

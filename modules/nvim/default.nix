@@ -35,7 +35,7 @@
                 nil                     # Nix language server
                 # pyright
                 ruff
-                haskell-language-server
+                # haskell-language-server
                 vscode-langservers-extracted    # For cssls
                 texlab
                 ghc

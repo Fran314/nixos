@@ -31,6 +31,8 @@ with lib; {
         environment.systemPackages = with pkgs; [
             pamixer
             libnotify
+
+            gnome-photos
         ];
     };
 }

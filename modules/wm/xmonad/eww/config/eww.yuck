@@ -252,7 +252,7 @@
     (box
         :space-evenly false
         :visible {bluetooth["status"] == "connected"}
-        :spacing 8
+        :spacing 15
         (box
             (image
                 :visible {bluetooth["icon"] != ""}
@@ -334,7 +334,7 @@
 
 (defwidget cpu_stats []
     (box
-        :style "min-width: 80px;"
+        :style "min-width: 85px;"
         (label :text '${round(EWW_CPU["avg"], 0)}%  ${round(EWW_TEMPS["K10TEMP_TCTL"], 0)}°C')
         ;; (overlay
         ;;     :class "cpu-overlay"

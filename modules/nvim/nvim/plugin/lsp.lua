@@ -61,7 +61,7 @@ local servers = {
 	-- pyright = {}, -- Python lsp
 	ruff = {},
 
-	hls = {},
+	-- hls = {},
 
 	lua_ls = {
 		Lua = {
