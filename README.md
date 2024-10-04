@@ -1,4 +1,4 @@
-![Showcase of the desktop environment of latias](showcase.png)
+![Showcase of the desktop environment of latias](showcase/img.png)
 
 # My NixOS configuration
 
