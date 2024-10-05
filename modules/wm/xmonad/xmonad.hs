@@ -95,6 +95,17 @@ sticky_size_min_step :: Integer
 sticky_size_min_step = 0
 sticky_size_default_step :: Integer
 sticky_size_default_step = 5
+
+whenStickyWithFallback :: (Window -> X (), X ()) -> Window -> X ()
+whenStickyWithFallback (f, g) win = do
+    isSticky <- hasTag "stickywindow" win
+    if isSticky
+        then do
+            f win
+            updateStickyWindow win
+        else do
+            g
+
 whenSticky :: (Window -> X ()) -> Window -> X ()
 whenSticky f win = do
     isSticky <- hasTag "stickywindow" win
@@ -103,6 +114,7 @@ whenSticky f win = do
             f win
             updateStickyWindow win
         else pure ()
+
 
 toggleSticky :: Window -> X ()
 toggleSticky w = do
@@ -251,40 +263,25 @@ smartKill = withFocused f
 --         (Tall 1 (3/100) (2/3) ||| (Grid))
 --     )
 
-myLayout =
-    toggleLayouts
-        ( ( noBorders $
-                Full
-          )
-            ||| ( noBorders $
-                    ( IfMax
-                        2
-                        (Mirror (Grid))
-                        (Grid)
-                    )
-                )
-        )
-        ( spacingWithEdge 6 $
-                avoidStruts $
-                    ( IfMax
-                        2
-                        (Mirror (Grid))
-                        (Grid)
-                    )
-                        ||| (ResizableTall 1 (3 / 100) (2 / 3) [])
-        )
+myVerticalGrid = IfMax 2 (Mirror (Grid)) (Grid)
+myResizableTall = ResizableTall 1 (3 / 100) (2 / 3) []
+fullscreenLayout = noBorders $ (Full ||| myVerticalGrid)
+defaultLayout = lessBorders OnlyLayoutFloatBelow $ spacingWithEdge 6 $ avoidStruts $ (myVerticalGrid ||| myResizableTall)
+myLayout = toggleLayouts fullscreenLayout defaultLayout
 
+centeredRect =       W.RationalRect (7 / 24) (1 / 6) (5 / 12) (2 / 3)
+centeredRectBigger = W.RationalRect (1 / 4)  (1 / 6) (1 / 2)  (2 / 3)
 myManageHook =
     composeAll
         [ composeOne
-            [ className =? "TelegramDesktop" <&&> title /=? "Media viewer" -?> doRectFloat (W.RationalRect (7 / 24) (1 / 6) (5 / 12) (2 / 3))
+            [ className =? "TelegramDesktop" <&&> title /=? "Media viewer" -?> doRectFloat centeredRect
             , className =? "TelegramDesktop" <&&> title =? "Media viewer" -?> doRectFloat (W.RationalRect 0 0 1 1)
             , className =? "Blueberry.py" -?> doCenterFloat
             , className =? "GNU Octave" <&&> title ^? "Figure" -?> doCenterFloat
-            , className =? "Pavucontrol" -?> doRectFloat (W.RationalRect (7 / 24) (1 / 6) (5 / 12) (2 / 3))
-            , className =? "nvim-memo" -?> doRectFloat (W.RationalRect (7 / 24) (1 / 6) (5 / 12) (2 / 3))
-            , className =? "Spotify" -?> doRectFloat (W.RationalRect (1 / 4) (1 / 6) (1 / 2) (2 / 3)) -- Spotify needs to be a bit wider to render nicely
-            , hasTagHook "stickywindow" -?> doRectFloat (W.RationalRect (7 / 24) (1 / 6) (5 / 12) (2 / 3))
+            , className =? "Pavucontrol" -?> doRectFloat centeredRect
+            , className =? "nvim-memo" -?> doRectFloat centeredRect
+            , className =? "Spotify" -?> doRectFloat centeredRectBigger -- Spotify needs to be a bit wider to render nicely
+            , hasTagHook "stickywindow" -?> doRectFloat centeredRect
             , isDialog -?> doCenterFloat
             , fmap not willFloat -?> insertPosition End Newer
             ]
@@ -363,11 +360,10 @@ myKeyBindings =
                )
             >> (spawn "eww close monitor-menu")
         )
-    -- , ((mod4Mask, xK_period), spawn "playerctl play-pause")
-    -- , ((mod4Mask, xK_comma), spawn "playerctl previous")
-    -- , ((mod4Mask, xK_minus), spawn "playerctl next")
+
     , ((mod4Mask, xK_backslash), windows $ W.greedyView "dashboard")
     , ((mod4Mask, xK_0), windows $ W.greedyView "scratchpad")
+
     , ((mod4Mask, xK_o), withFocused toggleSticky)
     , ((mod4Mask .|. shiftMask, xK_o), withTaggedGlobalP "stickywindow" (W.shiftWin "scratchpad"))
     , ((mod4Mask, xK_Left), withFocused $ whenSticky $ moveSticky "stickyshifthoriz")
@@ -375,7 +371,12 @@ myKeyBindings =
     , ((mod4Mask, xK_Up), withFocused $ whenSticky $ moveSticky "stickyshiftvert")
     , ((mod4Mask, xK_Down), withFocused $ whenSticky $ moveSticky "stickyshiftvert")
     , ((mod4Mask, xK_plus), withFocused $ whenSticky $ changeStickySize (1))
-    , ((mod4Mask, xK_minus), withFocused $ whenSticky $ changeStickySize (-1))
+    -- combine mod+minus into changeStickySize AND playerctl next as they collide
+    -- , ((mod4Mask, xK_minus), withFocused $ whenSticky $ changeStickySize (-1))
+    , ((mod4Mask, xK_minus), withFocused $ whenStickyWithFallback $ (changeStickySize (-1), spawn "playerctl next"))
+    -- , ((mod4Mask, xK_minus), spawn "playerctl next")
+    , ((mod4Mask, xK_period), spawn "playerctl play-pause")
+    , ((mod4Mask, xK_comma), spawn "playerctl previous")
     ]
         ++ [ ((mod4Mask, k), moveToWorkspace i)
            | (i, k) <- zip (map show [1 .. 9]) [xK_1 .. xK_9]
