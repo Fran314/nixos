@@ -32,6 +32,9 @@ with lib; {
             pamixer
             libnotify
             playerctl
+            blueberry
+
+            xcolor
 
             gnome-photos
         ];

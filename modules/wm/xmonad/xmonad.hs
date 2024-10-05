@@ -288,6 +288,54 @@ myManageHook =
         , manageDocks
         ]
 
+-- note: we can't just open the menu before the submap and close
+-- the menu after the submap (like in the bluetooth menu example)
+-- because the color we want to pick might be under the menu, so
+-- it must be closed before the color-picker, but (clearly) after
+-- the submap key has been pressed
+-- myColorPicker = (spawn "eww open color-picker-menu")
+--     >> ( submapDefault (spawn "eww close color-picker-menu") . M.fromList $
+--             [ ((0, k), spawn ("eww close color-picker-menu; my-color-picker " ++ c))
+--             | (k, c) <-
+--                 [ (xK_a, "hex")
+--                 , (xK_s, "HEX")
+--                 , (xK_d, "rgb")
+--                 , (xK_f, "frgb")
+--                 ]
+--             ]
+--        )
+
+myColorPicker = (spawn "eww open color-picker-menu")
+    >> ( submap . M.fromList $
+            [ ((0, k), spawn ("xcolor -s -f " ++ c))
+            | (k, c) <-
+                [ (xK_a, "hex")
+                , (xK_s, "HEX")
+                , (xK_d, "rgb")
+                ]
+            ]
+       )
+    >> (spawn "eww close color-picker-menu")
+
+myBluetoothManager = (spawn "eww open bluetooth-menu")
+    >> ( submap . M.fromList $
+            [((0, k), spawn ("my-bluetooth-manager toggle " ++ c)) | (k, c) <- midrowMappings]
+       )
+    >> (spawn "eww close bluetooth-menu")
+
+myMonitorManager = (spawn "eww open monitor-menu")
+    >> ( submap . M.fromList $
+            [ ((0, k), spawn ("my-monitor-manager " ++ c))
+            | (k, c) <-
+                [ (xK_a, "auto")
+                , (xK_s, "split")
+                , (xK_d, "duplicate")
+                , (xK_f, "follow")
+                ]
+            ]
+       )
+    >> (spawn "eww close monitor-menu")
+
 myKeyBindings =
     [ ((mod4Mask .|. shiftMask, xK_c), smartKill)
     , ((mod4Mask .|. shiftMask, xK_e), spawn "eww open powermenu")
@@ -317,49 +365,11 @@ myKeyBindings =
     , ((mod4Mask, xK_g), spawn "my-screencast")
     , ((mod4Mask .|. shiftMask, xK_g), spawn "pkill -SIGINT my-screencast")
     -- , ((mod4Mask, xK_u), spawn "~/.local/bin/reload-connection-that-occasionally-drops")
-    -- , ((mod4Mask, xK_p), spawn "xcolor | xclip -selection clipboard")
-    , ((mod4Mask, xK_p), spawn "my-color-picker hex")
-    ,
-        ( (mod4Mask .|. shiftMask, xK_p)
-        , (spawn "eww open color-picker-menu")
-            >> ( submapDefault (spawn "eww close color-picker-menu") . M.fromList $
-                    [ ((0, k), spawn ("eww close color-picker-menu; my-color-picker " ++ c))
-                    | (k, c) <-
-                        [ (xK_a, "hex")
-                        , (xK_s, "HEX")
-                        , (xK_d, "rgb")
-                        , (xK_f, "frgb")
-                        ]
-                    ]
-               )
-        ) -- note: we can't just open the menu before the submap and close
-        -- the menu after the submap (like in the bluetooth menu example)
-        -- because the color we want to pick might be under the menu, so
-        -- it must be closed before the color-picker, but (clearly) after
-        -- the submap key has been pressed
-    ,
-        ( (mod4Mask, xK_b)
-        , (spawn "eww open bluetooth-menu")
-            >> ( submap . M.fromList $
-                    [((0, k), spawn ("my-bluetooth-manager toggle " ++ c)) | (k, c) <- midrowMappings]
-               )
-            >> (spawn "eww close bluetooth-menu")
-        )
-    ,
-        ( (mod4Mask, xK_s)
-        , (spawn "eww open monitor-menu")
-            >> ( submap . M.fromList $
-                    [ ((0, k), spawn ("my-monitor-manager " ++ c))
-                    | (k, c) <-
-                        [ (xK_a, "auto")
-                        , (xK_s, "split")
-                        , (xK_d, "duplicate")
-                        , (xK_f, "follow")
-                        ]
-                    ]
-               )
-            >> (spawn "eww close monitor-menu")
-        )
+    -- , ((mod4Mask, xK_p), spawn "my-color-picker hex")
+    , ((mod4Mask, xK_p), spawn "xcolor -s")
+    , ((mod4Mask .|. shiftMask, xK_p), myColorPicker)
+    , ((mod4Mask, xK_b), myBluetoothManager)
+    , ((mod4Mask, xK_s), myMonitorManager)
 
     , ((mod4Mask, xK_backslash), windows $ W.greedyView "dashboard")
     , ((mod4Mask, xK_0), windows $ W.greedyView "scratchpad")
