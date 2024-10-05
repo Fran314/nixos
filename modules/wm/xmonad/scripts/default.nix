@@ -91,7 +91,7 @@ in lib.mkIf config.my.options.wm.xmonad.enable {
         my-duplicate-alacritty
         my-set-brightness
         my-screenshot
-        my-shadowbox
+        # my-shadowbox
         my-screencast
         my-monitor-manager
         my-color-picker

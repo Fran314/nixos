@@ -85,13 +85,11 @@ These operation might be necessary:
 - copy your secrets to this machine (see `restore-secrets.sh`)
 - run `git remote set-url origin git@github.com:Fran314/nixos.git`
 
-Additionally if you're running the **latias** profile (or a profile that uses
-`user/full.nix`) you might want to
+Additionally if you're running the **latias** profile you might want to
 
 - remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
-- download the weekly build appimage for freecad and save it as
-  `~/applications/FreeCAD.AppImage`
-- add the nvim-memo window to the floating exceptions for pop-shell
+- (if you're using GNOME) add the nvim-memo window to the floating exceptions for
+  pop-shell
 
 ## Profiles
 
