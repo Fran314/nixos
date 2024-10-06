@@ -13,9 +13,9 @@
 
     home-manager.users.baldo = { config, pkgs, pkgs-unstable, ... }:
     {
-        home.packages = with pkgs-unstable; [
-            prusa-slicer
-            freecad
+        home.packages = [
+            pkgs.prusa-slicer
+            pkgs-unstable.freecad
         ];
 
         # I would very much like to add freecad to home.packages, but at the time
