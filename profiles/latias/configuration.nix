@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 {
     imports = [
@@ -13,8 +13,14 @@
 
     networking.hostName = "latias";
 
-    # my.options.wm.gnome.enable = true;
-    my.options.wm.xmonad.enable = true;
+    # my.options.wm.gnome.enable = lib.mkDefault true;
+    my.options.wm.xmonad.enable = lib.mkDefault true;
+    specialisation = {
+        gnome.configuration = {
+            my.options.wm.gnome.enable = true;
+            my.options.wm.xmonad.enable = false;
+        };
+    };
     my.options.xdg.symlink-data = true;
 
     # Enable CUPS to print documents.
