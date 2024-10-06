@@ -13,12 +13,10 @@
 
     networking.hostName = "latias";
 
-    # my.options.wm.gnome.enable = lib.mkDefault true;
-    my.options.wm.xmonad.enable = lib.mkDefault true;
+    my.options.wm.use = lib.mkDefault "xmonad";
     specialisation = {
         gnome.configuration = {
-            my.options.wm.gnome.enable = true;
-            my.options.wm.xmonad.enable = false;
+            my.options.wm.use = "gnome";
         };
     };
     my.options.xdg.symlink-data = true;

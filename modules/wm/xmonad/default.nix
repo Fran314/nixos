@@ -21,6 +21,7 @@ with lib; {
             enableContribAndExtras = true;
             config = builtins.readFile ./xmonad.hs;
         };
+        services.displayManager.defaultSession = "none+xmonad";
 
         my.options.wm.xmonad.picom.enable = true;
         my.options.wm.xmonad.feh.enable = true;

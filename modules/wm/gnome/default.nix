@@ -7,6 +7,7 @@ with lib; {
 
     config = mkIf config.my.options.wm.gnome.enable {
         services.xserver.desktopManager.gnome.enable = true;
+        services.displayManager.defaultSession = "gnome-xorg";
 
         #--- MINIMAL GNOME ---#
         # services.gnome.core-utilities.enable = false; # Remove additional packages from GNOME
