@@ -13,6 +13,8 @@
 
     networking.hostName = "latias";
 
+    networking.firewall.allowedTCPPorts = [ 8080 ];
+
     my.options.wm.use = lib.mkDefault "xmonad";
     specialisation = {
         gnome.configuration = {
@@ -43,6 +45,7 @@
     environment.systemPackages = with pkgs; [
         # for pactl
         pulseaudioFull
+        pavucontrol
 
         ### Daily usage
         firefox
@@ -54,6 +57,9 @@
         vlc
         inkscape
         krita
+        tldr
+        aseprite
+        geogebra6
 
         ### Developement
         cargo

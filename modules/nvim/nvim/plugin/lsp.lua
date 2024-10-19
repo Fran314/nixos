@@ -79,6 +79,9 @@ local servers = {
 
 	cssls = {}, -- CSS lsp
 
+	-- volar = {},
+	-- vls = {},
+
 	texlab = {}, -- LaTeX lsp
 
 	-- tsserver = {}, -- Typescript lsp

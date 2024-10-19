@@ -39,6 +39,7 @@
                 vscode-langservers-extracted    # For cssls
                 texlab
                 ghc
+                # nodePackages.vls
 
                 #-- Formatters --#
                 nodePackages.prettier
@@ -50,6 +51,7 @@
                 # wl-clipboard
             ]) ++ (with pkgs-unstable; [
                 astro-language-server
+                # vue-language-server
             ]);
 
             plugins = with pkgs.vimPlugins; [

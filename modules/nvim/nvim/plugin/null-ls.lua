@@ -5,9 +5,10 @@ null_ls.setup({
 		-- General purpose
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = {},
-			env = {
-				PRETTIER_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linter-config/.prettierrc.json"),
-			},
+			-- args = { "--config", "~/.config/nvim/utils/linter-config/.prettierrc.json" },
+			-- env = {
+			-- 	PRETTIER_DEFAULT_CONFIG = vim.fn.expand("~/.config/nvim/utils/linter-config/.prettierrc.json"),
+			-- },
 		}),
 		-- null_ls.builtins.formatting.prettier,
 
