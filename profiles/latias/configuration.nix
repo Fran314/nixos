@@ -15,6 +15,8 @@
 
     networking.firewall.allowedTCPPorts = [ 8080 ];
 
+    networking.nameservers = [ "1.1.1.1" ];
+
     my.options.wm.use = lib.mkDefault "xmonad";
     specialisation = {
         gnome.configuration = {
@@ -57,9 +59,12 @@
         vlc
         inkscape
         krita
-        tldr
         aseprite
         geogebra6
+
+        ### CLI utils
+        tldr
+        imagemagick
 
         ### Developement
         cargo
