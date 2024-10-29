@@ -53,6 +53,7 @@
         firefox
         gnome.nautilus 
         telegram-desktop
+        gnome.eog               # image viewer
 
         ### Occasional usage
         spotify

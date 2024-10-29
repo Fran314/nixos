@@ -20,6 +20,20 @@ with lib; {
                 xdg-user-dirs
             ];
 
+            xdg.mimeApps = {
+                enable = true;
+                # associations.added = {
+                #     "application/pdf" = ["firefox.desktop"];
+                # };
+                defaultApplications = {
+                    "application/pdf" = ["firefox.desktop"];
+                    "image/svg+xml" = ["firefox.desktop"];
+                    "image/jpeg" = ["org.gnome.eog.desktop"];
+                    "image/png" = ["org.gnome.eog.desktop"];
+                    "image/webp" = ["org.gnome.eog.desktop"];
+                };
+            };
+
             xdg.userDirs = {
                 enable = true;
                 desktop = "${config.home.homeDirectory}/desktop";
