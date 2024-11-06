@@ -86,6 +86,13 @@ let
         ];
         text = ''dm-tool lock'';
     };
+    my-reconnect-wifi = pkgs.writeShellApplication {
+        name = "my-reconnect-wifi";
+        runtimeInputs = with pkgs; [
+            networkmanager
+        ];
+        text = ''nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^wlp4s0:yes' | cut -d: -f3)"'';
+    };
 in lib.mkIf config.my.options.wm.xmonad.enable {
     environment.systemPackages = [
         my-duplicate-alacritty
@@ -97,6 +104,7 @@ in lib.mkIf config.my.options.wm.xmonad.enable {
         my-color-picker
         my-bluetooth-manager
         my-lockscreen
+        my-reconnect-wifi
     ];
 
     home-manager.users.baldo = { config, pkgs, ... }:

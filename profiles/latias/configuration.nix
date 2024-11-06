@@ -44,6 +44,14 @@
         #media-session.enable = true;
     };
 
+    # Automount usb and SD card
+    services.devmon.enable = true;
+    services.gvfs.enable = true;
+    services.udisks2.enable = true;
+
+    # When dragging after tapping, it takes a while for it to "un-tap" (ie exit from dragging). This line disables this behaviour
+    services.libinput.touchpad.tappingDragLock = false;
+
     environment.systemPackages = with pkgs; [
         # for pactl
         pulseaudioFull

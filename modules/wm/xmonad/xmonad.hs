@@ -364,6 +364,7 @@ myKeyBindings =
     , ((0, xK_Print), spawn "my-screenshot")
     , ((mod4Mask, xK_g), spawn "my-screencast")
     , ((mod4Mask .|. shiftMask, xK_g), spawn "pkill -SIGINT my-screencast")
+    , ((mod4Mask, xK_u), spawn "my-reconnect-wifi")
     -- , ((mod4Mask, xK_u), spawn "~/.local/bin/reload-connection-that-occasionally-drops")
     -- , ((mod4Mask, xK_p), spawn "my-color-picker hex")
     , ((mod4Mask, xK_p), spawn "xcolor -s")
