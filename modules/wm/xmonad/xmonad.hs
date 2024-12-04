@@ -200,6 +200,13 @@ persistentProcesses =
                 )
             )
         ,
+            ( "calcolatrice"
+            ,
+                ( \w -> runQuery (className =? "python-calcolatrice") w
+                , spawn "alacritty --class 'python-calcolatrice' -e python"
+                )
+            )
+        ,
             ( "telegram"
             ,
                 ( \w -> runQuery (className =? "TelegramDesktop" <&&> title /=? "Media viewer" <&&> title /=? "Choose Files") w
@@ -210,7 +217,7 @@ persistentProcesses =
             ( "spotify"
             ,
                 ( \w -> runQuery (className =? "Spotify") w
-                , spawn "spotify-launcher"
+                , spawn "spotify"
                 )
             )
         ]
@@ -280,6 +287,7 @@ myManageHook =
             , className =? "GNU Octave" <&&> title ^? "Figure" -?> doCenterFloat
             , className =? "Pavucontrol" -?> doRectFloat centeredRect
             , className =? "nvim-memo" -?> doRectFloat centeredRect
+            , className =? "python-calcolatrice" -?> doRectFloat centeredRect
             , className =? "Spotify" -?> doRectFloat centeredRectBigger -- Spotify needs to be a bit wider to render nicely
             , hasTagHook "stickywindow" -?> doRectFloat centeredRect
             , isDialog -?> doCenterFloat
@@ -348,6 +356,7 @@ myKeyBindings =
     , ((mod4Mask, xK_z), spawn "alacritty")
     , ((mod4Mask, xK_t), spawnPersistent "telegram")
     , ((mod4Mask, xK_y), spawnPersistent "spotify")
+    , ((mod4Mask, xK_c), spawnPersistent "calcolatrice")
     , ((mod4Mask, xK_d), spawn "my-duplicate-alacritty")
     -- , ((mod4Mask, xK_v), spawn "~/.local/bin/vpn-toggle")
     -- , ((mod4Mask .|. shiftMask, xK_f), spawn "~/.local/bin/picom-manager toggle")

@@ -78,7 +78,9 @@
         ### Developement
         cargo
         clippy
-        python3Full
+        (python3.withPackages (ps: with ps; [
+            matplotlib
+        ]))
         nodejs
         godot_4
 
