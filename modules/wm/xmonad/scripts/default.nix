@@ -93,6 +93,7 @@ let
         ];
         text = ''nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^wlp4s0:yes' | cut -d: -f3)"'';
     };
+    keep-images = pkgs.callPackage ./keep-images {};
 in lib.mkIf config.my.options.wm.xmonad.enable {
     environment.systemPackages = [
         my-duplicate-alacritty
@@ -105,6 +106,7 @@ in lib.mkIf config.my.options.wm.xmonad.enable {
         my-bluetooth-manager
         my-lockscreen
         my-reconnect-wifi
+        keep-images
     ];
 
     home-manager.users.baldo = { config, pkgs, ... }:

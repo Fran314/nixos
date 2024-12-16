@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+from os import listdir, makedirs
+from os.path import isfile, exists
+
+import json
+
+import subprocess
+
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk, GdkPixbuf
+
+from gi.repository import Gdk
+
+class Image(Gtk.Window):
+    def __init__(self, images, state):
+        Gtk.Window.__init__(self)
+        self.set_title("Image")
+        self.connect("destroy", self.on_quit)
+        self.connect("key-press-event",self.on_key_press)
+
+        grid = Gtk.Grid()
+        self.add(grid)
+
+        self.images = images
+        self.state = state
+
+        self.image = Gtk.Image()
+        grid.add(self.image)
+        self.set_image()
+
+    def set_image(self):
+        curr_image = self.images[self.state["current"]]
+        print(f'{curr_image}\t[ {self.state["current"]} / {len(self.images)} ]')
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(filename=curr_image, width=900, height=600, preserve_aspect_ratio=True)
+        self.image.set_from_pixbuf(pixbuf)
+
+    def on_key_press(self, widget, event):
+        key = Gdk.keyval_name(event.keyval)
+        if key == 'p' or key == 'k' or key == 'd':
+            if key == 'p':
+                self.state["current"] -= 1
+                if self.state["current"] < 0:
+                    self.state["current"] = 0
+            else:
+                if key == 'k':
+                    self.state["keepers"][self.state["current"]] = True
+                if key == 'd':
+                    self.state["keepers"][self.state["current"]] = False
+                self.state["current"] += 1
+
+            with open('.keep-images.json', 'w') as outfile:
+                json.dump(self.state, outfile)
+
+            if self.state["current"] == len(self.images):
+                self.destroy()
+            else:
+                self.set_image()
+
+    def on_quit(self, widget):
+        val = input('Copy keepers [Y/n]? ')
+        if val != 'n':
+            ps_args = ['cp', '-p', '--']
+            for i in range(len(self.state["keepers"])):
+                if self.state["keepers"][i]:
+                    ps_args += [self.images[i]]
+            ps_args += ['./keepers/.']
+
+            subprocess.run(ps_args)
+            
+        Gtk.main_quit()
+
+if not exists('./keepers'):
+    makedirs('./keepers')
+
+images = [f for f in listdir('.') if isfile(f) and (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.JPEG') or f.endswith('.jpeg') or f.endswith('.PNG') or f.endswith('.png'))]
+images.sort()
+
+state = {
+    'current': 0,
+    'keepers': [False for _ in range(len(images))]
+}
+
+if exists('.keep-images.json'):
+    with open('.keep-images.json') as state_file:
+        state = json.load(state_file)
+
+
+window = Image(images, state)
+window.show_all()
+
+Gtk.main()
