@@ -74,7 +74,7 @@ class Image(Gtk.Window):
 if not exists('./keepers'):
     makedirs('./keepers')
 
-images = [f for f in listdir('.') if isfile(f) and (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.JPEG') or f.endswith('.jpeg') or f.endswith('.PNG') or f.endswith('.png'))]
+images = [f for f in listdir('.') if isfile(f) and (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.JPEG') or f.endswith('.jpeg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.CR2'))]
 images.sort()
 
 state = {
