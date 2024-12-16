@@ -73,6 +73,7 @@
         krita
         aseprite
         geogebra6
+        darktable
 
         ### CLI utils
         tldr
