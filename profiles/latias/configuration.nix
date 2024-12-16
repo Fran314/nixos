@@ -49,6 +49,9 @@
     services.gvfs.enable = true;
     services.udisks2.enable = true;
 
+    # MTP for android file transfer
+    services.udev.packages = [ pkgs.libmtp.out pkgs.android-udev-rules ];
+
     # When dragging after tapping, it takes a while for it to "un-tap" (ie exit from dragging). This line disables this behaviour
     services.libinput.touchpad.tappingDragLock = false;
 
