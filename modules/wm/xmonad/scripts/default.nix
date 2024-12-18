@@ -94,6 +94,13 @@ let
         text = ''nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^wlp4s0:yes' | cut -d: -f3)"'';
     };
     keep-images = pkgs.callPackage ./keep-images {};
+    batch-rename = pkgs.writeShellApplication {
+        name = "batch-rename";
+        runtimeInputs = with pkgs; [
+            gnused
+        ];
+        text = builtins.readFile ./batch-rename;
+    };
 in lib.mkIf config.my.options.wm.xmonad.enable {
     environment.systemPackages = [
         my-duplicate-alacritty
@@ -107,6 +114,7 @@ in lib.mkIf config.my.options.wm.xmonad.enable {
         my-lockscreen
         my-reconnect-wifi
         keep-images
+        batch-rename
     ];
 
     home-manager.users.baldo = { config, pkgs, ... }:
