@@ -55,6 +55,15 @@
     # When dragging after tapping, it takes a while for it to "un-tap" (ie exit from dragging). This line disables this behaviour
     services.libinput.touchpad.tappingDragLock = false;
 
+    # Steam stuff
+    programs.steam = {
+        enable = true;
+        remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+        dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+        localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+    };
+
+
     environment.systemPackages = with pkgs; [
         # for pactl
         pulseaudioFull
@@ -74,10 +83,12 @@
         aseprite
         geogebra6
         darktable
+        prismlauncher   # Minecraft
 
         ### CLI utils
         tldr
         imagemagick
+        yt-dlp
 
         ### Developement
         cargo
