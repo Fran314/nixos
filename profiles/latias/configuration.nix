@@ -90,6 +90,7 @@
         imagemagick
         yt-dlp
         mediainfo
+        pdftk
 
         ### Developement
         cargo
