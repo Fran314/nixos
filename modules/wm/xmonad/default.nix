@@ -9,6 +9,8 @@ with lib; {
         ./dunst
         ./eww
         ./rofi
+
+        ./battery-monitor
     ];
 
     options.my.options.wm.xmonad = {
@@ -28,6 +30,8 @@ with lib; {
         my.options.wm.xmonad.dunst.enable = true;
         my.options.wm.xmonad.eww.enable = true;
         my.options.wm.xmonad.rofi.enable = true;
+
+        my.options.wm.xmonad.battery-monitor.enable = true;
 
         environment.systemPackages = with pkgs; [
             pamixer

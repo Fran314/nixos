@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+LAST_WARN_AT=100
+
+while true
+do
+    BATTERY_LEVEL=$(acpi -b | grep -oP '[0-9]+(?=%)')
+    if [[ $BATTERY_LEVEL -le 10 ]]
+    then
+        if [[ $LAST_WARN_AT -gt 10 ]]
+        then
+            notify-send -u critical "Battery below 10%!!!"
+        fi
+
+        LAST_WARN_AT=10
+    elif [[ $BATTERY_LEVEL -le 20 ]]
+    then
+
+        if [[ $LAST_WARN_AT -gt 20 ]]
+        then
+            notify-send -u critical "Battery below 20%"
+        fi
+
+        LAST_WARN_AT=20
+    else
+        LAST_WARN_AT=100
+    fi
+
+    sleep 5 # seconds
+done

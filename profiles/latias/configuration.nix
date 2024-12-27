@@ -89,6 +89,7 @@
         tldr
         imagemagick
         yt-dlp
+        mediainfo
 
         ### Developement
         cargo
