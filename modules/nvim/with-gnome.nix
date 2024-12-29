@@ -1,7 +1,7 @@
 { lib, config, pkgs, inputs, ...}:
 
 lib.mkIf (config.my.options.wm.gnome.enable or false) {
-    home-manager.users.baldo = { config, pkgs, ... }:
+    home-manager.users.baldo = { config, pkgs-nvim, ... }:
     {
         dconf.settings = {
             "org/gnome/settings-daemon/plugins/media-keys" = {

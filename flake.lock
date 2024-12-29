@@ -1,5 +1,20 @@
 {
   "nodes": {
+    "gnome": {
+      "locked": {
+        "lastModified": 1735264675,
+        "narHash": "sha256-MgdXpeX2GuJbtlBrH9EdsUeWl/yXEubyvxM1G+yO4Ak=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d49da4c08359e3c39c4e27c74ac7ac9b70085966",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-24.11",
+        "type": "indirect"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -51,28 +66,28 @@
         "type": "indirect"
       }
     },
-    "plugin-mini-starter": {
-      "flake": false,
+    "nvim": {
       "locked": {
-        "lastModified": 1719936674,
-        "narHash": "sha256-V9+rlVvjkrKbQojqGEXbrHiGEGjY0cFJofhOyoxWbgA=",
-        "owner": "echasnovski",
-        "repo": "mini.starter",
-        "rev": "394994b2bec10a997c69575825d5c444957b9ff9",
+        "lastModified": 1735264675,
+        "narHash": "sha256-MgdXpeX2GuJbtlBrH9EdsUeWl/yXEubyvxM1G+yO4Ak=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "d49da4c08359e3c39c4e27c74ac7ac9b70085966",
         "type": "github"
       },
       "original": {
-        "owner": "echasnovski",
-        "repo": "mini.starter",
-        "type": "github"
+        "id": "nixpkgs",
+        "ref": "nixos-24.11",
+        "type": "indirect"
       }
     },
     "root": {
       "inputs": {
+        "gnome": "gnome",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "plugin-mini-starter": "plugin-mini-starter"
+        "nvim": "nvim"
       }
     }
   },

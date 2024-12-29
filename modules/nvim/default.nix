@@ -5,7 +5,7 @@
         ./with-gnome.nix
     ];
 
-    home-manager.users.baldo = { config, pkgs, pkgs-unstable, inputs, ... }:
+    home-manager.users.baldo = { config, pkgs-nvim, inputs, ... }:
     {
         programs.neovim = 
         {
@@ -15,7 +15,7 @@
             vimAlias = true;
             vimdiffAlias = true;
 
-            extraPackages = with pkgs; [
+            extraPackages = with pkgs-nvim; [
                 #-- LSP --#
                 rust-analyzer
                 lua-language-server
@@ -39,7 +39,7 @@
                 # wl-clipboard
             ];
 
-            plugins = with pkgs.vimPlugins; [
+            plugins = with pkgs-nvim.vimPlugins; [
                 {
                     plugin = catppuccin-nvim;
                     type = "lua";
