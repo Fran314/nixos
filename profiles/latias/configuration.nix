@@ -9,6 +9,7 @@
         ../../modules/alacritty
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
+        ../../modules/gaming
     ];
 
     networking.hostName = "latias";
@@ -55,21 +56,6 @@
     # When dragging after tapping, it takes a while for it to "un-tap" (ie exit from dragging). This line disables this behaviour
     services.libinput.touchpad.tappingDragLock = false;
 
-    # Steam stuff
-    programs.steam = {
-        enable = true;
-        # # Attempt at making steam not running in background when closed. Sadly it seems that this flag has been removed
-        # package = pkgs.steam.override {
-        #     extraEnv = {
-        #         STEAM_FRAME_FORCE_CLOSE=true;
-        #     };
-        # };
-        remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-        dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-        localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-    };
-
-
     environment.systemPackages = with pkgs; [
         # for pactl
         pulseaudioFull
@@ -77,9 +63,9 @@
 
         ### Daily usage
         firefox
-        gnome.nautilus 
+        nautilus 
         telegram-desktop
-        gnome.eog               # image viewer
+        eog               # image viewer
 
         ### Occasional usage
         spotify
@@ -89,7 +75,6 @@
         aseprite
         geogebra6
         darktable
-        prismlauncher   # Minecraft
 
         ### CLI utils
         tldr

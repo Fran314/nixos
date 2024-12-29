@@ -49,12 +49,12 @@ with lib; {
         #--- ---#
 
         #--- Reduced GNOME ---#
-        environment.gnome.excludePackages = (with pkgs; [
+        environment.gnome.excludePackages = with pkgs; [
             gnome-photos        # GNOME also comes with image viewer, which is better
             gnome-tour
             gnome-text-editor
             gnome-connections   # remote desktop utility
-        ]) ++ (with pkgs.gnome; [
+
             totem               # video player, I keep it for now but later I want to put VLC instead
             epiphany            # web browser
             geary               # email reader
@@ -74,7 +74,7 @@ with lib; {
             iagno               # go game
             hitori              # sudoku game
             atomix              # puzzle game
-        ]);
+        ];
         #--- ---#
 
         home-manager.users.baldo = { config, lib, pkgs, pkgs-unstable, ... }:
@@ -83,9 +83,9 @@ with lib; {
                 ./pop-shell.nix
             ];
 
-            home.packages = (with pkgs; [
+            home.packages = with pkgs; [
                 gnome-extension-manager
-                gnome.gnome-tweaks
+                gnome-tweaks
                 gnomeExtensions.just-perfection
                 gnomeExtensions.appindicator
                 gnomeExtensions.blur-my-shell
@@ -97,11 +97,8 @@ with lib; {
                 gnomeExtensions.runcat
                 gnomeExtensions.no-overview
                 gnomeExtensions.notification-timeout
-            ])
-            ++
-            (with pkgs-unstable; [
-                 gnomeExtensions.rounded-window-corners-reborn
-            ]);
+                gnomeExtensions.rounded-window-corners-reborn
+            ];
 
             dconf.settings = with lib.hm.gvariant; {
                 "org/gnome/desktop/background" = {

@@ -10,7 +10,7 @@ in {
             enable = true;
             settings = {
                 # theme from https://github.com/alacritty/alacritty-theme
-                import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ];
+                general.import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ];
 
                 colors.primary.background = "#28282A";
                 font = {

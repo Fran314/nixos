@@ -65,7 +65,7 @@ with lib; {
             home.pointerCursor = {
                 gtk.enable = true;
                 name = "Adwaita";
-                package = pkgs.gnome.adwaita-icon-theme;
+                package = pkgs.adwaita-icon-theme;
                 size = 22;
             };
 

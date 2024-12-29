@@ -7,19 +7,6 @@
 
     home-manager.users.baldo = { config, pkgs, pkgs-unstable, inputs, ... }:
     {
-        nixpkgs = {
-            overlays = [
-                (final: prev: {
-                    vimPlugins = prev.vimPlugins // {
-                        own-mini-starter = prev.vimUtils.buildVimPlugin {
-                            name = "mini.starter";
-                            src = inputs.plugin-mini-starter;
-                        };
-                    };
-                })
-            ];
-        };
-
         programs.neovim = 
         {
             enable = true;
@@ -28,7 +15,7 @@
             vimAlias = true;
             vimdiffAlias = true;
 
-            extraPackages = (with pkgs; [
+            extraPackages = with pkgs; [
                 #-- LSP --#
                 rust-analyzer
                 lua-language-server
@@ -39,6 +26,7 @@
                 vscode-langservers-extracted    # For cssls
                 texlab
                 ghc
+                astro-language-server
                 # nodePackages.vls
 
                 #-- Formatters --#
@@ -49,10 +37,7 @@
                 #-- Utility --#
                 xclip
                 # wl-clipboard
-            ]) ++ (with pkgs-unstable; [
-                astro-language-server
-                # vue-language-server
-            ]);
+            ];
 
             plugins = with pkgs.vimPlugins; [
                 {
@@ -86,12 +71,7 @@
                     type = "lua";
                     config = builtins.readFile ./nvim/plugin/fidget.lua;
                 }
-                {
-                    plugin = otter-nvim;
-                    type = "lua";
-                    config = builtins.readFile ./nvim/plugin/otter.lua;
-                }
-
+                
                 {
                     plugin = null-ls-nvim;
                     type = "lua";
@@ -148,7 +128,7 @@
                     config = "require(\"auto-session\").setup()";
                 }
                 {
-                    plugin = own-mini-starter;
+                    plugin = mini-starter;
                     type = "lua";
                     config = builtins.readFile ./nvim/plugin/mini-starter.lua;
                 }
