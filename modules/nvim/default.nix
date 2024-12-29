@@ -65,7 +65,7 @@
                     type = "lua";
                     config = builtins.readFile ./nvim/plugin/lsp.lua;
                 }
-                neodev-nvim
+                # neodev-nvim
                 {
                     plugin = fidget-nvim;
                     type = "lua";
