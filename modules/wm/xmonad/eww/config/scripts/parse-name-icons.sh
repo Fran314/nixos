@@ -6,4 +6,6 @@ if [[ $1 == "Cuffie" ]]; then
 #     echo "main"
 elif [[ $1 == "Dot" ]]; then
     echo "dot"
+else
+    echo "unknown"
 fi

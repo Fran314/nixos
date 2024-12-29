@@ -15,5 +15,5 @@ then
     ICON=$(./parse-name-icons.sh "$NAME")
     echo "{ \"status\": \"connected\", \"device\": \"$NAME\", \"icon\": \"$ICON\" }"
 else
-    echo "{ \"status\": \"disconnected\", \"device\": \"\", \"icon\": \"\" }"
+    echo "{ \"status\": \"disconnected\", \"device\": \"\", \"icon\": \"unknown\" }"
 fi
