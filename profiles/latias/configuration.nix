@@ -29,6 +29,7 @@
     # my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "󰅟";
+    my.options.zsh.welcome = true;
 
     # Enable CUPS to print documents.
     services.printing.enable = true;

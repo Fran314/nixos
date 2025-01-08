@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }:
 
 with lib; {
+    imports = [
+        ./welcome
+    ];
+
     options.my.options.zsh = {
         hostIcon = mkOption {
             type = types.str;
@@ -45,7 +49,7 @@ with lib; {
 
         users.defaultUserShell = pkgs.zsh;
 
-        home-manager.users.baldo = { config, pkgs, ... }:
+        home-manager.users.baldo = { pkgs,  ... }:
         {
             programs.zsh = {
                 enable = true;
