@@ -56,6 +56,13 @@
     # When dragging after tapping, it takes a while for it to "un-tap" (ie exit from dragging). This line disables this behaviour
     services.libinput.touchpad.tappingDragLock = false;
 
+    virtualisation.docker.enable = true;
+    # users.users.baldo.extraGroups = [ "docker" ];
+    virtualisation.docker.rootless = {
+        enable = true;
+        setSocketVariable = true;
+    };
+
     environment.systemPackages = with pkgs; [
         # for pactl
         pulseaudioFull
