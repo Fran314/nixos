@@ -26,6 +26,10 @@
     };
     my.options.xdg.symlink-data = true;
 
+    # my.options.zsh.hostIcon = "";
+    # my.options.zsh.hostIcon = "";
+    # my.options.zsh.hostIcon = "󰅟";
+
     # Enable CUPS to print documents.
     services.printing.enable = true;
 

@@ -1,11 +1,9 @@
 setopt prompt_subst
 
 function precmd() {
-    HOST_ICON=""
-    if [[ $HOST == "umbreon" ]]; then
-        HOST_ICON=' %B%F{3}%f%b'
-    elif [[ $HOST == "altaria" ]]; then
-        HOST_ICON=' %B%F{3}󰅟%f%b'
+    HOST_ICON='<<HOST-ICON>>'
+    if [[ $HOST_ICON != "" ]]; then
+        HOST_ICON=" %B%F{3}$HOST_ICON %b%f"
     fi
 
 
