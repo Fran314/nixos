@@ -6,7 +6,8 @@
     IMAGE_WIDTH=$(($(echo $IMAGE | head -1 | wc -m) - 1 - 2))
     
     DATE=$(date "+%a %d %b %Y %T")
-    TEXT_WIDTH=$(echo "[$DATE] Welcome on $HOST, $USER!" | wc -m)
+    # Why -1? Same as above, to remove the counted new line
+    TEXT_WIDTH=$(($(echo "[$DATE] Welcome on $HOST, $USER!" | wc -m) - 1))
 
     MAX_WIDTH=$IMAGE_WIDTH
     if [[ $(($TEXT_WIDTH + 4)) -gt $IMAGE_WIDTH ]]; then
@@ -33,7 +34,7 @@
 
     TEXT="\033[0;30m[$DATE] \033[0mWelcome on \033[1;3<<HOST-COLOR>>m$HOST\033[0m, $USER!"
     echo "╔$BAR╗"
-    echo "║ $LEFT_SPACE$TEXT$RIGHT_SPACE║"
+    echo "║$LEFT_SPACE$TEXT$RIGHT_SPACE║"
     echo "╚$BAR╝"
     echo "$IMAGE"
 }
