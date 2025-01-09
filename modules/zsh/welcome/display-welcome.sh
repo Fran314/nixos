@@ -7,11 +7,11 @@
     
     DATE=$(date "+%a %d %b %Y %T")
     # Why -1? Same as above, to remove the counted new line
-    TEXT_WIDTH=$(($(echo "[$DATE] Welcome to $HOST, $USER!" | wc -m) - 1))
+    TEXT_WIDTH=$(($(echo "Welcome to $HOST, $USER!" | wc -m) - 1))
 
     MAX_WIDTH=$IMAGE_WIDTH
-    if [[ $(($TEXT_WIDTH + 4)) -gt $IMAGE_WIDTH ]]; then
-        MAX_WIDTH=$(($TEXT_WIDTH + 4))
+    if [[ $(($TEXT_WIDTH + 8)) -gt $IMAGE_WIDTH ]]; then
+        MAX_WIDTH=$(($TEXT_WIDTH + 8))
     fi
 
     LEFT_SPACE_WIDTH=$(( ($MAX_WIDTH - $TEXT_WIDTH) / 2 ))
@@ -32,9 +32,9 @@
         RIGHT_SPACE+=" "
     done
 
-    TEXT="\033[0;30m[$DATE] \033[0mWelcome to \033[1;3<<HOST-COLOR>>m$HOST\033[0m, $USER!"
+    TEXT="Welcome to \033[1;3<<HOST-COLOR>>m$HOST\033[0m, $USER!"
     echo "╔$BAR╗"
-    echo "║$LEFT_SPACE$TEXT$RIGHT_SPACE║"
+    echo "║$LEFT_SPACE$TEXT$RIGHT_SPACE║  \033[0;90m[$DATE]\033[0m"
     echo "╚$BAR╝"
     echo "$IMAGE"
 }
