@@ -90,6 +90,7 @@
         aseprite
         geogebra6
         darktable
+        libreoffice
 
         ### CLI utils
         tldr

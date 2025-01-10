@@ -61,6 +61,7 @@
         # unrar
         bottom
         jq
+        tmux
 
         home-manager
     ];
