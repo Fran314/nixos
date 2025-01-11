@@ -3,6 +3,7 @@
 {
     imports = [
         ../zsh
+        ../tmux
         ../git
         ../nvim
         ../fastfetch
@@ -61,7 +62,6 @@
         # unrar
         bottom
         jq
-        tmux
 
         home-manager
     ];
