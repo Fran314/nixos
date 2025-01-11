@@ -3,7 +3,6 @@
 with lib; {
     imports = [
         ./welcome
-        ./ssh-tmux
     ];
 
     options.my.options.zsh = {
