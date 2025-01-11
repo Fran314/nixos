@@ -1,5 +1,10 @@
 [[ $- =~ i ]] && {
     IMAGE="<<WELCOME-IMAGE>>"
+    if [[ $(($RANDOM % 20)) -eq 0 ]]; then
+        # Handle variant if supported
+        # If the following line reads "IMAGE=$IMAGE" then variant is not supported
+        IMAGE="<<VARIANT-IMAGE>>"
+    fi
     # Why -1-2? -1 is to remove the newline character which must not be counted
     # and the -2 removes the first and last characters which count for the left
     # and right side of the box surrounding the text

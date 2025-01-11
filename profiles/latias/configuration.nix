@@ -32,6 +32,7 @@
     # my.options.zsh.hostIcon = "󰅟";
     my.options.zsh.welcome.enable = true;
     my.options.zsh.welcome.textColor = "red";
+    my.options.zsh.welcome.variant = true;
 
     my.options.generic.enable = true;
 
