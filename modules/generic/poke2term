@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+
+import requests
+from PIL import Image
+import argparse
+
+parser = argparse.ArgumentParser(prog='poke2term', description='Draw pokemon in the terminal')
+parser.add_argument('input', help='pokémon to draw')
+parser.add_argument('-f', '--file', help='read image from file instead of from the github repo', action='store_true')
+parser.add_argument('-l', '--large', help='draw the large version (x2)', action='store_true')
+parser.add_argument('-s', '--shiny', help='draw the shiny variant', action='store_true')
+parser.add_argument('-o', '--old', help='draw the old sprite (gen7) instead of the new sprite (gen8)', action='store_true')
+args = parser.parse_args()
+
+padding = [1, 2, 1, 2]
+
+
+def get_bounding_box(img):
+    bb = [0, 0, img.size[0] - 1, img.size[1] - 1]
+    while bb[0] < img.size[0] - 1:
+        if any([img.getpixel((bb[0], y))[3] != 0 for y in range(img.size[1])]):
+            break
+        else:
+            bb[0] += 1
+
+    while bb[1] < img.size[1] - 1:
+        if any([img.getpixel((x, bb[1]))[3] != 0 for x in range(img.size[0])]):
+            break
+        else:
+            bb[1] += 1
+
+    while bb[2] > bb[0]:
+        if any([img.getpixel((bb[2], y))[3] != 0 for y in range(img.size[1])]):
+            break
+        else:
+            bb[2] -= 1
+
+    while bb[3] > bb[1]:
+        if any([img.getpixel((x, bb[3]))[3] != 0 for x in range(img.size[0])]):
+            break
+        else:
+            bb[3] -= 1
+
+    return bb
+
+
+def get_pixel(img, bb, x, y):
+    if (bb[0] <= x <= bb[2] and bb[1] <= y <= bb[3]):
+        [r, g, b, a] = img.getpixel((x, y))
+        if a > 0:
+            return f'{r};{g};{b}'
+        else:
+            return "0"
+    else:
+        return "0"
+
+
+def fg(color):
+    if color == "0":
+        return '\033[39m'
+    else:
+        return f'\033[38;2;{color}m'
+
+
+def bg(color):
+    if color == "0":
+        return '\033[49m'
+    else:
+        return f'\033[48;2;{color}m'
+
+
+def img_to_text_small(img):
+    bb = get_bounding_box(img)
+    width = 2 + (bb[2] + 1) - bb[0] + 2
+
+    output = ""
+    last_bg = ""
+    last_fg = ""
+    curr_bg = ""
+    curr_fg = ""
+    unicode = ""
+
+    if padding[0] > 0:
+        output += (" " * width) + ("\n" * padding[0])
+
+    for y in range(bb[1], bb[3] + 1, 2):
+        output += " " * padding[3]
+
+        for x in range(bb[0], bb[2] + 1):
+            top = get_pixel(img, bb, x, y)
+            btm = get_pixel(img, bb, x, y + 1)
+
+            if top != "0":
+                curr_fg = top
+                curr_bg = btm
+                unicode = "▀"
+            elif btm != "0":
+                curr_fg = btm
+                curr_bg = top
+                unicode = "▄"
+            else:
+                curr_fg = top
+                curr_bg = btm
+                unicode = " "
+
+            if curr_fg != last_fg:
+                output += fg(curr_fg)
+                last_fg = curr_fg
+
+            if curr_bg != last_bg:
+                output += bg(curr_bg)
+                last_bg = curr_bg
+
+            output += unicode
+
+        if last_fg != "0":
+            output += fg("0")
+            last_fg = "0"
+        if last_bg != "0":
+            output += bg("0")
+            last_bg = "0"
+
+        output += " " * padding[1]
+
+        if y < bb[3]:
+            output += "\n"
+
+    output += "\n" * padding[2]
+    # output += "\n"
+    return output
+
+
+def img_to_text_large(img):
+    bb = get_bounding_box(img)
+    width = (2 + (bb[2] + 1) - bb[0] + 2) * 2
+
+    output = ""
+    last_color = ""
+
+    if padding[0] > 0:
+        output += (" " * width) + ("\n" * padding[0])
+
+    for y in range(bb[1], bb[3] + 1):
+        output += "  " * padding[3]
+
+        for x in range(bb[0], bb[2] + 1):
+            curr_color = get_pixel(img, bb, x, y)
+
+            if curr_color != last_color:
+                output += bg(curr_color)
+                last_color = curr_color
+
+            output += "  "
+
+        if last_color != "0":
+            output += bg("0")
+            last_color = "0"
+
+        output += "  " * padding[1]
+
+        if y < bb[3]:
+            output += "\n"
+
+    output += "\n" * padding[2]
+
+    return output
+
+
+if __name__ == "__main__":
+    img = Image.new("RGBA", (0, 0))
+    if args.file:
+        img = Image.open(args.input)
+    else:
+        gen = 'gen7x' if args.old else 'gen8'
+        shiny = 'shiny' if args.shiny else 'regular'
+        img_url = f'https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-{gen}/{shiny}/{args.input}.png'
+        img = Image.open(requests.get(img_url, stream=True).raw)
+
+    render = img_to_text_large(img) if args.large else img_to_text_small(img)
+    print(render)

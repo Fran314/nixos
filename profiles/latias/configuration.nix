@@ -10,6 +10,7 @@
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
         ../../modules/gaming
+        ../../modules/generic
     ];
 
     networking.hostName = "latias";
@@ -31,6 +32,8 @@
     # my.options.zsh.hostIcon = "󰅟";
     my.options.zsh.welcome.enable = true;
     my.options.zsh.welcome.textColor = "red";
+
+    my.options.generic.enable = true;
 
     # Enable CUPS to print documents.
     services.printing.enable = true;
