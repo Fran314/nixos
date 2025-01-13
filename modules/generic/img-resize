@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "img-resize"
+    echo ""
+    echo "resize an image by a given percentage"
+    echo ""
+    echo "USAGE: img-resize [OPTIONS] SCALE FILE [FILE ...]"
+    echo ""
+    echo "OPTIONS:"
+    echo "    -h, --help             print help text"
+    echo "    -p, --pixel-perfect    rescale with nearest-pixel method"
+    echo "    -v, --verbose          print logs during operation"
+    echo ""
+    echo "SCALE must be of the form 'X%' where X is a number (possibly larger than 100 for"
+    echo "    upscaling)"
+}
+
+POSITIONAL_ARGS=()
+PIXEL_PERFECT=0
+VERBOSE=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -p|--pixel-perfect)
+            PIXEL_PERFECT=1
+            shift # past argument
+            ;;
+        -v|--verbose)
+            VERBOSE=1
+            shift # past argument
+            ;;
+        # -o|--output)
+        #     OUTPUT="$2"
+        #     shift # past argument
+        #     shift # past value
+        #     ;;
+        # -*|--*)
+        -*)
+          print_help
+          echo ""
+          echo "ERROR: Unknown option $1"
+          exit 1
+          ;;
+        *)
+          POSITIONAL_ARGS+=("$1") # save positional arg
+          shift # past argument
+          ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+if [[ -z ${1+x} ]]; then
+    print_help
+    echo ""
+    echo "ERROR: No scale given"
+    exit 1
+elif ! [[ $1 =~ ^[0-9]+%$ ]]; then
+    print_help
+    echo ""
+    echo "ERROR: Scale is not a precentage"
+    exit 1
+elif [[ -z ${2+x} ]]; then
+    print_help
+    echo ""
+    echo "ERROR: No file given"
+    exit 1
+fi
+
+SCALE="$1"
+shift
+
+mkdir ./resized
+for i in "$@"
+do
+    if [[ $VERBOSE -eq 1 ]]; then
+        echo "$i"
+    fi
+
+    if [[ $PIXEL_PERFECT -eq 1 ]]; then
+        magick "$i" -filter point -resize "$SCALE" "./resized/$i"
+    else
+        magick "$i" -resize "$SCALE" "./resized/$i"
+    fi
+done

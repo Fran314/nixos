@@ -14,6 +14,13 @@ with lib; {
             ];
             text = builtins.readFile ./batch-rename;
         };
+        img-resize = pkgs.writeShellApplication {
+            name = "img-resize";
+            runtimeInputs = with pkgs; [
+                imagemagick
+            ];
+            text = builtins.readFile ./img-resize;
+        };
         poke2term = pkgs.writers.writePython3Bin "poke2term" {
             libraries = [
                 pkgs.python3Packages.requests
@@ -28,6 +35,7 @@ with lib; {
         environment.systemPackages = [
             keep-images
             batch-rename
+            img-resize
             poke2term
         ];
     };

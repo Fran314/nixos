@@ -29,6 +29,9 @@ class Image(Gtk.Window):
         self.image = Gtk.Image()
         grid.add(self.image)
         self.set_image()
+        print("Press K to keep and go to next image")
+        print("Press D to not keep and go to next image")
+        print("Press P to go to previous image")
 
     def set_image(self):
         curr_image = self.images[self.state["current"]]
