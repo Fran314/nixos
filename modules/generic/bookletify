@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import io
+import argparse
+from PyPDF2 import PageObject, PdfReader, PdfWriter, PaperSize, Transformation
+
+
+def main():
+    PROGRAM_NAME = "bookletify"
+    DESCRIPTION = """Rearranges the pages of a pdf in order to print it as is,
+        so that you can take it, cut it in half and close it like you would
+        with a book. The result will be the original pdf in the correct order,
+        with the size of half a page. Especially useful to print pdfs to A5
+        size on A4 paper"""
+
+    parser = argparse.ArgumentParser(prog=PROGRAM_NAME, description=DESCRIPTION)
+    parser.add_argument('input',
+                        help="""name of the input file to bookletify. Use '-'
+                            to read file from stdin""")
+    parser.add_argument('output',
+                        help="""name of the output file to write to. Use '-' to
+                            write to stdout""")
+    parser.add_argument('-q', '--quiet',
+                        action='store_true',
+                        help="""suppress stdout. Not suppressed if the flag
+                            this flag is absent. Automatically suppressed if
+                            output is '-' (see output), to avoid broken
+                            pdfs""")
+    parser.add_argument('-s', '--size',
+                        action='store',
+                        choices=['A0', 'A1', 'A2', 'A3', 'A4', 'A5',
+                                 'A6', 'A7', 'A8', 'C4'],
+                        default='A4',
+                        metavar='SIZE',
+                        help="""set final paper size. Possible values: 'A0',
+                            ..., 'A8' or 'C4'. Default value is 'A4'""")
+    parser.add_argument('-b', '--binding-margin',
+                        default=8.0,
+                        type=float,
+                        metavar='MARGIN',
+                        help="""internal margin for the binding, expressed in
+                            millimeters relative to the final paper size (ie:
+                            half of the height of the paper size specified by
+                            --size). Set to 0 to disable. This setting is
+                            independent to the trim setting, ie: increasing or
+                            decreasing this margin does not trim any content on
+                            the final pdf, the content gets scaled down (or up)
+                            to fit to the final width minus the binding margin.
+                            Default value is 8""")
+    parser.add_argument('-t', '--trim',
+                        default=[0, 0, 0, 0],
+                        type=float,
+                        nargs=4,
+                        metavar='T',
+                        help="""margins to trim, expressed in millimeters
+                            relative to the original page size, as: top right
+                            bottom left. This setting is independent to the
+                            binding margin, ie: first the trim is applied, then
+                            the trimmed content gets scaled up (or down) to the
+                            full height and width, minus the binding margin.
+                            Changing the trim does not increase or decrease the
+                            final binding margin. A negative trim adds an empty
+                            border on that side. Default value is 0 0 0 0""")
+
+    args = parser.parse_args()
+
+    if args.output == '-':
+        # If output is written to stdout, suppress other stdout output such as
+        # current state of the program and progress bars
+        args.quiet = True
+
+    if args.quiet:
+        def info(text='', end='\n'):
+            pass
+    else:
+        def info(text='', end='\n'):
+            print(text, end=end)
+
+    def prog(curr, max):
+        info(f"\r{curr} / {max}", '\n' if curr == max else '')
+
+    reader = None
+    if args.input == '-':
+        reader = PdfReader(sys.stdin.buffer)
+    else:
+        if not os.path.isfile(args.input):
+            print(f'file {args.input} does not exist')
+            exit(1)
+        reader = PdfReader(args.input)
+
+    fullwidth = getattr(PaperSize, args.size).width
+    fullheight = getattr(PaperSize, args.size).height
+    smallwidth = fullheight / 2
+    smallheight = fullwidth
+    # Convert mm to pixels at 72 dpi
+    bindingwidth = args.binding_margin * 72.0 / 25.4
+    smallblank = PageObject.create_blank_page(
+        width=smallwidth - bindingwidth,
+        height=smallheight
+    )
+
+    tt = args.trim[0] * 72.0 / 25.4
+    tr = args.trim[1] * 72.0 / 25.4
+    tb = args.trim[2] * 72.0 / 25.4
+    tl = args.trim[3] * 72.0 / 25.4
+
+    # Read the input
+    info("Reading...")
+    n = len(reader.pages)
+    pages = []
+    for i in range(n):
+        prog(i, n)
+        pages.append(reader.pages[i])
+    prog(n, n)
+
+    while (len(pages) % 4 != 0):
+        pages.append(smallblank)
+
+    output = PdfWriter()
+    info("\nRearranging...")
+
+    def get_scaling(page):
+        sx = float(smallwidth - bindingwidth) / (float(page.mediabox.width) - tr - tl)
+        sy = float(smallheight) / (float(page.mediabox.height) - tt - tb)
+        return (sx, sy)
+
+    m = len(pages)
+    for i in range(int(m / 2)):
+        prog(i, int(m / 2))
+        new_page = PageObject.create_blank_page(width=fullwidth, height=fullheight)
+        if i % 2 == 0:
+            (sx, sy) = get_scaling(pages[m - 1 - i])
+            t = Transformation().scale(sx, sy).rotate(-90).translate(-tb * sy, fullheight + tl * sx)
+            pages[m - 1 - i].add_transformation(t)
+            pages[m - 1 - i].cropbox.upper_right = (smallheight, fullheight)
+            pages[m - 1 - i].cropbox.lower_left = (0, smallwidth + bindingwidth)
+            new_page.merge_page(pages[m - 1 - i])
+
+            (sx, sy) = get_scaling(pages[i])
+            t = Transformation().scale(sx, sy).rotate(-90).translate(-tb * sy, smallwidth - bindingwidth + tl * sx)
+            pages[i].add_transformation(t)
+            pages[i].cropbox.upper_right = (smallheight, smallwidth - bindingwidth)
+            pages[i].cropbox.lower_left = (0, 0)
+            new_page.merge_page(pages[i])
+        else:
+            (sx, sy) = get_scaling(pages[m - 1 - i])
+            t = Transformation().scale(sx, sy).rotate(90).translate(smallheight + tb * sy, smallwidth + bindingwidth - tl * sx)
+            pages[m - 1 - i].add_transformation(t)
+            pages[m - 1 - i].cropbox.upper_right = (smallheight, fullheight)
+            pages[m - 1 - i].cropbox.lower_left = (0, smallwidth + bindingwidth)
+            new_page.merge_page(pages[m - 1 - i])
+
+            (sx, sy) = get_scaling(pages[i])
+            t = Transformation().scale(sx, sy).rotate(90).translate(smallheight + tb * sy, 0 - tl * sx)
+            pages[i].add_transformation(t)
+            pages[i].cropbox.upper_right = (smallheight, smallwidth - bindingwidth)
+            pages[i].cropbox.lower_left = (0, 0)
+            new_page.merge_page(pages[i])
+
+        output.add_page(new_page)
+    prog(int(m / 2), int(m / 2))
+
+    info("\nSaving...")
+    if args.output == '-':
+        data = io.BytesIO()
+        output.write(data)
+        sys.stdout.buffer.write(data.getvalue())
+    else:
+        output.write(args.output)
+
+    info("\nDone!")
+
+
+if __name__ == "__main__":
+    main()
