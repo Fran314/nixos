@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "ctex"
+    echo ""
+    echo "TeX compiler wrapper that recompiles on file changes"
+    echo ""
+    echo "USAGE: ctex [OPTIONS] SOURCE"
+    echo ""
+    echo "OPTIONS:"
+    echo "    -h, --help                 print help text"
+    echo "    -c, --compiler COMPILER    choose a compiler. Possible values: 'pdflatex',"
+    echo "                               'xelatex', 'lualatex'. Default value: 'pdflatex'"
+    echo "    -C, --clean-up             remove temporary compile files on exit"
+}
+
+print_error() {
+    print_help
+    echo ""
+    echo "ERROR: $1"
+    exit 1
+}
+
+POSITIONAL_ARGS=()
+COMPILER="pdflatex"
+CLEANUP=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -c|--compiler)
+            if [[ "$2" != "pdflatex" ]] && [[ "$2" != "xelatex" ]] && [[ "$2" != "lualatex" ]]; then
+                print_error "Invalid compiler value '$2'"
+            fi
+            COMPILER="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -C|--clean-up)
+            CLEANUP=1
+            shift # past argument
+            ;;
+        # -*|--*)
+        -*)
+            print_error "Unknown option $1"
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift # past argument
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+SOURCE="$1"
+
+trap cleanup INT
+
+cleanup() {
+    AUX_FILE="${SOURCE%.*}.aux"
+    OUT_FILE="${SOURCE%.*}.out"
+    LOG_FILE="${SOURCE%.*}.log"
+
+    if [[ -f $AUX_FILE ]] || [[ -f $OUT_FILE ]] || [[ -f $LOG_FILE ]]; then
+        PROCEDE=0
+
+        if [[ $CLEANUP -eq 0 ]]; then
+            echo "Temporary compile files detected:"
+            [[ -f $AUX_FILE ]] && echo "$AUX_FILE"
+            [[ -f $OUT_FILE ]] && echo "$OUT_FILE"
+            [[ -f $LOG_FILE ]] && echo "$LOG_FILE"
+            echo ""
+            read -r -p "Delete the temporary compile files? [y/N]: " CHOICE
+            CHOICE=${CHOICE:-n}
+            if [[ "$CHOICE" == [Yy] ]]; then
+                PROCEDE=1
+            fi
+        else
+            PROCEDE=1
+        fi
+
+        if [[ $PROCEDE -eq 1 ]]; then
+            [[ -f $AUX_FILE ]] && rm "$AUX_FILE"
+            [[ -f $OUT_FILE ]] && rm "$OUT_FILE"
+            [[ -f $LOG_FILE ]] && rm "$LOG_FILE"
+        fi
+
+    fi
+}
+
+compile() {
+    date +'[%x, %X] Starting compilation...'
+    if [[ "$1" == "pdflatex" ]]; then
+        pdflatex "$2"
+    elif [[ "$1" == "xelatex" ]]; then
+        xelatex "$2"
+    elif [[ "$1" == "lualatex" ]]; then
+        lualatex "$2"
+    fi
+    echo ""
+    echo ""
+}
+
+export -f compile
+find . -name '*.tex' | entr -r bash -c "compile \"$COMPILER\" \"$SOURCE\""

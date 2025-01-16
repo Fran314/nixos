@@ -108,7 +108,10 @@
         clippy
         (python3.withPackages (ps: with ps; [
             matplotlib
+            numpy
+            scipy
         ]))
+        jupyter
         nodejs
         godot_4
 

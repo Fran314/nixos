@@ -21,6 +21,15 @@ with lib; {
             ];
             text = builtins.readFile ./img-resize;
         };
+        ctex = pkgs.writeShellApplication {
+            name = "ctex";
+            runtimeInputs = with pkgs; [
+                bash
+                texliveFull
+                entr
+            ];
+            text = builtins.readFile ./ctex;
+        };
         bookletify = pkgs.writers.writePython3Bin "bookletify" {
             libraries = with pkgs; [
                 python3Packages.pypdf2
@@ -45,6 +54,7 @@ with lib; {
             keep-images
             batch-rename
             img-resize
+            ctex
             bookletify
             poke2term
         ];
