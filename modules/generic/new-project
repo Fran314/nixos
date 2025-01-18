@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "new-project"
+    echo ""
+    echo "initialize a directory for a new project with the necessary boilerplate"
+    echo ""
+    echo "USAGE: new-project [OPTIONS] TYPE"
+    echo ""
+    echo "OPTIONS:"
+    #    "--------------------------------------------------------------------------------"
+    echo "    -h, --help    print help text"
+    echo "    -g, --git     also initialize a git repository"
+	echo "    -gg           initialize git repository and create initial commit (implies"
+	echo "                   -g)"
+    echo ""
+    echo "TYPE: currently supported types are 'node'"
+}
+
+print_error() {
+    print_help
+    echo ""
+    echo "ERROR: $1"
+    exit 1
+}
+
+POSITIONAL_ARGS=()
+GIT=0
+GGIT=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -g|--git)
+            GIT=1
+            shift # past argument
+            ;;
+		-gg)
+			GIT=1
+			GGIT=1
+			shift
+			;;
+        # -*|--*)
+        -*)
+            print_error "Unknown option $1"
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift # past argument
+            ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+TYPE=$1
+
+PROJECT_NAME=$(basename "$(pwd)")
+
+PRETTIERRC=$(cat << EOF
+{
+    "printWidth": 80,
+    "singleQuote": true,
+    "quoteProps": "consistent",
+    "tabWidth": 4,
+    "useTabs": true,
+    "semi": false,
+    "arrowParens": "avoid",
+    "proseWrap": "always"
+}
+EOF
+)
+
+if [[ $TYPE == 'node' ]]
+then
+    [[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" > .prettierrc.json
+    [[ ! -f package.json ]] && cat <<- EOF > package.json
+		{
+		    "name": "$PROJECT_NAME",
+			"type": "module",
+		    "version": "1.0.0",
+		    "main": "index.js",
+		    "scripts": {
+		        "start": "node index.js"
+		    },
+		    "keywords": [],
+		    "author": "",
+		    "license": "ISC",
+		    "description": ""
+		}
+		EOF
+	
+	[[ ! -f index.js ]] && cat <<- EOF > index.js
+		console.log("Hello World!")
+		EOF
+
+    if [[ $GIT -eq 1 ]]
+    then
+        [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+			node_modules/
+			
+			.env*
+			!.env*.example
+			EOF
+
+		[[ ! -f README.md ]] && cat <<- EOF > README.md
+			# $PROJECT_NAME
+			EOF
+
+        [[ ! -d .git ]] && { 
+            git init
+            if [[ $GGIT -eq 1 ]]
+            then
+                git add .
+                git commit -m "initial commit"
+            fi
+        }
+    fi
+else
+    print_error "Unsupported type '$1'"
+fi

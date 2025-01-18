@@ -30,6 +30,14 @@ with lib; {
             ];
             text = builtins.readFile ./ctex;
         };
+        new-project = pkgs.writeShellApplication {
+            name = "new-project";
+            runtimeInputs = with pkgs; [
+                nodejs
+                git
+            ];
+            text = builtins.readFile ./new-project;
+        };
         bookletify = pkgs.writers.writePython3Bin "bookletify" {
             libraries = with pkgs; [
                 python3Packages.pypdf2
@@ -55,6 +63,7 @@ with lib; {
             batch-rename
             img-resize
             ctex
+            new-project
             bookletify
             poke2term
         ];
