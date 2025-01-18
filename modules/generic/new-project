@@ -14,7 +14,7 @@ print_help() {
 	echo "    -gg           initialize git repository and create initial commit (implies"
 	echo "                   -g)"
     echo ""
-    echo "TYPE: currently supported types are 'node'"
+    echo "TYPE: currently supported types are 'node', 'python'"
 }
 
 print_error() {
@@ -105,6 +105,41 @@ then
 			.env*
 			!.env*.example
 			EOF
+
+		[[ ! -f README.md ]] && cat <<- EOF > README.md
+			# $PROJECT_NAME
+			EOF
+
+        [[ ! -d .git ]] && { 
+            git init
+            if [[ $GGIT -eq 1 ]]
+            then
+                git add .
+                git commit -m "initial commit"
+            fi
+        }
+    fi
+elif [[ $TYPE == 'python' ]]
+then
+    [[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" > .prettierrc.json
+
+	[[ ! -f shell.nix ]] && cat <<- EOF > shell.nix
+		with (import <nixpkgs> {});
+		mkShell {
+		    buildInputs = [
+		        (python3.withPackages (ps: with ps; [
+		        ]))
+		    ];
+		}
+		EOF
+
+    if [[ $GIT -eq 1 ]]
+    then
+        [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+			.env*
+			!.env*.example
+			EOF
+
 
 		[[ ! -f README.md ]] && cat <<- EOF > README.md
 			# $PROJECT_NAME
