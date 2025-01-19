@@ -20,31 +20,35 @@
         MAX_WIDTH=$(($TEXT_WIDTH + 8))
     fi
 
-    # MAX_WIDTH + 30 accounts for the size of the box and the size of the date
-    if [[ $((MAX_WIDTH + 30)) -gt $(tput cols) ]]; then
-        MAX_WIDTH=$(($(tput cols) - 2))
-        DATE=""
-    fi
+	# Only print welcome if screen is big enough
+	if [[ $(($MAX_WIDTH + 2)) -le $(tput cols) ]]; then
 
-    LEFT_PADDING=$(( ($MAX_WIDTH - $TEXT_WIDTH) / 2 ))
-    RIGHT_PADDING=$(( $MAX_WIDTH - $TEXT_WIDTH - $LEFT_PADDING ))
+		# MAX_WIDTH + 30 accounts for the size of the box and the size of the date
+		if [[ $(($MAX_WIDTH + 30)) -gt $(tput cols) ]]; then
+			MAX_WIDTH=$(($(tput cols) - 2))
+			DATE=""
+		fi
 
-    BAR=""
-    for i in {1..$MAX_WIDTH}; do
-        BAR+="═"
-    done
+		LEFT_PADDING=$(( ($MAX_WIDTH - $TEXT_WIDTH) / 2 ))
+		RIGHT_PADDING=$(( $MAX_WIDTH - $TEXT_WIDTH - $LEFT_PADDING ))
 
-    for i in {1..$LEFT_PADDING}; do
-        TEXT=" $TEXT"
-    done
+		BAR=""
+		for i in {1..$MAX_WIDTH}; do
+			BAR+="═"
+		done
 
-    RIGHT_SPACE=""
-    for i in {1..$RIGHT_PADDING}; do
-        TEXT="$TEXT "
-    done
+		for i in {1..$LEFT_PADDING}; do
+			TEXT=" $TEXT"
+		done
 
-    echo "╔$BAR╗"
-    echo "║$TEXT║$DATE"
-    echo "╚$BAR╝"
-    echo "$IMAGE"
+		RIGHT_SPACE=""
+		for i in {1..$RIGHT_PADDING}; do
+			TEXT="$TEXT "
+		done
+
+		echo "╔$BAR╗"
+		echo "║$TEXT║$DATE"
+		echo "╚$BAR╝"
+		echo "$IMAGE"
+	fi
 }
