@@ -117,12 +117,6 @@
                 }
 
                 {
-                    plugin = nvim-colorizer-lua;
-                    type = "lua";
-                    config = "require(\"colorizer\").setup()";
-                }
-                
-                {
                     plugin = auto-session;
                     type = "lua";
                     config = "require(\"auto-session\").setup()";
