@@ -102,6 +102,7 @@
         yt-dlp
         mediainfo
         pdftk
+		tgpt
 
         ### Developement
         cargo
