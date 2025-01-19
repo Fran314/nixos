@@ -28,6 +28,7 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.Grid
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.LayoutBuilder
 import XMonad.Layout.SimpleDecoration
 import XMonad.Layout.Spacing
 import XMonad.Layout.ToggleLayouts
@@ -271,9 +272,20 @@ smartKill = withFocused f
 --     )
 
 myVerticalGrid = IfMax 2 (Mirror (Grid)) (Grid)
-myResizableTall = ResizableTall 1 (3 / 100) (2 / 3) []
+myResizableSmallTall = ResizableTall 1 (3 / 100) (2 / 3) []
+myResizableBigTall = ResizableTall 1 (3 / 100) (3 / 5) []
+myFakeSpiral = (
+		-- relBox units are weird. X & Y (the first two arguments) are relative to the whole
+		-- screen space, while W & H (the last two arguments) are relative to the REMAINING
+		-- screen space.
+		-- So for a window that starts halfway and goes to the end, the width is 1 (all the
+		-- remaining with) and not 1/2 (half of the screen width)
+		(layoutN 1 (relBox 0 0 (1/2) 1) (Just $ relBox 0 0 1 1) $ Grid)
+		$ (layoutAll (relBox (1/2) 0 1 1) $ Mirror $ myResizableBigTall)
+		)
 fullscreenLayout = noBorders $ (Full ||| myVerticalGrid)
-defaultLayout = lessBorders OnlyLayoutFloatBelow $ spacingWithEdge 6 $ avoidStruts $ (myVerticalGrid ||| myResizableTall)
+-- defaultLayout = lessBorders OnlyLayoutFloatBelow $ spacingWithEdge 6 $ avoidStruts $ (builtLayout ||| myVerticalGrid ||| myResizableTall)
+defaultLayout = lessBorders OnlyLayoutFloatBelow $ spacingWithEdge 6 $ avoidStruts $ (myFakeSpiral ||| myResizableSmallTall)
 myLayout = toggleLayouts fullscreenLayout defaultLayout
 
 centeredRect =       W.RationalRect (7 / 24) (1 / 6) (5 / 12) (2 / 3)
