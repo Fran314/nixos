@@ -24,7 +24,8 @@ with lib; {
                         name = "battery-monitor";
                         runtimeInputs = with pkgs; [
                             acpi
-                            libnotify
+                            # libnotify
+							dunst
                             gnugrep
                             coreutils # sleep
                         ];

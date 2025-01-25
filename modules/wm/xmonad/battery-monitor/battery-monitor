@@ -1,30 +1,79 @@
 #!/usr/bin/env bash
 
-LAST_WARN_AT=100
+# This scripts monitors the battery of the laptop and cycles between three
+# states: ok, low & critical
+#
+# The states are mutually exclusive and are defined as follows:
+# ok: batt > 30 || charging
+# low: 20 < batt <= 30 && not charging
+# crit: batt <= 20 && not charging
+#
+# Transitioning between these states trigger events (mainly sending
+# notifications), defined as follows
+#
+# ok   -> low:  notify "low"
+# ok   -> crit: notify "crit"
+# low  -> ok:   try delete notification
+# low  -> crit: notify "crit"
+# crit -> ok:   try delete notification
+# crit -> low:  nothing
+#
+# note that for every notify, it is probably good measure to try and delete
+# any possible previous notification
+
+OLD_STATE="ok"
+NOTIFICATION_ID=68041204	# certified random number
 
 while true
 do
     BATTERY_LEVEL=$(acpi -b | grep -oP '[0-9]+(?=%)')
+	CHARGING=0
+	if acpi -b | grep -q "Charging"
+	then
+		CHARGING=1
+	fi
 
-    if [[ $BATTERY_LEVEL -le 20 ]]
-    then
-        if [[ $LAST_WARN_AT -gt 20 ]]
-        then
-            notify-send -u critical "Battery below 20%!!!"
-        fi
-        LAST_WARN_AT=20
+	NEW_STATE="ok"
+	if [[ $BATTERY_LEVEL -le 20 ]] && [[ $CHARGING -eq 0 ]]
+	then
+		NEW_STATE="crit"
+	elif [[ $BATTERY_LEVEL -le 30 ]] && [[ $CHARGING -eq 0 ]]
+	then
+		NEW_STATE="low"
+	fi
 
-    elif [[ $BATTERY_LEVEL -le 30 ]]
-    then
-        if [[ $LAST_WARN_AT -gt 30 ]]
-        then
-            notify-send -u critical "Battery below 30%"
-        fi
-        LAST_WARN_AT=30
 
-    else
-        LAST_WARN_AT=100
-    fi
+	# ok -> low
+	if [[ "$OLD_STATE" == "ok" ]] && [[ "$NEW_STATE" == "low" ]]
+	then
+		dunstify -C "$NOTIFICATION_ID"
+		dunstify -r "$NOTIFICATION_ID" -u critical "Battery below 30%"
 
-    sleep 5 # seconds
+	# ok -> crit
+	elif [[ "$OLD_STATE" == "ok" ]] && [[ "$NEW_STATE" == "crit" ]]
+	then
+		dunstify -C "$NOTIFICATION_ID"
+		dunstify -r "$NOTIFICATION_ID" -u critical "Battery below 20%!!!"
+
+	# low -> ok
+	elif [[ "$OLD_STATE" == "low" ]] && [[ "$NEW_STATE" == "ok" ]]
+	then
+		dunstify -C "$NOTIFICATION_ID"
+	
+	# low -> crit
+	elif [[ "$OLD_STATE" == "low" ]] && [[ "$NEW_STATE" == "crit" ]]
+	then
+		dunstify -C "$NOTIFICATION_ID"
+		dunstify -r "$NOTIFICATION_ID" -u critical "Battery below 20%!!!"
+
+	# crit -> ok
+	elif [[ "$OLD_STATE" == "crit" ]] && [[ "$NEW_STATE" == "ok" ]]
+	then
+		dunstify -C "$NOTIFICATION_ID"
+	fi
+	# any other combination doesn't require any action
+
+	OLD_STATE="$NEW_STATE"
+
+    sleep 2 # seconds
 done
