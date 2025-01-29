@@ -204,7 +204,7 @@ persistentProcesses =
             ( "calcolatrice"
             ,
                 ( \w -> runQuery (className =? "python-calcolatrice") w
-                , spawn "alacritty --class 'python-calcolatrice' -e python"
+                , spawn "alacritty --class 'python-calcolatrice' -e python -i -c 'from math import *'"
                 )
             )
         ,
