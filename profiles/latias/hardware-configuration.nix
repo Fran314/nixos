@@ -3,7 +3,17 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
-{
+let
+	data-drive = d: {
+		depends = [
+			"/"
+			"/data"
+		];
+		device = "/data/${d}";
+		fsType = "none";
+		options = [ "bind" "rw" ];
+	};
+in {
     imports = [
         (modulesPath + "/installer/scan/not-detected.nix")
     ];
@@ -28,6 +38,17 @@
         device = "/dev/disk/by-uuid/1185790a-d766-4bd9-bda7-39c8e1e016de";
         fsType = "ext4";
     };
+
+	fileSystems."/home/baldo/archivio" = data-drive "archivio";
+	fileSystems."/home/baldo/desktop" = data-drive "desktop";
+	fileSystems."/home/baldo/documents" = data-drive "documents";
+	fileSystems."/home/baldo/downloads" = data-drive "downloads";
+	fileSystems."/home/baldo/music" = data-drive "music";
+	fileSystems."/home/baldo/pictures" = data-drive "pictures";
+	fileSystems."/home/baldo/public" = data-drive "public";
+	fileSystems."/home/baldo/templates" = data-drive "templates";
+	fileSystems."/home/baldo/universita" = data-drive "universita";
+	fileSystems."/home/baldo/videos" = data-drive "videos";
 
     swapDevices = [
         { device = "/dev/disk/by-uuid/b8ea08b6-c782-448b-80ea-286af7447364"; }

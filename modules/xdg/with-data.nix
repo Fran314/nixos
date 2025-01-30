@@ -8,17 +8,16 @@ lib.mkIf config.my.options.xdg.symlink-data {
         # To force the creation of these files (via command line) you can run
         # the following command `systemd-tmpfiles --user --create`
         systemd.user.tmpfiles.rules = [
-            "L ${config.home.homeDirectory}/applications - - - - /data/applications"
-            "L ${config.home.homeDirectory}/archivio     - - - - /data/archivio"
-            "L ${config.home.homeDirectory}/desktop      - - - - /data/desktop"
-            "L ${config.home.homeDirectory}/documents    - - - - /data/documents"
-            "L ${config.home.homeDirectory}/download     - - - - /data/download"
-            "L ${config.home.homeDirectory}/music        - - - - /data/music"
-            "L ${config.home.homeDirectory}/pictures     - - - - /data/pictures"
-            "L ${config.home.homeDirectory}/public       - - - - /data/public"
-            "L ${config.home.homeDirectory}/templates    - - - - /data/templates"
-            "L ${config.home.homeDirectory}/universita   - - - - /data/universita"
-            "L ${config.home.homeDirectory}/videos       - - - - /data/videos"
+            "d ${config.home.homeDirectory}/archivio     - - - - -"
+            "d ${config.home.homeDirectory}/desktop      - - - - -"
+            "d ${config.home.homeDirectory}/documents    - - - - -"
+            "d ${config.home.homeDirectory}/downloads    - - - - -"
+            "d ${config.home.homeDirectory}/music        - - - - -"
+            "d ${config.home.homeDirectory}/pictures     - - - - -"
+            "d ${config.home.homeDirectory}/public       - - - - -"
+            "d ${config.home.homeDirectory}/templates    - - - - -"
+            "d ${config.home.homeDirectory}/universita   - - - - -"
+            "d ${config.home.homeDirectory}/videos       - - - - -"
         ];
     };
 }
