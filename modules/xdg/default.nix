@@ -1,19 +1,38 @@
 { lib, config, pkgs, ... }:
 
 with lib; {
-    imports = [
-        ./with-data.nix
-    ];
-
     options.my.options.xdg = {
-        symlink-data = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to symlink the XDG directories to /data (assuming you are using a separate disk mounted on /data for these folders)";
-        };
+		bind-to-data = mkEnableOption "Bind XDG directories to the corresponding directories in /data";
+		with-archivio = mkEnableOption "Enable universita directory";
     };
 
-    config = {
+    config = let
+		bind-to-data = config.my.options.xdg.bind-to-data;
+		with-archivio = config.my.options.xdg.with-archivio;
+		data-drive = d: {
+			depends = [
+				"/"
+				"/data"
+			];
+			device = "/data/${d}";
+			fsType = "none";
+			options = [ "bind" "rw" ];
+		};
+	in
+	{
+		fileSystems = mkIf bind-to-data {
+			"/home/baldo/archivio" = mkIf with-archivio (data-drive "archivio");
+			"/home/baldo/desktop" = data-drive "desktop";
+			"/home/baldo/documents" = data-drive "documents";
+			"/home/baldo/downloads" = data-drive "downloads";
+			"/home/baldo/music" = data-drive "music";
+			"/home/baldo/pictures" = data-drive "pictures";
+			"/home/baldo/public" = data-drive "public";
+			"/home/baldo/templates" = data-drive "templates";
+			"/home/baldo/universita" = data-drive "universita";
+			"/home/baldo/videos" = data-drive "videos";
+		};
+
         home-manager.users.baldo = { config, pkgs, ... }:
         {
             home.packages = with pkgs; [
@@ -45,6 +64,19 @@ with lib; {
                 templates = "${config.home.homeDirectory}/templates";
                 videos = "${config.home.homeDirectory}/videos";
             };
+
+			systemd.user.tmpfiles.rules = [
+				(mkIf with-archivio "d ${config.home.homeDirectory}/archivio     - - - - -")
+				"d ${config.home.homeDirectory}/desktop      - - - - -"
+				"d ${config.home.homeDirectory}/documents    - - - - -"
+				"d ${config.home.homeDirectory}/downloads    - - - - -"
+				"d ${config.home.homeDirectory}/music        - - - - -"
+				"d ${config.home.homeDirectory}/pictures     - - - - -"
+				"d ${config.home.homeDirectory}/public       - - - - -"
+				"d ${config.home.homeDirectory}/templates    - - - - -"
+				"d ${config.home.homeDirectory}/universita   - - - - -"
+				"d ${config.home.homeDirectory}/videos       - - - - -"
+			];
         };
     };
 }

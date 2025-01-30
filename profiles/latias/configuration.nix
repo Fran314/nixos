@@ -25,7 +25,8 @@
             my.options.wm.use = "gnome";
         };
     };
-    my.options.xdg.symlink-data = true;
+    my.options.xdg.bind-to-data = true;
+    my.options.xdg.with-archivio = true;
 
     # my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "";
