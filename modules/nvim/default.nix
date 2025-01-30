@@ -145,10 +145,13 @@
                 source = ./nvim/luasnippets;
                 recursive = true;
             };
-            ".config/nvim/utils" = {
-                source = ./nvim/utils;
-                recursive = true;
-            };
+			".prettierrc.json" = {
+				source = ./nvim/utils/linter-config/.prettierrc.json;
+			};
+            # ".config/nvim/utils" = {
+            #     source = ./nvim/utils;
+            #     recursive = true;
+            # };
         };
     };
 }
