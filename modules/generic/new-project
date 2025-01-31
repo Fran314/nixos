@@ -8,7 +8,7 @@ print_help() {
     echo "USAGE: new-project [OPTIONS] TYPE"
     echo ""
     echo "OPTIONS:"
-    #    "--------------------------------------------------------------------------------"
+    #    "--- 80 characters --------------------------------------------------------------"
     echo "    -h, --help    print help text"
     echo "    -g, --git     also initialize a git repository"
 	echo "    -gg           initialize git repository and create initial commit (implies"
