@@ -405,10 +405,10 @@ myKeyBindings =
     , ((mod4Mask, xK_plus), withFocused $ whenSticky $ changeStickySize (1))
     -- combine mod+minus into changeStickySize AND playerctl next as they collide
     -- , ((mod4Mask, xK_minus), withFocused $ whenSticky $ changeStickySize (-1))
-    , ((mod4Mask, xK_minus), withFocused $ whenStickyWithFallback $ (changeStickySize (-1), spawn "playerctl next"))
-    -- , ((mod4Mask, xK_minus), spawn "playerctl next")
-    , ((mod4Mask, xK_period), spawn "playerctl play-pause")
-    , ((mod4Mask, xK_comma), spawn "playerctl previous")
+	-- , ((mod4Mask, xK_minus), spawn "playerctl next")
+    , ((mod4Mask, xK_minus), withFocused $ whenStickyWithFallback $ (changeStickySize (-1), spawn "playerctl -p spotify,firefox next"))
+    , ((mod4Mask, xK_period), spawn "playerctl -p spotify,firefox play-pause")
+    , ((mod4Mask, xK_comma), spawn "playerctl -p spotify,firefox previous")
     ]
         ++ [ ((mod4Mask, k), moveToWorkspace i)
            | (i, k) <- zip (map show [1 .. 9]) [xK_1 .. xK_9]
