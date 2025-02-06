@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+# Default player when in absolute doubt
+PLAYER="spotify"
+
+# If a player is playing, select that player
+if [[ "$(playerctl -p firefox status)" == "Playing" ]]
+then
+	PLAYER="firefox"
+elif [[ "$(playerctl -p spotify status)" == "Playing" ]]
+then
+	PLAYER="spotify"
+
+# If no player is playing, try selecting the previous player
+elif [[ -f "/tmp/smart-playerctl-lastplayer" ]]
+then
+	PLAYER=$(cat /tmp/smart-playerctl-lastplayer)
+fi
+
+
+if [[ $1 == "play-pause" ]]
+then
+	playerctl -p "$PLAYER" play-pause
+	echo "$PLAYER" > /tmp/smart-playerctl-lastplayer
+elif [[ $1 == "next" ]]
+then
+	playerctl -p "$PLAYER" next
+	echo "$PLAYER" > /tmp/smart-playerctl-lastplayer
+elif [[ $1 == "previous" ]]
+then
+	playerctl -p "$PLAYER" previous
+	echo "$PLAYER" > /tmp/smart-playerctl-lastplayer
+else
+	echo "Unrecognised command $1"
+	exit 1
+fi

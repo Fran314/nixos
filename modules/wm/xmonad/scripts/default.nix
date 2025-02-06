@@ -26,6 +26,13 @@ let
         ];
         text = builtins.readFile ./my-screenshot;
     };
+	smart-playerctl = pkgs.writeShellApplication {
+		name = "smart-playerctl";
+		runtimeInputs = with pkgs; [
+			playerctl
+		];
+		text = builtins.readFile ./smart-playerctl;
+	};
     my-shadowbox = pkgs.callPackage ./my-shadowbox {};
     my-screencast = pkgs.writeShellApplication {
         name = "my-screencast";
@@ -87,6 +94,7 @@ in lib.mkIf config.my.options.wm.xmonad.enable {
         my-set-brightness
         my-screenshot
         my-screencast
+		smart-playerctl
         my-monitor-manager
         my-color-picker
         my-bluetooth-manager
