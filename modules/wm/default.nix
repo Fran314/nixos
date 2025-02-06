@@ -54,6 +54,9 @@ with lib; {
             options = "caps:escape";
         };
 
+		services.xserver.autoRepeatDelay = 250;
+		services.xserver.autoRepeatInterval = 30;
+
         services.libinput.touchpad.naturalScrolling = true;
 
         programs.dconf.enable = true;   # Enables editing dconf via dconf.settings in home-manager
