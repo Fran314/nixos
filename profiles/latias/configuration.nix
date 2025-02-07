@@ -11,6 +11,7 @@
         ../../modules/productivity/lean4
         ../../modules/gaming
         ../../modules/generic
+		# ../../modules/virtualbox
     ];
 
     networking.hostName = "latias";
