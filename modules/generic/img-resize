@@ -3,7 +3,10 @@
 print_help() {
     echo "img-resize"
     echo ""
-    echo "resize an image by a given percentage"
+	echo "resize image(s) by a given percentage"
+	echo ""
+	echo "the resized images are put in a ./resized directory, which is created if it"
+	echo "does not exits already"
     echo ""
     echo "USAGE: img-resize [OPTIONS] SCALE FILE [FILE ...]"
     echo ""
