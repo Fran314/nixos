@@ -34,9 +34,12 @@ class Image(Gtk.Window):
         print("Press P to go to previous image")
 
     def set_image(self):
+        width, height = self.get_size()
+        width = max(width, 900)
+        height = max(height, 600)
         curr_image = self.images[self.state["current"]]
         print(f'{curr_image}\t[ {self.state["current"]} / {len(self.images)} ]')
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(filename=curr_image, width=900, height=600, preserve_aspect_ratio=True)
+        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(filename=curr_image, width=width, height=height, preserve_aspect_ratio=True)
         self.image.set_from_pixbuf(pixbuf)
 
     def on_key_press(self, widget, event):
