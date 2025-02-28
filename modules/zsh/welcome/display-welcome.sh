@@ -46,6 +46,7 @@
 			TEXT="$TEXT "
 		done
 
+		clear
 		echo "╔$BAR╗"
 		echo "║$TEXT║$DATE"
 		echo "╚$BAR╝"
