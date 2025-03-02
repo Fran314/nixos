@@ -77,6 +77,9 @@
         setSocketVariable = true;
     };
 
+	# Necessary for running appimages
+    programs.appimage.binfmt = true;
+
     environment.systemPackages = with pkgs; [
         # for pactl
         pulseaudioFull
@@ -97,6 +100,12 @@
         geogebra6
         darktable
         libreoffice
+		shotcut
+		openshot-qt
+		kdenlive
+
+		flatpak
+        appimage-run
 
         ### CLI utils
         tldr
