@@ -30,6 +30,23 @@
                     inherit pkgs-gnome;
                 };
             };
+			umbreon = lib.nixosSystem {
+                inherit system;
+                modules = [
+                    ./profiles/latias/configuration.nix
+                    inputs.home-manager.nixosModules.default {
+                        home-manager.extraSpecialArgs = {
+                            inherit inputs;
+                            inherit pkgs-unstable;
+                            inherit pkgs-nvim;
+                        };
+                    }
+                ];
+                specialArgs = {
+                    inherit pkgs-unstable;
+                    inherit pkgs-nvim;
+                };
+            };
         };
     };
 

@@ -47,13 +47,6 @@ with lib; {
             IdleActionSec=60s
         '';
 
-        # Configure keymap in X11
-        services.xserver.xkb = {
-            layout = "it";
-            variant = "";
-            options = "caps:escape";
-        };
-
 		services.xserver.autoRepeatDelay = 250;
 		services.xserver.autoRepeatInterval = 30;
 
