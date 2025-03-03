@@ -33,7 +33,7 @@
 			umbreon = lib.nixosSystem {
                 inherit system;
                 modules = [
-                    ./profiles/latias/configuration.nix
+                    ./profiles/umbreon/configuration.nix
                     inputs.home-manager.nixosModules.default {
                         home-manager.extraSpecialArgs = {
                             inherit inputs;
