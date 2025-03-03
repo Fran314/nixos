@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, pkgs-unstable, ... }:
 
 {
     imports = [
@@ -100,7 +100,7 @@
         geogebra6
         darktable
         libreoffice
-		shotcut
+		pkgs-unstable.shotcut
 		openshot-qt
 		kdenlive
 
@@ -110,7 +110,7 @@
         ### CLI utils
         tldr
         imagemagick
-        yt-dlp
+        pkgs-unstable.yt-dlp
         mediainfo
         pdftk
 		tgpt
