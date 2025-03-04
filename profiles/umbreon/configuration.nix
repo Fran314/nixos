@@ -15,9 +15,8 @@
     my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "󰅟";
-    # my.options.zsh.welcome.enable = true;
-    # my.options.zsh.welcome.textColor = "red";
-    # my.options.zsh.welcome.variant = true;
+    my.options.zsh.welcome.enable = true;
+    my.options.zsh.welcome.textColor = "blue";
 
     # my.options.generic.enable = true;
 
@@ -36,6 +35,13 @@
     ##################
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
+
+	# ZFS stuff
+	boot.supportedFilesystems = [ "zfs" ];
+	boot.zfs.forceImportRoot = false; # This is enabled by default for backwards compatibility purposes, but it is highly recommended to disable this option, as it bypasses some of the safeguards ZFS uses to protect your ZFS pools
+	boot.zfs.devNodes = "/dev/disk/by-path";
+	boot.zfs.extraPools = [ "hm01" ];
+	networking.hostId = "6adbf918"; # The primary use case is to ensure when using ZFS that a pool isn’t imported accidentally on a wrong machine
 
     home-manager.users.baldo = { config, pkgs, ... }:
     {
