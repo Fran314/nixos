@@ -7,11 +7,12 @@
         ../../modules/wm
         ../../modules/xdg
         ../../modules/alacritty
+		../../modules/virtualization/docker
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
         ../../modules/gaming
         ../../modules/generic
-		# ../../modules/virtualbox
+		# ../../modules/virtualization/virtualbox
     ];
 
     networking.hostName = "latias";
@@ -29,7 +30,6 @@
     my.options.xdg.bind-to-data = true;
     my.options.xdg.with-archivio = true;
 
-    # my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "";
     # my.options.zsh.hostIcon = "󰅟";
     my.options.zsh.welcome.enable = true;
@@ -67,15 +67,6 @@
 
     # When dragging after tapping, it takes a while for it to "un-tap" (ie exit from dragging). This line disables this behaviour
     services.libinput.touchpad.tappingDragLock = false;
-
-    virtualisation.docker.enable = true;
-    # # Needed if you're not using docker in rootless mode
-    # # but not necessary since we're enabling rootless mode
-    # users.users.baldo.extraGroups = [ "docker" ];
-    virtualisation.docker.rootless = {
-        enable = true;
-        setSocketVariable = true;
-    };
 
 	# Necessary for running appimages
     programs.appimage.binfmt = true;

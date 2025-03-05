@@ -4,6 +4,7 @@
     imports = [
         ./hardware-configuration.nix
         ../../modules/minimal
+		../../modules/virtualization/docker
     ];
 
     networking.hostName = "umbreon";
@@ -13,12 +14,8 @@
     networking.nameservers = [ "1.1.1.1" ];
 
     my.options.zsh.hostIcon = "";
-    # my.options.zsh.hostIcon = "";
-    # my.options.zsh.hostIcon = "󰅟";
     my.options.zsh.welcome.enable = true;
     my.options.zsh.welcome.textColor = "blue";
-
-    # my.options.generic.enable = true;
 
 	services.openssh.enable = true;
 
