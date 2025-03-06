@@ -19,8 +19,6 @@
 
     networking.firewall.allowedTCPPorts = [ 8080 ];
 
-    networking.nameservers = [ "1.1.1.1" ];
-
     my.options.wm.use = lib.mkDefault "xmonad";
     specialisation = {
         gnome.configuration = {
@@ -37,6 +35,8 @@
     my.options.zsh.welcome.variant = true;
 
     my.options.generic.enable = true;
+
+	my.options.docker.rootless = true;
 
     # Enable CUPS to print documents.
     services.printing.enable = true;
