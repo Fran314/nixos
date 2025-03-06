@@ -10,9 +10,19 @@
 
     networking.hostName = "umbreon";
 
-    my.options.zsh.hostIcon = "";
-    my.options.zsh.welcome.enable = true;
-    my.options.zsh.welcome.textColor = "blue";
+    my.options.zsh = {
+		hostIcon = "";
+		welcome = {
+			enable = true;
+			textColor = "blue";
+		};
+	};
+	my.options.caddy = {
+		enable = true;
+		dockge = true;
+		pihole = true;
+		jellyfin = true;
+	};
 
 	services.openssh.enable = true;
 

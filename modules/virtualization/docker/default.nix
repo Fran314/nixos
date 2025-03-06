@@ -1,5 +1,8 @@
 { lib, config, pkgs, ... }:
 
+let
+	cfg = config.my.options.docker;
+in
 with lib; {
 	options.my.options.docker = {
 		rootless = mkEnableOption "enable rootless mode for docker";
@@ -7,10 +10,10 @@ with lib; {
 	
 	config = {
 		virtualisation.docker.enable = true;
-		users.users.baldo.extraGroups = mkIf (!config.my.options.docker.rootless) [ "docker" ]; # Needed if you're not using docker in rootless mode
+		users.users.baldo.extraGroups = mkIf (!cfg.rootless) [ "docker" ]; # Needed if you're not using docker in rootless mode
 
 		# Rootless mode
-		virtualisation.docker.rootless = mkIf config.my.options.docker.rootless {
+		virtualisation.docker.rootless = mkIf cfg.rootless {
 			enable = true;
 			setSocketVariable = true;
 		};

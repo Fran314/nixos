@@ -7,12 +7,12 @@
         ../../modules/wm
         ../../modules/xdg
         ../../modules/alacritty
+		../../modules/caddy
 		../../modules/virtualization/docker
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
         ../../modules/gaming
         ../../modules/generic
-		# ../../modules/virtualization/virtualbox
     ];
 
     networking.hostName = "latias";
@@ -25,17 +25,20 @@
             my.options.wm.use = "gnome";
         };
     };
-    my.options.xdg.bind-to-data = true;
-    my.options.xdg.with-archivio = true;
-
-    # my.options.zsh.hostIcon = "";
-    # my.options.zsh.hostIcon = "󰅟";
-    my.options.zsh.welcome.enable = true;
-    my.options.zsh.welcome.textColor = "red";
-    my.options.zsh.welcome.variant = true;
-
+    my.options.xdg = {
+		bind-to-data = true;
+		with-archivio = true;
+	};
+    my.options.zsh = {
+		# hostIcon = "";
+		# hostIcon = "󰅟";
+		welcome = {
+			enable = true;
+			textColor = "red";
+			variant = true;
+		};
+	};
     my.options.generic.enable = true;
-
 	my.options.docker.rootless = true;
 
     # Enable CUPS to print documents.
