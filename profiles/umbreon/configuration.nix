@@ -4,14 +4,11 @@
     imports = [
         ./hardware-configuration.nix
         ../../modules/minimal
+		../../modules/caddy
 		../../modules/virtualization/docker
     ];
 
     networking.hostName = "umbreon";
-
-    # networking.firewall.allowedTCPPorts = [ 8080 ];
-
-    networking.nameservers = [ "1.1.1.1" ];
 
     my.options.zsh.hostIcon = "";
     my.options.zsh.welcome.enable = true;

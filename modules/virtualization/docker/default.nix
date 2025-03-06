@@ -1,12 +1,18 @@
 { lib, config, pkgs, ... }:
 
-{
-	virtualisation.docker.enable = true;
-    # # Needed if you're not using docker in rootless mode
-    # # but not necessary since we're enabling rootless mode
-    # users.users.baldo.extraGroups = [ "docker" ];
-    virtualisation.docker.rootless = {
-        enable = true;
-        setSocketVariable = true;
-    };
+with lib; {
+	options.my.docker = {
+		rootless = mkEnableOption "enable rootless mode for docker";
+	};
+	
+	config = {
+		virtualisation.docker.enable = true;
+		users.users.baldo.extraGroups = mkIf (!config.my.docker.rootless) [ "docker" ]; # Needed if you're not using docker in rootless mode
+
+		# Rootless mode
+		virtualisation.docker.rootless = mkIf config.my.docker.rootless {
+			enable = true;
+			setSocketVariable = true;
+		};
+	};
 }
