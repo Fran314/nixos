@@ -25,6 +25,7 @@
 		jellyfin = true;
 		baikal = true;
 		vaultwarden = true;
+		qbittorrent = true;
 	};
 
 	services.openssh.enable = true;
@@ -42,6 +43,11 @@
     ##################
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
+
+	fileSystems."/mnt/hdd1" = {
+		device = "/dev/disk/by-uuid/53ee69cb-d21b-427d-ba79-8910c3a16885";
+		fsType = "ext4";
+	};
 
 	# ZFS stuff
 	boot.supportedFilesystems = [ "zfs" ];
