@@ -10,6 +10,7 @@ with lib; {
 		dockge = mkEnableOption "enable reverse proxy from dockge.lan to :5001";
 		pihole = mkEnableOption "enable reverse proxy from pihole.lan to :8081";
 		jellyfin = mkEnableOption "enable reverse proxy from jellyfin.lan to :8096";
+		baikal = mkEnableOption "enable reverse proxy from baikal.lan to :8082";
 	};
 
 	
@@ -26,9 +27,13 @@ with lib; {
 
 		(mkIf cfg.dockge {
 			services.caddy = {
-				virtualHosts."http://dockge.lan".extraConfig = ''
-					reverse_proxy http://localhost:5001
-				'';
+				virtualHosts."dockge.home" = {
+					serverAliases = [ "dockge.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:5001
+						tls internal
+					''; 
+				};
 			};
 			networking.firewall.allowedTCPPorts = [
 				5001
@@ -37,10 +42,14 @@ with lib; {
 
 		(mkIf cfg.pihole {
 			services.caddy = {
-				virtualHosts."http://pihole.lan".extraConfig = ''
-					redir / /admin
-					reverse_proxy http://localhost:8081
-				'';
+				virtualHosts."pihole.home" = {
+					serverAliases = [ "pihole.lan" ];
+					extraConfig = ''
+						redir / /admin
+						reverse_proxy http://localhost:8081
+						tls internal
+					'';
+				};
 			};
 			networking.firewall.allowedTCPPorts = [
 				53
@@ -54,12 +63,31 @@ with lib; {
 
 		(mkIf cfg.jellyfin {
 			services.caddy = {
-				virtualHosts."http://jellyfin.lan".extraConfig = ''
-					reverse_proxy http://localhost:8096
-				'';
+				virtualHosts."jellyfin.home" = {
+					serverAliases = [ "jellyfin.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:8096
+						tls internal
+					'';
+				};
 			};
 			networking.firewall.allowedTCPPorts = [
 				8096
+			];
+		})
+
+		(mkIf cfg.baikal {
+			services.caddy = {
+				virtualHosts."baikal.home" = {
+					serverAliases = [ "baikal.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:8082
+						tls internal
+					'';
+				};
+			};
+			networking.firewall.allowedTCPPorts = [
+				8082
 			];
 		})
 	]);

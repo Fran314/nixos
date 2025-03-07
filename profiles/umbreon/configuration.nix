@@ -17,11 +17,13 @@
 			textColor = "blue";
 		};
 	};
+	my.options.docker.rootless = true;
 	my.options.caddy = {
 		enable = true;
-		dockge = true;
+		# dockge = true;
 		pihole = true;
 		jellyfin = true;
+		baikal = true;
 	};
 
 	services.openssh.enable = true;
