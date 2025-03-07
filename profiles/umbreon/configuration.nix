@@ -24,6 +24,7 @@
 		pihole = true;
 		jellyfin = true;
 		baikal = true;
+		vaultwarden = true;
 	};
 
 	services.openssh.enable = true;

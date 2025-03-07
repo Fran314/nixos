@@ -11,6 +11,7 @@ with lib; {
 		pihole = mkEnableOption "enable reverse proxy from pihole.lan to :8081";
 		jellyfin = mkEnableOption "enable reverse proxy from jellyfin.lan to :8096";
 		baikal = mkEnableOption "enable reverse proxy from baikal.lan to :8082";
+		vaultwarden = mkEnableOption "enable reverse proxy from vaultwarden.lan to :8083";
 	};
 
 	
@@ -88,6 +89,21 @@ with lib; {
 			};
 			networking.firewall.allowedTCPPorts = [
 				8082
+			];
+		})
+
+		(mkIf cfg.vaultwarden {
+			services.caddy = {
+				virtualHosts."vaultwarden.home" = {
+					serverAliases = [ "vaultwarden.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:8083
+						tls internal
+					'';
+				};
+			};
+			networking.firewall.allowedTCPPorts = [
+				8083
 			];
 		})
 	]);
