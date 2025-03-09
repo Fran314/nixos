@@ -23,10 +23,11 @@
 		# dockge = true;
 		pihole = true;
 		jellyfin = true;
-		baikal = true;
+		# baikal = true;
 		vaultwarden = true;
 		qbittorrent = true;
 		handbrake = true;
+		radicale = true;
 	};
 
 	services.openssh.enable = true;

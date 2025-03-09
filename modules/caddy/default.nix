@@ -14,6 +14,7 @@ with lib; {
 		vaultwarden = mkEnableOption "enable reverse proxy from vaultwarden.lan to :8083";
 		qbittorrent = mkEnableOption "enable reverse proxy from qbittorrent.lan to :8080";
 		handbrake = mkEnableOption "enable reverse proxy from handbrake.lan to :5800";
+		radicale = mkEnableOption "enable reverse proxy from radicale.lan to :5232";
 	};
 
 	
@@ -135,7 +136,22 @@ with lib; {
 				};
 			};
 			networking.firewall.allowedTCPPorts = [
-				8080
+				5800
+			];
+		})
+
+		(mkIf cfg.radicale {
+			services.caddy = {
+				virtualHosts."radicale.home" = {
+					serverAliases = [ "radicale.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:5232
+						tls internal
+					'';
+				};
+			};
+			networking.firewall.allowedTCPPorts = [
+				5232
 			];
 		})
 	]);
