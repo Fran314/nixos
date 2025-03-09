@@ -13,6 +13,7 @@ with lib; {
 		baikal = mkEnableOption "enable reverse proxy from baikal.lan to :8082";
 		vaultwarden = mkEnableOption "enable reverse proxy from vaultwarden.lan to :8083";
 		qbittorrent = mkEnableOption "enable reverse proxy from qbittorrent.lan to :8080";
+		handbrake = mkEnableOption "enable reverse proxy from handbrake.lan to :5800";
 	};
 
 	
@@ -114,6 +115,21 @@ with lib; {
 					serverAliases = [ "qbittorrent.lan" ];
 					extraConfig = ''
 						reverse_proxy http://localhost:8080
+						tls internal
+					'';
+				};
+			};
+			networking.firewall.allowedTCPPorts = [
+				8080
+			];
+		})
+
+		(mkIf cfg.handbrake {
+			services.caddy = {
+				virtualHosts."handbrake.home" = {
+					serverAliases = [ "handbrake.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:5800
 						tls internal
 					'';
 				};

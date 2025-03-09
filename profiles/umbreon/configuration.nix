@@ -26,6 +26,7 @@
 		baikal = true;
 		vaultwarden = true;
 		qbittorrent = true;
+		handbrake = true;
 	};
 
 	services.openssh.enable = true;
