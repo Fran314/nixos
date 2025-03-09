@@ -2,20 +2,20 @@
 
 with lib; {
     options.my.options.tmux = {
-        tmux-unless-busy = mkEnableOption "";
+        tmux-main-session = mkEnableOption "";
     };
 
     config = let
-        tmux-unless-busy = pkgs.writeShellApplication {
-            name = "tmux-unless-busy";
+        tmux-main-session = pkgs.writeShellApplication {
+            name = "tmux-main-session";
             runtimeInputs = with pkgs; [
                 bash
             ];
-            text = builtins.readFile ./tmux-unless-busy;
+            text = builtins.readFile ./tmux-main-session;
         };
     in {
         environment.systemPackages = [
-            (mkIf config.my.options.tmux.tmux-unless-busy tmux-unless-busy)
+            (mkIf config.my.options.tmux.tmux-main-session tmux-main-session)
         ];
 
         programs.tmux = {
