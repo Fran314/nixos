@@ -17,6 +17,7 @@
 			textColor = "blue";
 		};
 	};
+
 	my.options.docker.rootless = true;
 	my.options.caddy = {
 		enable = true;
@@ -28,6 +29,7 @@
 		qbittorrent = true;
 		handbrake = true;
 		radicale = true;
+		gitea = true;
 	};
 
 	services.openssh.enable = true;

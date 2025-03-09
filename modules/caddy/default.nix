@@ -15,6 +15,7 @@ with lib; {
 		qbittorrent = mkEnableOption "enable reverse proxy from qbittorrent.lan to :8080";
 		handbrake = mkEnableOption "enable reverse proxy from handbrake.lan to :5800";
 		radicale = mkEnableOption "enable reverse proxy from radicale.lan to :5232";
+		gitea = mkEnableOption "enable reverse proxy from gitea.lan to :3000";
 	};
 
 	
@@ -152,6 +153,21 @@ with lib; {
 			};
 			networking.firewall.allowedTCPPorts = [
 				5232
+			];
+		})
+		
+		(mkIf cfg.gitea {
+			services.caddy = {
+				virtualHosts."gitea.home" = {
+					serverAliases = [ "gitea.lan" ];
+					extraConfig = ''
+						reverse_proxy http://localhost:3000
+						tls internal
+					'';
+				};
+			};
+			networking.firewall.allowedTCPPorts = [
+				3000
 			];
 		})
 	]);
