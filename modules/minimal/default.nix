@@ -58,6 +58,7 @@
 
         bat
         bottom
+		file
         tree
         rsync
         ripgrep
