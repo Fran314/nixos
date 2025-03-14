@@ -4,8 +4,7 @@
     imports = [
         ./hardware-configuration.nix
         ../../modules/minimal
-		../../modules/caddy
-		../../modules/virtualization/docker
+		../../modules/services
     ];
 
     networking.hostName = "umbreon";
@@ -21,18 +20,16 @@
 
 		tmux.tmux-main-session = true;
 
-		docker.rootless = true;
-		caddy = {
-			enable = true;
-			# dockge = true;
+		services = {
 			pihole = true;
-			jellyfin = true;
-			# baikal = true;
+
 			vaultwarden = true;
+			radicale = true;
+			forgejo = true;
+
+			jellyfin = true;
 			qbittorrent = true;
 			handbrake = true;
-			radicale = true;
-			gitea = true;
 		};
 	};
 
