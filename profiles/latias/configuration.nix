@@ -11,6 +11,7 @@
 		../../modules/virtualization/docker
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
+		../../modules/productivity/video-editing
         ../../modules/gaming
         ../../modules/generic
     ];
@@ -82,6 +83,7 @@
         ### Daily usage
         firefox
         nautilus 
+		file-roller		  # archive browser (.zip, .tar, ...)
         telegram-desktop
         eog               # image viewer
 
@@ -94,9 +96,6 @@
         geogebra6
         darktable
         libreoffice
-		pkgs-unstable.shotcut
-		openshot-qt
-		kdenlive
 
 		flatpak
         appimage-run
@@ -104,7 +103,6 @@
         ### CLI utils
         tldr
         imagemagick
-        pkgs-unstable.yt-dlp
         mediainfo
         pdftk
 		tgpt
