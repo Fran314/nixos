@@ -1,4 +1,4 @@
-{ lib, config, pkgs, pkgs-unstable, ... }:
+{ lib, config, pkgs, ... }:
 
 {
     imports = [
@@ -7,13 +7,14 @@
         ../../modules/wm
         ../../modules/xdg
         ../../modules/alacritty
-		../../modules/caddy
+		../../modules/utils
 		../../modules/virtualization/docker
+
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
 		../../modules/productivity/video-editing
+
         ../../modules/gaming
-        ../../modules/utils
     ];
 
     networking.hostName = "latias";
@@ -48,7 +49,6 @@
 			bookletify = true;
 			poke2term = true;
 		};
-		docker.rootless = true;
 	};
 
     # Enable CUPS to print documents.
