@@ -13,7 +13,7 @@
         ../../modules/productivity/lean4
 		../../modules/productivity/video-editing
         ../../modules/gaming
-        ../../modules/generic
+        ../../modules/utils
     ];
 
     networking.hostName = "latias";
@@ -21,26 +21,35 @@
     networking.firewall.allowedTCPPorts = [ 8080 ];
 
     my.options.wm.use = lib.mkDefault "xmonad";
-    specialisation = {
-        gnome.configuration = {
-            my.options.wm.use = "gnome";
-        };
-    };
-    my.options.xdg = {
-		bind-to-data = true;
-		with-archivio = true;
+    specialisation.gnome.configuration = {
+		my.options.wm.use = "gnome";
 	};
-    my.options.zsh = {
-		# hostIcon = "";
-		# hostIcon = "󰅟";
-		welcome = {
-			enable = true;
-			textColor = "red";
-			variant = true;
+
+	my.options = {
+		xdg = {
+			bind-to-data = true;
+			with-archivio = true;
 		};
+		zsh = {
+			# hostIcon = "";
+			# hostIcon = "󰅟";
+			welcome = {
+				enable = true;
+				textColor = "red";
+				variant = true;
+			};
+		};
+		utils = {
+			keep-images = true;
+			batch-rename = true;
+			img-resize = true;
+			ctex = true;
+			new-project = true;
+			bookletify = true;
+			poke2term = true;
+		};
+		docker.rootless = true;
 	};
-    my.options.generic.enable = true;
-	my.options.docker.rootless = true;
 
     # Enable CUPS to print documents.
     services.printing.enable = true;
