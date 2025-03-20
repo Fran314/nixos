@@ -7,6 +7,8 @@ import json
 
 import subprocess
 
+import exiftool
+
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GdkPixbuf
@@ -34,12 +36,37 @@ class Image(Gtk.Window):
         print("Press P to go to previous image")
 
     def set_image(self):
-        width, height = self.get_size()
-        width = max(width, 900)
-        height = max(height, 600)
         curr_image = self.images[self.state["current"]]
         print(f'{curr_image}\t[ {self.state["current"]} / {len(self.images)} ]')
-        pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(filename=curr_image, width=width, height=height, preserve_aspect_ratio=True)
+
+        rot = GdkPixbuf.PixbufRotation.NONE
+        with exiftool.ExifToolHelper() as et:
+            for d in et.get_metadata(curr_image):
+                if "EXIF:Orientation" in d:
+                    if d["EXIF:Orientation"] == 1:
+                        rot = GdkPixbuf.PixbufRotation.NONE
+                    elif d["EXIF:Orientation"] == 3:
+                        rot = GdkPixbuf.PixbufRotation.UPSIDEDOWN
+                    elif d["EXIF:Orientation"] == 6:
+                        rot = GdkPixbuf.PixbufRotation.CLOCKWISE
+                    elif d["EXIF:Orientation"] == 8:
+                        rot = GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE
+
+        width, height = self.get_size()
+
+        # For some reason, when the first image is loaded the window is still uncertain on its size and it thinks
+        # it's much smaller than it actually is, hence the need to make the image at least a lil big
+        width = max(width, 1000)
+        height = max(height, 1000)
+
+        if rot == GdkPixbuf.PixbufRotation.CLOCKWISE or rot == GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE:
+            width, height = height, width
+ 
+        pixbuf = GdkPixbuf.Pixbuf.rotate_simple(
+                    GdkPixbuf.Pixbuf.new_from_file_at_scale(filename=curr_image, width=width, height=height, preserve_aspect_ratio=True),
+                    rot
+                )
+
         self.image.set_from_pixbuf(pixbuf)
 
     def on_key_press(self, widget, event):
@@ -95,5 +122,7 @@ if exists('.keep-images.json'):
 
 window = Image(images, state)
 window.show_all()
+
+window.set_image()
 
 Gtk.main()

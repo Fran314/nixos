@@ -26,9 +26,8 @@ python3Packages.buildPythonPackage rec {
     ];
 
     propagatedBuildInputs = with python3Packages; [
-        # pycairo
-        # requests
         pygobject3
+		pyexiftool
     ];
 
     postPatch =
