@@ -102,9 +102,6 @@
 
         ### CLI utils
         tldr
-        imagemagick
-        mediainfo
-        pdftk
 		tgpt
 
         ### Developement

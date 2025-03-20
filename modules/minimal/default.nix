@@ -66,10 +66,13 @@
         zip
         unzip
         xclip
-        # rar
-        # unrar
         bottom
         jq
+
+        imagemagick
+        mediainfo
+		exiftool
+        pdftk
 
         home-manager
     ];
