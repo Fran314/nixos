@@ -10,11 +10,12 @@ print_help() {
     echo ""
     echo "OPTIONS:"
     #    "--- 80 characters --------------------------------------------------------------"
-    echo "    -h, --help      print help text"
-	echo "    -s, --source    source of the images"
-	echo "                    (default value: /run/media/baldo/EOS_DIGITAL/DCIM/100CANON)"
-	echo "    --no-img        skip images (incompatible with --no-vid)"
-	echo "    --no-vid        skip videos (incompatible with --no-img)"
+    echo "    -h, --help            print help text"
+	echo "    -s, --source          source of the images (default value: "
+	echo "							    /run/media/baldo/EOS_DIGITAL/DCIM/100CANON)"
+	echo "    --no-img              skip images (incompatible with --no-vid)"
+	echo "    --no-vid              skip videos (incompatible with --no-img)"
+	echo "    --write-conversion    save the names conversion to a .csv file"
     echo ""
     echo "DEST: the destination of the images"
 }
@@ -30,6 +31,7 @@ POSITIONAL_ARGS=()
 SOURCE="/run/media/baldo/EOS_DIGITAL/DCIM/100CANON"
 NOIMG=0
 NOVID=0
+WRITE_CONVERSION=0
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -48,6 +50,10 @@ while [[ $# -gt 0 ]]; do
 			;;
 		--no-vid)
 			NOVID=1
+			shift
+			;;
+		--write-conversion)
+			WRITE_CONVERSION=1
 			shift
 			;;
         -*)
@@ -76,7 +82,7 @@ DEST="$1"
 # shellcheck disable=SC2207,SC2010
 [[ "$NOIMG" -ne 1 ]] && imgs=($(ls -1 "$SOURCE" | grep -E '^IMG_....\.(JPG|CR2)$' | sed 's/....$//' | sort | uniq))
 # shellcheck disable=SC2207,SC2010
-[[ "$NOVID" -ne 1 ]] && vids=($(ls -1 "$SOURCE" | grep -E '^MVI_....\.MP4$'))
+[[ "$NOVID" -ne 1 ]] && vids=($(ls -1 "$SOURCE" | grep -E '^MVI_....\.MP4$'       | sed 's/....$//'))
 
 [[ "$NOIMG" -ne 1 ]] && echo "images: ${#imgs[@]}"
 [[ "$NOVID" -ne 1 ]] && echo "videos: ${#vids[@]}"
@@ -133,6 +139,8 @@ then
 			cp --preserve=timestamps "$cr2_in" "$cr2_out"
 			chmod 644 "$cr2_out"
 		fi
+
+		[[ $WRITE_CONVERSION -eq 1 ]] && echo "IMG_${timestamp}_$n,${imgs[$i]}" >> "$DEST/names-conversion.csv"
 	done
 
 	echo "Done importing images!"
@@ -146,12 +154,14 @@ then
 	do
 		echo "${vids[$i]} [$i/${#vids[@]}]"
 
-		vid_in="$SOURCE/${vids[$i]}"
+		vid_in="$SOURCE/${vids[$i]}.MP4"
 		timestamp=$(exiftool -s3 -DateTimeOriginal "$vid_in" -d %Y%m%d_%H%M%S)
 		vid_out="$DEST/MVI_$timestamp.MP4"
 
 		cp --preserve=timestamps "$vid_in" "$vid_out"
 		chmod 644 "$vid_out"
+
+		[[ $WRITE_CONVERSION -eq 1 ]] && echo "MVI_${timestamp},${vids[$i]}" >> "$DEST/names-conversion.csv"
 	done
 
 	echo "Done importing videos!"
