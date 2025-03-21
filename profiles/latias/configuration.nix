@@ -44,6 +44,7 @@
 			keep-images = true;
 			batch-rename = true;
 			img-resize = true;
+			canon-import = true;
 			ctex = true;
 			new-project = true;
 			bookletify = true;
@@ -112,6 +113,7 @@
         ### CLI utils
         tldr
 		tgpt
+		shellcheck
 
         ### Developement
         cargo

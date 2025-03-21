@@ -1,0 +1,158 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "canon-import"
+    echo ""
+    echo "automatically import images from your SD card and properly format file names,"
+	echo "metadata and permissions"
+    echo ""
+    echo "USAGE: canon-import [OPTIONS] DEST"
+    echo ""
+    echo "OPTIONS:"
+    #    "--- 80 characters --------------------------------------------------------------"
+    echo "    -h, --help      print help text"
+	echo "    -s, --source    source of the images"
+	echo "                    (default value: /run/media/baldo/EOS_DIGITAL/DCIM/100CANON)"
+	echo "    --no-img        skip images (incompatible with --no-vid)"
+	echo "    --no-vid        skip videos (incompatible with --no-img)"
+    echo ""
+    echo "DEST: the destination of the images"
+}
+
+print_error() {
+    print_help
+    echo ""
+    echo "ERROR: $1"
+    exit 1
+}
+
+POSITIONAL_ARGS=()
+SOURCE="/run/media/baldo/EOS_DIGITAL/DCIM/100CANON"
+NOIMG=0
+NOVID=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            print_help
+            exit 0
+            ;;
+        -s|--source)
+			SOURCE="$2"
+            shift # past argument
+			shift # past value
+            ;;
+		--no-img)
+			NOIMG=1
+			shift
+			;;
+		--no-vid)
+			NOVID=1
+			shift
+			;;
+        -*)
+            print_error "Unknown option $1"
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$1") # save positional arg
+            shift # past argument
+            ;;
+    esac
+done
+
+if [[ "$NOIMG" -eq 1 ]] && [[ "$NOVID" -eq 1 ]]
+then
+	print_error "Cannot use both --no-img and --no-vid"
+fi
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+if [[ -z ${1+x} ]]; then
+    print_error "Destination not given"
+fi
+
+DEST="$1"
+
+# shellcheck disable=SC2207,SC2010
+[[ "$NOIMG" -ne 1 ]] && imgs=($(ls -1 "$SOURCE" | grep -E '^IMG_....\.(JPG|CR2)$' | sed 's/....$//' | sort | uniq))
+# shellcheck disable=SC2207,SC2010
+[[ "$NOVID" -ne 1 ]] && vids=($(ls -1 "$SOURCE" | grep -E '^MVI_....\.MP4$'))
+
+[[ "$NOIMG" -ne 1 ]] && echo "images: ${#imgs[@]}"
+[[ "$NOVID" -ne 1 ]] && echo "videos: ${#vids[@]}"
+
+read -rn1 -p "Procede? [y/N]: " CHOICE
+echo ""
+CHOICE="${CHOICE:-n}"
+
+if [[ "$CHOICE" != "y" ]] && [[ "$CHOICE" != "Y" ]]
+then
+	echo ""
+	echo "Quitting..."
+	exit
+fi
+
+if [[ "$NOIMG" -ne 1 ]]
+then
+	echo "Importing images..."
+
+	for i in "${!imgs[@]}"
+	do
+		echo "${imgs[$i]} [$i/${#imgs[@]}]"
+
+		jpg_in="$SOURCE/${imgs[$i]}.JPG"
+		cr2_in="$SOURCE/${imgs[$i]}.CR2"
+
+		timestamp=""
+		if [[ -f "$cr2_in" ]]
+		then
+			timestamp=$(exiftool -s3 -DateTimeOriginal "$cr2_in" -d %Y%m%d_%H%M%S)
+		else
+			timestamp=$(exiftool -s3 -DateTimeOriginal "$jpg_in" -d %Y%m%d_%H%M%S)
+		fi
+
+		n=0
+		# this is equivalent to a do-while, which does not exist in bash
+		while true
+		do
+			jpg_out="$DEST/IMG_${timestamp}_$n.JPG"
+			cr2_out="$DEST/IMG_${timestamp}_$n.CR2"
+
+			[[ -f "$jpg_out" ]] || [[ -f "$cr2_out" ]] || break
+
+			n=$((n + 1))
+		done
+
+		if [[ -f "$jpg_in" ]]
+		then
+			cp --preserve=timestamps "$jpg_in" "$jpg_out"
+			chmod 644 "$jpg_out"
+		fi
+		if [[ -f "$cr2_in" ]]
+		then
+			cp --preserve=timestamps "$cr2_in" "$cr2_out"
+			chmod 644 "$cr2_out"
+		fi
+	done
+
+	echo "Done importing images!"
+fi
+
+if [[ "$NOVID" -ne 1 ]]
+then
+	echo "Importing videos..."
+
+	for i in "${!vids[@]}"
+	do
+		echo "${vids[$i]} [$i/${#vids[@]}]"
+
+		vid_in="$SOURCE/${vids[$i]}"
+		timestamp=$(exiftool -s3 -DateTimeOriginal "$vid_in" -d %Y%m%d_%H%M%S)
+		vid_out="$DEST/MVI_$timestamp.MP4"
+
+		cp --preserve=timestamps "$vid_in" "$vid_out"
+		chmod 644 "$vid_out"
+	done
+
+	echo "Done importing videos!"
+fi

@@ -8,6 +8,7 @@ with lib; {
 		keep-images = mkEnableOption "";
 		batch-rename = mkEnableOption "";
 		img-resize = mkEnableOption "";
+		canon-import = mkEnableOption "";
 		ctex = mkEnableOption "";
 		new-project = mkEnableOption "";
 		bookletify = mkEnableOption "";
@@ -37,7 +38,19 @@ with lib; {
 					text = builtins.readFile ./img-resize;
 				})
 			)
-
+			
+			(mkIf cfg.canon-import
+				(pkgs.writeShellApplication {
+					name = "canon-import";
+					runtimeInputs = with pkgs; [
+						bash
+						gnused
+						exiftool
+					];
+					text = builtins.readFile ./canon-import;
+				})
+			)
+			
             (mkIf cfg.ctex
 				(pkgs.writeShellApplication {
 					name = "ctex";
