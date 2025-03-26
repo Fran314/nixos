@@ -10,12 +10,13 @@ print_help() {
     echo ""
     echo "OPTIONS:"
     #    "--- 80 characters --------------------------------------------------------------"
-    echo "    -h, --help            print help text"
-	echo "    -s, --source          source of the images (default value: "
-	echo "							    /run/media/baldo/EOS_DIGITAL/DCIM/100CANON)"
-	echo "    --no-img              skip images (incompatible with --no-vid)"
-	echo "    --no-vid              skip videos (incompatible with --no-img)"
-	echo "    --write-conversion    save the names conversion to a .csv file"
+    echo "    -h, --help             print help text"
+	echo "    -s, --source=SOURCE    source of the images (default value: "
+	echo "							     /run/media/baldo/EOS_DIGITAL/DCIM/100CANON)"
+	echo "    -m, --mv               use mv instead of cp"
+	echo "    --no-img               skip images (incompatible with --no-vid)"
+	echo "    --no-vid               skip videos (incompatible with --no-img)"
+	echo "    --write-conversion     save the names conversion to a .csv file"
     echo ""
     echo "DEST: the destination of the images"
 }
@@ -29,6 +30,7 @@ print_error() {
 
 POSITIONAL_ARGS=()
 SOURCE="/run/media/baldo/EOS_DIGITAL/DCIM/100CANON"
+MV=0
 NOIMG=0
 NOVID=0
 WRITE_CONVERSION=0
@@ -44,6 +46,10 @@ while [[ $# -gt 0 ]]; do
             shift # past argument
 			shift # past value
             ;;
+		-m|--mv)
+			MV=1
+			shift
+			;;
 		--no-img)
 			NOIMG=1
 			shift
@@ -78,6 +84,18 @@ if [[ -z ${1+x} ]]; then
 fi
 
 DEST="$1"
+
+# shellcheck disable=SC2207,SC2010
+if [[ "$NOIMG" -ne 1 ]] && ! ls -1 "$SOURCE" | grep -qE '^IMG_....\.(JPG|CR2)$'
+then
+	NOIMG=1
+fi
+
+# shellcheck disable=SC2207,SC2010
+if [[ "$NOVID" -ne 1 ]] && ! ls -1 "$SOURCE" | grep -qE '^MVI_....\.MP4$'
+then
+	NOVID=1
+fi
 
 # shellcheck disable=SC2207,SC2010
 [[ "$NOIMG" -ne 1 ]] && imgs=($(ls -1 "$SOURCE" | grep -E '^IMG_....\.(JPG|CR2)$' | sed 's/....$//' | sort | uniq))
@@ -131,12 +149,22 @@ then
 
 		if [[ -f "$jpg_in" ]]
 		then
-			cp --preserve=timestamps "$jpg_in" "$jpg_out"
+			if [[ "$MV" -eq 1 ]]
+			then
+				mv "$jpg_in" "$jpg_out"
+			else
+				cp --preserve=timestamps "$jpg_in" "$jpg_out"
+			fi
 			chmod 644 "$jpg_out"
 		fi
 		if [[ -f "$cr2_in" ]]
 		then
-			cp --preserve=timestamps "$cr2_in" "$cr2_out"
+			if [[ "$MV" -eq 1 ]]
+			then
+				mv "$cr2_in" "$cr2_out"
+			else
+				cp --preserve=timestamps "$cr2_in" "$cr2_out"
+			fi
 			chmod 644 "$cr2_out"
 		fi
 
@@ -158,7 +186,12 @@ then
 		timestamp=$(exiftool -s3 -DateTimeOriginal "$vid_in" -d %Y%m%d_%H%M%S)
 		vid_out="$DEST/MVI_$timestamp.MP4"
 
-		cp --preserve=timestamps "$vid_in" "$vid_out"
+		if [[ "$MV" -eq 1 ]]
+		then
+			mv "$vid_in" "$vid_out"
+		else
+			cp --preserve=timestamps "$vid_in" "$vid_out"
+		fi
 		chmod 644 "$vid_out"
 
 		[[ $WRITE_CONVERSION -eq 1 ]] && echo "MVI_${timestamp},${vids[$i]}" >> "$DEST/names-conversion.csv"
