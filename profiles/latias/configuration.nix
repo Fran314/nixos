@@ -106,6 +106,7 @@
         geogebra6
         darktable
         libreoffice
+		gparted
 
 		flatpak
         appimage-run
@@ -114,6 +115,8 @@
         tldr
 		tgpt
 		shellcheck
+		rar
+		unrar
 
         ### Developement
         cargo
