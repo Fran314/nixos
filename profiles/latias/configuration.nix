@@ -125,6 +125,7 @@
             matplotlib
             numpy
             scipy
+			networkx	# draw graphs and networks
         ]))
         jupyter
         nodejs
