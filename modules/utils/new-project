@@ -136,6 +136,8 @@ then
     if [[ $GIT -eq 1 ]]
     then
         [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+			__pycache__/
+
 			.env*
 			!.env*.example
 			EOF
