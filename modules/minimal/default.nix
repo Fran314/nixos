@@ -59,6 +59,7 @@
         bat
         bottom
 		file
+		lsd
         tree
         rsync
         ripgrep

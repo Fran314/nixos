@@ -27,8 +27,12 @@ with lib; {
                 rmt="\\mv -ft $@ ~/.trash/";
                 empty-trash="\\rm -rf ~/.trash && mkdir ~/.trash";
 
-                lh="ls -lhA --group-directories-first";
-                lt="ls -lhAtr";
+				ls="lsd";
+				ll="lsd -l";
+                lh="lsd -lhA --group-directories-first";
+                lt="lsd -lhAtr";
+				tree="lsd --tree -I .git -I node_modules -I target";
+				treeh="lsd --tree -I .git -I node_modules -I target -l -git --date \"+%Y-%m-%d %H:%M:%S\"";
 
                 dir-size-sort="du -sh ./* ./.* 2>/dev/null | sort -h";
             };
@@ -69,8 +73,6 @@ with lib; {
                     # General purpose
                     fuck="sudo $(fc -Lln -1)";
                     open="xdg-open";
-                    tree="tree -I node_modules -I target";
-                    treeh="\\tree -phDa -I .git -I node_modules -I target";
                     pgrep="pgrep -a";
                     fim="nvim $(fzf)";
                     rsync="rsync -hv --info=progress2";
