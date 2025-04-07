@@ -8,3 +8,7 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 
 # To allow to tab-complete .. to ../
 zstyle ':completion:*' special-dirs true
+
+# To allow ctrl+arrow to work
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
