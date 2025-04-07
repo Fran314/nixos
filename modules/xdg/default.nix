@@ -50,10 +50,12 @@ with lib; {
                     "image/jpeg" = ["org.gnome.eog.desktop"];
                     "image/png" = ["org.gnome.eog.desktop"];
                     "image/webp" = ["org.gnome.eog.desktop"];
+
 					"video/mp4" = ["vlc.desktop"];
 					"video/mpeg" = ["vlc.desktop"];
 					"video/ogg" = ["vlc.desktop"];
 					"video/webm" = ["vlc.desktop"];
+					"video/x-matroska" = ["vlc.desktop"];
                 };
             };
 

@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, pkgs-unstable, ... }:
 
 {
     imports = [
@@ -107,6 +107,7 @@
         darktable
         libreoffice
 		gparted
+		android-file-transfer
 
 		flatpak
         appimage-run
@@ -115,6 +116,7 @@
         tldr
 		tgpt
 		shellcheck
+		pkgs-unstable.yt-dlp
 		rar
 		unrar
 
@@ -130,6 +132,7 @@
         jupyter
         nodejs
         godot_4
+		fritzing	# utility to draw arduino circuit diagrams (hardly ever used, added only for opening old files from very old projects)
 
         ### Productivity
         (octaveFull.withPackages (ps: with ps; [
