@@ -29,7 +29,7 @@ with lib; {
 			"/home/baldo/pictures" = data-drive "pictures";
 			"/home/baldo/public" = data-drive "public";
 			"/home/baldo/templates" = data-drive "templates";
-			"/home/baldo/universita" = data-drive "universita";
+			"/home/baldo/universita" = data-drive "archivio/universita";
 			"/home/baldo/videos" = data-drive "videos";
 		};
 
