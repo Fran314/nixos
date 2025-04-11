@@ -7,6 +7,8 @@
 		# openshot-qt
 		# kdenlive
 
+		tenacity
+
 		handbrake
     ];
 }
