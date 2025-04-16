@@ -2,10 +2,12 @@
 
 {
     environment.systemPackages = with pkgs; [
+		ffmpeg-full
+
 		pkgs-unstable.shotcut
 		# davinci-resolve
 		# openshot-qt
-		# kdenlive
+		pkgs-unstable.kdePackages.kdenlive
 
 		tenacity
 
