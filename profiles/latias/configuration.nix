@@ -9,6 +9,7 @@
         ../../modules/alacritty
 		../../modules/utils
 		../../modules/virtualization/docker
+		../../modules/virtualization/virtualbox
 
         ../../modules/productivity/3d-modeling
         ../../modules/productivity/lean4
