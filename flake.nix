@@ -25,6 +25,7 @@
                     }
                 ];
                 specialArgs = {
+					inherit inputs;
                     inherit pkgs-unstable;
                     inherit pkgs-nvim;
                     inherit pkgs-gnome;
@@ -43,6 +44,7 @@
                     }
                 ];
                 specialArgs = {
+					inherit inputs;
                     inherit pkgs-unstable;
                     inherit pkgs-nvim;
                 };
@@ -56,6 +58,11 @@
 		home-manager = {
 			url = "github:nix-community/home-manager/release-24.11";
 			inputs.nixpkgs.follows = "nixpkgs";
+		};
+
+		private-data = {
+			url = "git+ssh://git@github.com/Fran314/nixos-private.git?ref=main&shallow=1";
+			flake = false;
 		};
 
         # Separated for granular updates

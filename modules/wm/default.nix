@@ -1,6 +1,9 @@
-{ lib, config, pkgs, ... }:
+{ lib, inputs, config, pkgs, ... }:
 
-with lib; {
+with lib;
+let
+	private-data = inputs.private-data.outPath;
+in {
     imports = [
         ./gnome
         ./xmonad
@@ -31,6 +34,7 @@ with lib; {
 
         # services.displayManager.sddm.wayland.enable = true;
         services.xserver.displayManager.lightdm.greeters.slick.enable = true;
+        services.xserver.displayManager.lightdm.background = private-data + "/background-images/final-fantasy/vivi-ornitier/background.png";
 
         # Originally these were only for XMonad, but they seems to work nicely
         # with GNOME as well (they make idle go to sleep and lock instead of only making

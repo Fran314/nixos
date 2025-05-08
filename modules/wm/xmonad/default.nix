@@ -6,6 +6,7 @@ with lib; {
 
         ./picom
         ./feh
+		./random-background
         ./dunst
         ./eww
         ./rofi
@@ -26,7 +27,8 @@ with lib; {
         services.displayManager.defaultSession = "none+xmonad";
 
         my.options.wm.xmonad.picom.enable = true;
-        my.options.wm.xmonad.feh.enable = true;
+        # my.options.wm.xmonad.feh.enable = true;
+        my.options.wm.xmonad.random-background.enable = true;
         my.options.wm.xmonad.dunst.enable = true;
         my.options.wm.xmonad.eww.enable = true;
         my.options.wm.xmonad.rofi.enable = true;

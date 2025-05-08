@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, inputs, pkgs, config, ... }:
 
 let
 	cfg = config.my.options.utils;
