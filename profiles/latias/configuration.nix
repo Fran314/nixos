@@ -23,9 +23,9 @@
     networking.firewall.allowedTCPPorts = [ 8080 ];
 
     my.options.wm.use = lib.mkDefault "xmonad";
-    specialisation.gnome.configuration = {
-		my.options.wm.use = "gnome";
-	};
+	# specialisation.gnome.configuration = {
+	# 	my.options.wm.use = "gnome";
+	# };
 
 	my.options = {
 		xdg = {
