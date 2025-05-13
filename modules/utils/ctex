@@ -74,9 +74,11 @@ cleanup() {
             [[ -f $OUT_FILE ]] && echo "$OUT_FILE"
             [[ -f $LOG_FILE ]] && echo "$LOG_FILE"
             echo ""
-            read -r -p "Delete the temporary compile files? [y/N]: " CHOICE
-            CHOICE=${CHOICE:-n}
-            if [[ "$CHOICE" == [Yy] ]]; then
+
+			echo -n "Delete the temporary compile files? [y/N]: "
+			read -rn1 CHOICE
+			echo ""
+            if [[ "$CHOICE" == "y" ]] || [[ "$CHOICE" == "Y" ]]; then
                 PROCEDE=1
             fi
         else
