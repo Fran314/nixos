@@ -56,6 +56,10 @@ done
 
 set -- "${POSITIONAL_ARGS[@]}"
 
+if [[ -z ${1+x} ]]; then
+	print_error "Source file not given"
+fi
+
 SOURCE="$1"
 
 trap cleanup INT
@@ -65,14 +69,14 @@ cleanup() {
     OUT_FILE="${SOURCE%.*}.out"
     LOG_FILE="${SOURCE%.*}.log"
 
-    if [[ -f $AUX_FILE ]] || [[ -f $OUT_FILE ]] || [[ -f $LOG_FILE ]]; then
+    if [[ -f "$AUX_FILE" ]] || [[ -f "$OUT_FILE" ]] || [[ -f "$LOG_FILE" ]]; then
         PROCEDE=0
 
         if [[ $CLEANUP -eq 0 ]]; then
             echo "Temporary compile files detected:"
-            [[ -f $AUX_FILE ]] && echo "$AUX_FILE"
-            [[ -f $OUT_FILE ]] && echo "$OUT_FILE"
-            [[ -f $LOG_FILE ]] && echo "$LOG_FILE"
+            [[ -f "$AUX_FILE" ]] && echo "$AUX_FILE"
+            [[ -f "$OUT_FILE" ]] && echo "$OUT_FILE"
+            [[ -f "$LOG_FILE" ]] && echo "$LOG_FILE"
             echo ""
 
 			echo -n "Delete the temporary compile files? [y/N]: "
@@ -86,9 +90,9 @@ cleanup() {
         fi
 
         if [[ $PROCEDE -eq 1 ]]; then
-            [[ -f $AUX_FILE ]] && rm "$AUX_FILE"
-            [[ -f $OUT_FILE ]] && rm "$OUT_FILE"
-            [[ -f $LOG_FILE ]] && rm "$LOG_FILE"
+            [[ -f "$AUX_FILE" ]] && rm "$AUX_FILE"
+            [[ -f "$OUT_FILE" ]] && rm "$OUT_FILE"
+            [[ -f "$LOG_FILE" ]] && rm "$LOG_FILE"
         fi
 
     fi
