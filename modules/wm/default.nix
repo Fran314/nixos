@@ -34,7 +34,7 @@ in {
 
         # services.displayManager.sddm.wayland.enable = true;
         services.xserver.displayManager.lightdm.greeters.slick.enable = true;
-        services.xserver.displayManager.lightdm.background = private-data + "/background-images/final-fantasy/vivi-ornitier/background.png";
+        services.xserver.displayManager.lightdm.background = private-data + "/background-images/final-fantasy/vivi-ornitier/background-1080p.png";
 
         # Originally these were only for XMonad, but they seems to work nicely
         # with GNOME as well (they make idle go to sleep and lock instead of only making
