@@ -3,17 +3,7 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
-let
-	data-drive = d: {
-		depends = [
-			"/"
-			"/data"
-		];
-		device = "/data/${d}";
-		fsType = "none";
-		options = [ "bind" "rw" ];
-	};
-in {
+{
     imports = [
         (modulesPath + "/installer/scan/not-detected.nix")
     ];

@@ -31,6 +31,26 @@
                     inherit pkgs-gnome;
                 };
             };
+			kyogre = lib.nixosSystem {
+                inherit system;
+                modules = [
+                    ./profiles/kyogre/configuration.nix
+                    inputs.home-manager.nixosModules.default {
+                        home-manager.extraSpecialArgs = {
+                            inherit inputs;
+                            inherit pkgs-unstable;
+                            inherit pkgs-nvim;
+                            inherit pkgs-gnome;
+                        };
+                    }
+                ];
+                specialArgs = {
+					inherit inputs;
+                    inherit pkgs-unstable;
+                    inherit pkgs-nvim;
+                    inherit pkgs-gnome;
+                };
+            };
 			umbreon = lib.nixosSystem {
                 inherit system;
                 modules = [
