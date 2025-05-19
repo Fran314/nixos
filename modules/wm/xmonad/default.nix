@@ -5,7 +5,6 @@ with lib; {
         ./scripts
 
         ./picom
-        ./feh
 		./random-background
         ./dunst
         ./eww
@@ -24,10 +23,14 @@ with lib; {
             enableContribAndExtras = true;
             config = builtins.readFile ./xmonad.hs;
         };
+
+		# Technically not needed, but when switching to a specialization with only
+		# Gnome and then back to a specialization with only Xmonad, for some reason
+		# some files would still be set on Gnome and would fail to find a session
+		# to log with. This manually sets the default session to prevent this
         services.displayManager.defaultSession = "none+xmonad";
 
         my.options.wm.xmonad.picom.enable = true;
-        # my.options.wm.xmonad.feh.enable = true;
         my.options.wm.xmonad.random-background.enable = true;
         my.options.wm.xmonad.dunst.enable = true;
         my.options.wm.xmonad.eww.enable = true;
