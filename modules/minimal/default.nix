@@ -69,6 +69,7 @@
         xclip
         bottom
         jq
+		atool
 
         imagemagick
         mediainfo

@@ -10,7 +10,6 @@ with lib; {
 		img-resize = mkEnableOption "";
 		canon-import = mkEnableOption "";
 		android-backup = mkEnableOption "";
-		uex = mkEnableOption "";
 		ctex = mkEnableOption "";
 		new-project = mkEnableOption "";
 		bookletify = mkEnableOption "";
@@ -63,21 +62,6 @@ with lib; {
 						util-linux
 					];
 					text = builtins.readFile ./android-backup;
-				})
-			)
-
-			(mkIf cfg.uex
-				(pkgs.writeShellApplication {
-					name = "uex";
-					runtimeInputs = with pkgs; [
-						gnutar
-						zip
-						unzip
-						rar
-						unrar
-						util-linux
-					];
-					text = builtins.readFile ./uex;
 				})
 			)
 
