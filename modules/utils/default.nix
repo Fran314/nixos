@@ -1,4 +1,4 @@
-{ lib, inputs, pkgs, config, ... }:
+{ lib, inputs, pkgs, pkgs-unstable, config, ... }:
 
 let
 	cfg = config.my.options.utils;
@@ -9,6 +9,7 @@ with lib; {
 		batch-rename = mkEnableOption "";
 		img-resize = mkEnableOption "";
 		canon-import = mkEnableOption "";
+		android-backup = mkEnableOption "";
 		ctex = mkEnableOption "";
 		new-project = mkEnableOption "";
 		bookletify = mkEnableOption "";
@@ -48,6 +49,19 @@ with lib; {
 						exiftool
 					];
 					text = builtins.readFile ./canon-import;
+				})
+			)
+
+			(mkIf cfg.android-backup
+				(pkgs.writeShellApplication {
+					name = "android-backup";
+					runtimeInputs = with pkgs; [
+						rsync
+						pkgs-unstable.android-file-transfer	# needs unstable only to get v4.4 which fixes an 
+						#									  issue that prevents it from working with Pixel 9
+						util-linux
+					];
+					text = builtins.readFile ./android-backup;
 				})
 			)
 			

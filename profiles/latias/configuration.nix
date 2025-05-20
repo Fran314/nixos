@@ -46,6 +46,7 @@
 			batch-rename = true;
 			img-resize = true;
 			canon-import = true;
+			android-backup = true;
 			ctex = true;
 			new-project = true;
 			bookletify = true;
@@ -108,7 +109,6 @@
         darktable
         libreoffice
 		gparted
-		android-file-transfer
 
 		flatpak
         appimage-run
@@ -117,7 +117,8 @@
         tldr
 		tgpt
 		shellcheck
-		pkgs-unstable.yt-dlp
+		pkgs-unstable.yt-dlp	# needs unstable because not-up-to-date versions
+		#						  stop working fairly quickly
 		rar
 		unrar
 

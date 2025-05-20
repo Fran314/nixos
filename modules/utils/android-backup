@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+
+print_help() {
+	#    "--------------------------------------------------------------------------------"
+    echo "android-backup"
+    echo ""
+	echo "backup files (mainly images and videos) from android phone"
+	echo ""
+    echo "USAGE: android-backup [OPTIONS] DEVICE"
+	echo ""
+    echo "OPTIONS:"
+    echo "    -h, --help             print help text"
+    echo ""
+    echo "SCALE must be one of the following: 'pixel-4a', 'pixel-9pro'"
+	echo ""
+	echo "The device gets mounted to /tmp/aft-mountpoint and its content gets backedup"
+	echo "in a directory inside ~/desktop/telefono-dump that depends on the specified"
+	echo "device."
+	echo ""
+	echo "Upon execution, the scripts prompts the user to ensure that the device is"
+	echo "plugged in and that 'File transfer / Android Auto' is selected in the connection"
+	echo "popup on the device."
+	echo ""
+	echo "NOTE: this script is not meant for general usage. It is meant for my usecase"
+	echo "only and uses hardcoded values and design choices that make sense only for my"
+	echo "specific setup. Feel free to take inspiration from this script, copy and steal"
+	echo "whatever you want, but do not expect it to work on your devices."
+}
+
+exit_help() {
+	print_help
+	exit 0
+}
+
+exit_error() {
+    print_help
+    echo ""
+    echo "ERROR: $1"
+    exit 1
+}
+
+POSITIONAL_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -h|--help)
+            exit_help
+            ;;
+        -*)
+			exit_error "Unknown option '$1'"
+			;;
+        *)
+			POSITIONAL_ARGS+=("$1") # save positional arg
+		  	shift # past argument
+		  	;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+if [[ -z ${1+x} ]]
+then
+	exit_error "No device specified"
+
+elif [[ "$1" != "pixel-4a" ]] && [[ "$1" != "pixel-9pro" ]]
+then
+	exit_error "Unknown device '$1'. Device must be one of the following: 'pixel-4a', 'pixel-9pro'"
+fi
+
+DEVICE="$1"
+shift
+
+#    "--------------------------------------------------------------------------------"
+echo -e "\033[1;33m  Ensure that the device is connected! \033[0m"
+echo "Make sure that the connected phone is in 'File transfer' mode. You might be"
+echo "prompted to select a mode upon connection, or it might appear as a (possibly"
+echo "silent) notification. In any case you can find this option under"
+echo "    Settings > Connected devices > USB"
+echo "Make sure to select 'File transfer / Android Auto'."
+echo ""
+echo -ne "When everything is ready, \033[1;34mpress enter...\033[0m "
+read -r
+echo ""
+
+echo "Mounting..."
+# Ensure mountpoint exists
+mkdir -p /tmp/aft-mountpoint
+# Mount android device to 
+aft-mtp-mount /tmp/aft-mountpoint
+
+echo ""
+echo "Starting backup..."
+if [[ "$DEVICE" == "pixel-4a" ]]
+then
+	mkdir -p ~/desktop/telefono-dump/pixel-4a/.
+
+	# Rsync
+	rsync --info=progress2 -avzh /tmp/aft-mountpoint/Memoria\ condivisa\ interna/{DCIM,Movies,Music,Pictures,Telegram,Fran} ~/desktop/telefono-dump/pixel-4a/.
+
+elif [[ "$DEVICE" == "pixel-9pro" ]]
+then
+	mkdir -p ~/desktop/telefono-dump/pixel-9pro/.
+
+	# Rsync
+	rsync --info=progress2 -avzh /tmp/aft-mountpoint/Internal\ shared\ storage/{DCIM,Movies,Music,Pictures,Fran} ~/desktop/telefono-dump/pixel-9pro/.
+fi
+
+# Unmounting
+echo ""
+echo "Done!"
+echo "Unmounting..."
+
+SUDO_PROMPT=$(
+	echo ""
+	echo -e "\033[1;33m  Unmounting requires sudo privileges! \033[0m"
+	echo "[sudo] password for $USER: "
+)
+SUCCESS=$(
+	echo ""
+	echo -e "\033[1;32mUnmounted succesfully!\033[0m"
+	echo "The device can be unplugged safely"
+)
+FAIL=$(
+	echo ""
+	echo -e "\033[1;31m  Failed to unmount! \033[0m"
+	echo "Unmount manually"
+)
+sudo -p "$SUDO_PROMPT" umount /tmp/aft-mountpoint && \
+	echo "$SUCCESS" || \
+	echo "$FAIL"
