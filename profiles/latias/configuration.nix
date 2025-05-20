@@ -37,7 +37,12 @@
 			# hostIcon = "󰅟";
 			welcome = {
 				enable = true;
-				textColor = "red";
+				textColor = {
+					r = 254;
+					g = 130;
+					b = 104;
+				};
+				image = "latias";
 				variant = true;
 			};
 		};

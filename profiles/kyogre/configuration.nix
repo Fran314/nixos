@@ -28,13 +28,18 @@
 	# };
 
 	my.options = {
-		# zsh = {
-		# 	welcome = {
-		# 		enable = true;
-		# 		textColor = "blue";
-		# 		variant = true;
-		# 	};
-		# };
+		zsh = {
+			welcome = {
+				enable = true;
+				textColor = {
+					r = 0;
+					g = 144;
+					b = 219;
+				};
+				image = "kyogre";
+				variant = true;
+			};
+		};
 	};
 
     # Enable CUPS to print documents.

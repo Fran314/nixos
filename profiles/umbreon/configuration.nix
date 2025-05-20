@@ -14,7 +14,12 @@
 			hostIcon = "";
 			welcome = {
 				enable = true;
-				textColor = "blue";
+				textColor = {
+					r = 106;
+					g = 189;
+					b = 222;
+				};
+				image = "umbreon";
 			};
 		};
 

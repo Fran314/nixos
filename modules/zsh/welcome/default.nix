@@ -4,16 +4,30 @@ with lib; {
     options.my.options.zsh.welcome = {
         enable = mkEnableOption "";
         variant = mkEnableOption "";
+		image = mkOption {
+			type = types.str;
+			description = "Which image to use (from the ones given in the module)";
+		};
         textColor = mkOption {
-            type = types.enum [ "black" "red" "green" "yellow" "blue" "purple" "cyan" "white" ];
+            type = with types; either
+			(enum [ "black" "red" "green" "yellow" "blue" "purple" "cyan" "white" ])
+			(submodule {
+				options = {
+					r = mkOption { type = ints.u8; };
+					g = mkOption { type = ints.u8; };
+					b = mkOption { type = ints.u8; };
+				};
+			 });
             description = "Color for the hostname in the welcome message";
         };
+
     };
 
     config = mkIf config.my.options.zsh.welcome.enable {
         home-manager.users.baldo = { pkgs,  ... }:
         let
-            c = config.my.options.zsh.welcome.textColor;
+			cfg = config.my.options.zsh.welcome;
+            c = cfg.textColor;
             color = if c == "black" then "0"
                 else if c == "red" then "1"
                 else if c == "green" then "2"
@@ -22,11 +36,11 @@ with lib; {
                 else if c == "purple" then "5"
                 else if c == "cyan" then "6"
                 else if c == "white" then "7"
-                else "0";
+                else "8;2;${builtins.toString c.r};${builtins.toString c.g};${builtins.toString c.b}";
 
-            image = builtins.readFile (./. + "/${config.networking.hostName}");
-            variant = if config.my.options.zsh.welcome.variant
-                then builtins.readFile (./. + "/${config.networking.hostName}-variant")
+            image = builtins.readFile (./. + "/${cfg.image}");
+            variant = if cfg.variant
+                then builtins.readFile (./. + "/${cfg.image}-variant")
                 else "$IMAGE";
 
             displayScript = builtins.readFile ./display-welcome.sh;
