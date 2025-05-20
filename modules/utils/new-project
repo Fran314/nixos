@@ -232,7 +232,14 @@ then
 		then
 		    exit_error "Unknown [first argument] '\$1'. [First argument] must be one of the following: 'possible-value-#1', 'possible-value-#2'"
 		fi
-		
+	
+		if [[ -n \${2+x} ]]
+		then
+		    echo "second argument is set!"
+		else
+		    echo "second argument is not set..."
+		fi	
+
 		FIRST_ARGUMENT="\$1"
 
 		if [[ \$BOOL_OPT -eq 1 ]];
@@ -241,7 +248,7 @@ then
 		else
 		    echo "boolean option is set to false"
 		fi
-		echo "\$STR_OPT"
+		echo "STR_OPT: '\$STR_OPT'"
 		echo "\$FIRST_ARGUMENT"
 		EOF
 

@@ -52,6 +52,7 @@
 			img-resize = true;
 			canon-import = true;
 			android-backup = true;
+			uex = true;
 			ctex = true;
 			new-project = true;
 			bookletify = true;
