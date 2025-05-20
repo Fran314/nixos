@@ -14,7 +14,7 @@ print_help() {
 	echo "    -gg           initialize git repository and create initial commit (implies"
 	echo "                   -g)"
     echo ""
-    echo "TYPE: currently supported types are 'node', 'python'"
+    echo "TYPE: currently supported types are 'node', 'python', 'nix-shell-application'"
 }
 
 print_error() {
@@ -129,6 +129,134 @@ then
 		    buildInputs = [
 		        (python3.withPackages (ps: with ps; [
 		        ]))
+		    ];
+		}
+		EOF
+
+    if [[ $GIT -eq 1 ]]
+    then
+        [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+			__pycache__/
+
+			.env*
+			!.env*.example
+			EOF
+
+
+		[[ ! -f README.md ]] && cat <<- EOF > README.md
+			# $PROJECT_NAME
+			EOF
+
+        [[ ! -d .git ]] && { 
+            git init
+            if [[ $GGIT -eq 1 ]]
+            then
+                git add .
+                git commit -m "initial commit"
+            fi
+        }
+    fi
+elif [[ $TYPE == 'nix-shell-application' ]]
+then
+    [[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" > .prettierrc.json
+
+	[[ ! -f source.sh ]] && cat <<- EOF > source.sh
+		#!/usr/bin/env bash
+		
+		print_help() {
+		    #    "--------------------------------------------------------------------------------"
+		    echo "$PROJECT_NAME"
+		    echo ""
+		    echo "short description of the application"
+		    echo ""
+		    echo "USAGE: $PROJECT_NAME [OPTIONS] FIRST_ARGUMENT [SECOND_ARGUMENT... ]"
+		    echo ""
+		    echo "OPTIONS:"
+		    echo "    -h, --help             print help text"
+		    echo "    -b, --bool-opt         set boolean option to false (default true)"
+		    echo "    -s, --str-opt STR      set string option (default empty)"
+		    echo ""
+		    echo "FIRST_ARGUMENT must be either 'possible-value-#1' or 'possible-value-#2'"
+		    echo ""
+		    echo "Long detailed description if needed"
+		}
+		
+		exit_help() {
+		    print_help
+		    exit 0
+		}
+		
+		exit_error() {
+		    print_help
+		    echo ""
+		    echo "ERROR: \$1"
+		    exit 1
+		}
+		
+		
+		POSITIONAL_ARGS=()
+		BOOL_OPT=1    # 1 = True
+		STR_OPT=""
+		
+		while [[ \$# -gt 0 ]]; do
+		    case \$1 in
+		        -h|--help)
+		            exit_help
+		            ;;
+		        -b|--bool)
+		            BOOL_OPT=0
+		            shift    # past flag
+		            ;;
+		        -s|--str)
+		            STR_OPT="\$2"
+		            shift    # past flag
+		            shift    # past value
+		            ;;
+		        -*)
+		            exit_error "Unknown option '\$1'"
+		            ;;
+		        *)
+		            POSITIONAL_ARGS+=("\$1") # save positional arg
+		            shift # past argument
+		            ;;
+		    esac
+		done
+		
+		set -- "\${POSITIONAL_ARGS[@]}"
+		
+		if [[ -z \${1+x} ]]
+		then
+		    exit_error "No [first argument] specified"
+		
+		elif [[ "\$1" != "possible-value-#1" ]] && [[ "\$1" != "possible-value-#2" ]]
+		then
+		    exit_error "Unknown [first argument] '\$1'. [First argument] must be one of the following: 'possible-value-#1', 'possible-value-#2'"
+		fi
+		
+		FIRST_ARGUMENT="\$1"
+
+		if [[ \$BOOL_OPT -eq 1 ]];
+		then
+		    echo "boolean option is set to true"
+		else
+		    echo "boolean option is set to false"
+		fi
+		echo "\$STR_OPT"
+		echo "\$FIRST_ARGUMENT"
+		EOF
+
+
+	[[ ! -f shell.nix ]] && cat <<- EOF > shell.nix
+		with (import <nixpkgs> {});
+		mkShell {
+		    packages = [
+		        (pkgs.writeShellApplication {
+		            name = "$PROJECT_NAME";
+		            runtimeInputs = with pkgs; [
+		                util-linux
+		            ];
+		            text = builtins.readFile ./source.sh;
+				})
 		    ];
 		}
 		EOF
