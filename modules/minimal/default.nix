@@ -70,6 +70,8 @@
         bottom
         jq
 		atool
+		dust
+		fd
 
         imagemagick
         mediainfo
