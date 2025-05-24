@@ -1,0 +1,15 @@
+.bluetooth-menu-content {
+    border-radius: 12px;
+    border: 3px solid #0099ff;
+    padding: 20px;
+    background-color: rgba(#282a28, 0.85);
+
+    font-size: 1.3rem;
+
+    .key-label {
+        padding: 5px;
+        border: 2 solid #666;
+        border-radius: 4px;
+        background-color: rgba(#fff, 0.15);
+    }
+}

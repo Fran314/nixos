@@ -29,7 +29,7 @@ do
     # VPN_STATUS=$(mullvad status | grep -oP "(Disconnected|in \K.*)")
     # echo "{ \"connection\": \"$CONNECTION\", \"rx\": $(./format-bytes.py $DIFFRX), \"tx\": $(./format-bytes.py $DIFFTX), \"should_expand\": \"$SHOULD_EXPAND\", \"vpn\": \"$VPN_STATUS\"}"
 
-    echo "{ \"connection\": \"$CONNECTION\", \"rx\": $(./format-bytes.py $DIFFRX), \"tx\": $(./format-bytes.py $DIFFTX), \"should_expand\": \"$SHOULD_EXPAND\", \"vpn\": \"Disconnected\"}"
+    echo "{ \"connection\": \"$CONNECTION\", \"rx\": $(./format-bytes.py $DIFFRX), \"tx\": $(./format-bytes.py $DIFFTX), \"should-expand\": \"$SHOULD_EXPAND\", \"vpn\": \"Disconnected\"}"
 
     RX=$NEWRX
     TX=$NEWTX

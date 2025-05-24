@@ -1,0 +1,67 @@
+(deflisten audio :initial '{}' 'scripts/listen-audio.sh')
+
+(defvar audio-stats-force-expand false)
+(defvar audio-stats-hover-expand false)
+
+(defwidget audio-stats []
+    (eventbox
+        :onhover "${EWW_CMD} update audio-stats-hover-expand=true"
+        :onhoverlost "${EWW_CMD} update audio-stats-hover-expand=false"
+        :onrightclick '${EWW_CMD} update audio-stats-force-expand=$([[ $(${EWW_CMD} get audio-stats-force-expand) == "false" ]] && echo "true" || echo "false")'
+        (box
+			:class "audio-stats"
+            :space-evenly false
+            :spacing 0
+            (overlay
+                (image 
+                    :path 'topbar/stats-bar/icons/volume${audio["volume"] == 0 ? "-zero" : ""}${audio["mute"] == "muted" ? "-muted" : ""}.svg'
+                    :image-width 16 :image-height 16
+                )
+                (box
+                    (circular-progress
+                        :class 'volume-bar ${audio["mute"]}'
+                        :value {audio["volume"] > 100 ? 40 : audio["volume"] * 40 / 100}
+                        :start-at 20
+                        :clockwise false
+                        :thickness 2
+                    )
+                )
+                (box
+                    :visible {audio["volume"] > 100}
+                    (circular-progress
+                        :class 'highvolume-bar'
+                        :value {audio ["volume"] <= 100 ? 0 : (audio["volume"] - 100) * 40 / 60}
+                        :start-at 20
+                        :clockwise false
+                        :thickness 2
+                    )
+                )
+            )
+            (revealer
+                :visible {audio["sink"]["name"] != "Main"}
+                :transition 'slideright'
+                :reveal {!(audio-stats-hover-expand || audio-stats-force-expand)}
+                (box
+                    (image
+                     :style 'padding: 0 0 0 6px;'
+                        :visible {audio["sink"]["icon"] != ""}
+                        :path 'topbar/stats-bar/icons/sink-${audio["sink"]["icon"]}${audio["mute"] == "muted" ? "-muted" : ""}.svg'
+                        :image-width 12
+                        :image-height 12
+                    )
+                    (label
+                        :style 'padding: 0 0 0 8px;'
+                        :visible {audio["sink"]["icon"] == ""}
+                        :text {audio["sink"]["name"]}
+                    )
+                )
+            )
+            (revealer 
+                :style 'padding: 0 0 0 8px;'
+                :transition 'slideleft'
+                :reveal {audio-stats-hover-expand || audio-stats-force-expand}
+                (label :text '${audio["volume"]}%${audio["mute"] == "muted" ? " [muted]" : ""} on ${audio["sink"]["name"]}')
+            )
+        )
+    )
+)

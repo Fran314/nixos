@@ -1,0 +1,23 @@
+.audio-stats {
+    .volume-bar {
+        color: #fff59d;
+
+        &.muted {
+            color: #666;
+        }
+    }
+
+    .highvolume-bar {
+        color: #ff0000;
+    }
+
+    scale.highvolume-bar trough {
+        background-color: transparent;
+        highlight {
+            background-color: #fff59d;
+        }
+    }
+    scale.highvolume-bar.muted trough highlight {
+        background-color: #888;
+    }
+}

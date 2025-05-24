@@ -1,0 +1,15 @@
+(defpoll do-not-disturb :initial 'false' :interval "1s" 'dunstctl is-paused')
+
+(defwidget do-not-disturb-stats []
+    (box
+        :visible {do-not-disturb == "true"}
+        :style "padding: 5px 0;"
+        :space-evenly false
+        :spacing 8
+        (image
+            :path 'topbar/stats-bar/icons/do-not-disturb.svg'
+            :image-width 18 :image-height 18
+        )
+        (divider)
+    )
+)

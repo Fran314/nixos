@@ -1,0 +1,40 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;          POWER MENU          ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget power-menu-button [icon command]
+    (eventbox
+        :class "power-menu-button"
+        :onclick command
+        (box
+            (image
+                :path "power-menu/icons/${icon}.svg"
+                :image-width 50
+                :image-height 50
+            )
+        )
+    )
+)
+(defwindow power-menu
+    :class "power-menu"
+    :monitor 0
+    :geometry (geometry :anchor "center")
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+
+    (box
+        :class "power-menu-content"
+        :orientation "vertical"
+        :spacing 5
+        (box
+            :spacing 5
+            (power-menu-button :icon "power" :command "shutdown -h now")
+            (power-menu-button :icon "reboot" :command "reboot")
+        )
+        (box
+            :spacing 5
+            (power-menu-button :icon "logout" :command "pkill xmonad")
+            (power-menu-button :icon "close-red" :command "${EWW_CMD} close power-menu")
+        )
+    )
+)

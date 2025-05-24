@@ -4,72 +4,48 @@
     outputs = inputs@{ self, ... }:
     let
         system = "x86_64-linux";
+		user = "baldo";
+		machines = [ "latias" "kyogre" "umbreon" ];
+
         lib = inputs.nixpkgs.lib;
         pkgs = import inputs.nixpkgs { inherit system; };
         pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
         pkgs-nvim = import inputs.nvim { inherit system; };
         pkgs-gnome = import inputs.gnome { inherit system; };
+
+		mkConfiguration = name: lib.nixosSystem {
+                inherit system;
+                modules = [
+                    ./profiles/${name}/configuration.nix
+
+					{ networking.hostName = name; }
+
+                    inputs.home-manager.nixosModules.default {
+                        home-manager.extraSpecialArgs = {
+                            inherit inputs;
+                            inherit pkgs-unstable;
+                            inherit pkgs-nvim;
+                            inherit pkgs-gnome;
+							machine = name;
+							inherit user;
+                        };
+                    }
+                ];
+                specialArgs = {
+					inherit inputs;
+                    inherit pkgs-unstable;
+                    inherit pkgs-nvim;
+                    inherit pkgs-gnome;
+					machine = name;
+					inherit user;
+                };
+            };
     in {
-        nixosConfigurations = {
-            latias = lib.nixosSystem {
-                inherit system;
-                modules = [
-                    ./profiles/latias/configuration.nix
-                    inputs.home-manager.nixosModules.default {
-                        home-manager.extraSpecialArgs = {
-                            inherit inputs;
-                            inherit pkgs-unstable;
-                            inherit pkgs-nvim;
-                            inherit pkgs-gnome;
-                        };
-                    }
-                ];
-                specialArgs = {
-					inherit inputs;
-                    inherit pkgs-unstable;
-                    inherit pkgs-nvim;
-                    inherit pkgs-gnome;
-                };
-            };
-			kyogre = lib.nixosSystem {
-                inherit system;
-                modules = [
-                    ./profiles/kyogre/configuration.nix
-                    inputs.home-manager.nixosModules.default {
-                        home-manager.extraSpecialArgs = {
-                            inherit inputs;
-                            inherit pkgs-unstable;
-                            inherit pkgs-nvim;
-                            inherit pkgs-gnome;
-                        };
-                    }
-                ];
-                specialArgs = {
-					inherit inputs;
-                    inherit pkgs-unstable;
-                    inherit pkgs-nvim;
-                    inherit pkgs-gnome;
-                };
-            };
-			umbreon = lib.nixosSystem {
-                inherit system;
-                modules = [
-                    ./profiles/umbreon/configuration.nix
-                    inputs.home-manager.nixosModules.default {
-                        home-manager.extraSpecialArgs = {
-                            inherit inputs;
-                            inherit pkgs-unstable;
-                            inherit pkgs-nvim;
-                        };
-                    }
-                ];
-                specialArgs = {
-					inherit inputs;
-                    inherit pkgs-unstable;
-                    inherit pkgs-nvim;
-                };
-            };
-        };
+		nixosConfigurations = builtins.listToAttrs (
+				builtins.map
+					(name: { name = name; value = mkConfiguration name; })
+					machines
+			);
     };
 
 	inputs = {

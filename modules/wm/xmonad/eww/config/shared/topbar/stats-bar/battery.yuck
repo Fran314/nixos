@@ -1,0 +1,40 @@
+(defvar battery-stats-force-expand false)
+(defvar battery-stats-hover-expand false)
+
+(defwidget battery-stats []
+    (eventbox
+        :onhover '${EWW_CMD} update battery-stats-hover-expand=true'
+        :onhoverlost '${EWW_CMD} update battery-stats-hover-expand=false'
+        :onrightclick '${EWW_CMD} update battery-stats-force-expand=$([[ $(${EWW_CMD} get battery-stats-force-expand) == "false" ]] && echo "true" || echo "false")'
+        (box
+            :class "battery-stats"
+            :space-evenly false
+            (overlay
+                (image
+                    :path 'topbar/stats-bar/icons/battery${
+                        EWW_BATTERY["BAT1"].status == "Charging" ? '-charging' : 
+                        EWW_BATTERY["BAT1"].capacity <= 20 ? "-critical" : 
+                        EWW_BATTERY["BAT1"].capacity <= 30 ? "-low" : 
+                        ""
+                    }.svg'
+                    :image-height 12
+                )
+                (box
+                    :style 'padding: 0px 4px 0 2px'
+                    (scale
+                        :class 'battery-bar ${EWW_BATTERY["BAT1"].status} ${EWW_BATTERY["BAT1"].capacity <= 30 ? "low" : ""} ${EWW_BATTERY["BAT1"].capacity <= 20 ? "critical" : ""}'
+                        :value {EWW_BATTERY["BAT1"].capacity}
+                        :active false
+                        :onchange ""
+                    )
+                )
+            )
+            (revealer 
+                :style 'padding: 0 0 0 8px;'
+                :transition 'slideleft'
+                :reveal {battery-stats-hover-expand || battery-stats-force-expand}
+                (label :text '${EWW_BATTERY["BAT1"].capacity}%')
+            )
+        )
+    )
+)

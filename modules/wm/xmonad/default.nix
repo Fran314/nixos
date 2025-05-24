@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, machine, ... }:
 
 with lib; {
     imports = [
@@ -20,7 +20,23 @@ with lib; {
     config = mkIf config.my.options.wm.xmonad.enable {
         services.xserver.windowManager.xmonad = {
             enable = true;
-            enableContribAndExtras = true;
+
+            # enableContribAndExtras = true;
+			extraPackages = haskellPackages: [
+				# Manually add xmonad-contrib and xmonad-extras instead of using
+				# `enableContribAndExtras` because this way you can add the most
+				# recent version of xmonad-contrib, which is needed for the
+				# `fixSteamFlicker` hack
+				haskellPackages.xmonad-contrib_0_18_1
+				haskellPackages.xmonad-extras
+			];
+
+			ghcArgs = [
+				"-i ${./xmonad-modules/shared}"
+				"-i ${./xmonad-modules/${machine}}"
+				"-hidir /tmp"
+				"-odir /tmp"
+			];
             config = builtins.readFile ./xmonad.hs;
         };
 
@@ -36,17 +52,12 @@ with lib; {
         my.options.wm.xmonad.eww.enable = true;
         my.options.wm.xmonad.rofi.enable = true;
 
-        my.options.wm.xmonad.battery-monitor.enable = true;
+        my.options.wm.xmonad.battery-monitor.enable = machine == "latias";
 
         environment.systemPackages = with pkgs; [
             pamixer
-            libnotify
-            playerctl
             blueberry
-
             xcolor
-
-            gnome-photos
         ];
     };
 }

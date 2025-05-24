@@ -18,8 +18,6 @@
         ../../modules/gaming
     ];
 
-    networking.hostName = "latias";
-
     networking.firewall.allowedTCPPorts = [ 8080 ];
 
     my.options.wm.use = lib.mkDefault "xmonad";

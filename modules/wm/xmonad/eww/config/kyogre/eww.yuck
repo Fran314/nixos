@@ -1,0 +1,43 @@
+(include "./power-menu/eww.yuck")
+(include "./color-picker-menu/eww.yuck")
+(include "./bluetooth-menu/eww.yuck")
+
+
+(include "./topbar/divider.yuck")
+(include "./topbar/workspaces-bar/eww.yuck")
+(include "./topbar/date-bar/eww.yuck")
+
+(include "./topbar/stats-bar/do-not-disturb.yuck")
+(include "./topbar/stats-bar/wifi.yuck")
+(include "./topbar/stats-bar/bluetooth.yuck")
+(include "./topbar/stats-bar/cpu.yuck")
+
+(defwidget stats-bar []
+    (box
+        :style 'padding: 0 5px 0 0'
+        :halign "end"
+        :spacing 15
+        :space-evenly false
+        (do-not-disturb-stats)
+        (wifi-stats)
+        (divider)
+        (bluetooth-stats)
+        (cpu-stats)
+    )
+)
+
+(defwindow topbar
+    :monitor 0
+    ;; :geometry (geometry :x 0 :y 10 :width "1900" :height "30px" :anchor "top center")
+    ;; :geometry (geometry :x 0 :y 0 :width "1920" :height "32px" :anchor "bottom center")
+    :geometry (geometry :x 0 :y 0 :width "100%" :height "32px" :anchor "bottom center")
+    :reserve (struts :distance "40px" :side "bottom")
+    :stacking "bg"
+    :windowtype "dock"
+    (centerbox
+        :class "topbar-content"
+        (workspaces-bar)
+        (date-bar)
+        (stats-bar)
+    )
+)

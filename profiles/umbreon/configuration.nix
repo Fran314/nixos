@@ -7,8 +7,6 @@
 		../../modules/services
     ];
 
-    networking.hostName = "umbreon";
-
 	my.options = {
 		zsh = {
 			hostIcon = "";

@@ -5,13 +5,13 @@ readarray DEVICES < ~/.local/secrets/bluetooth-devices
 print_help() {
     echo "Get info about bluetooth devices"
     echo ""
-    echo "USAGE: my-bluetooth-manager [OPERATION]"
+    echo "USAGE: bluetooth-manager [OPERATION]"
     echo ""
     echo "where OPERATION must be one of the following:"
     echo "  toggle [DEVICE_INDEX]"
-    echo "  list_devices"
-    echo "  info_devices"
-    echo "  info_connection"
+    echo "  list-devices"
+    echo "  info-devices"
+    echo "  info-connection"
     echo "  info [DEVICE_INDEX]"
 }
 
@@ -38,7 +38,7 @@ then
     else
         bluetoothctl connect "$MAC_ADRESS"
     fi
-elif [[ $1 == "info_devices" ]]
+elif [[ $1 == "info-devices" ]]
 then
     OUTPUT="[ "
     for i in "${!DEVICES[@]}"
@@ -58,7 +58,7 @@ then
     done
     OUTPUT+=" ]"
     echo "$OUTPUT"
-elif [[ $1 == "info_connection" ]]
+elif [[ $1 == "info-connection" ]]
 then
     read -ra CONNECTED <<< "$(bluetoothctl info | grep -oP "Device \K(..:..:..:..:..:..)")"
     

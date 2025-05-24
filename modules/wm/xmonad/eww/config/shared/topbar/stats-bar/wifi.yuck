@@ -1,0 +1,66 @@
+(deflisten wifi-info :initial '{}' 'scripts/listen-wifi.sh')
+(defpoll   wifi-bars :initial '4'  :interval '20s' 'scripts/get-wifi-bars.sh')
+
+(defvar wifi-stats-force-expand false)
+(defvar wifi-stats-hover-expand false)
+
+(defwidget wifi-stats []
+    (eventbox
+        :onhover '${EWW_CMD} update wifi-stats-hover-expand=true'
+        :onhoverlost '${EWW_CMD} update wifi-stats-hover-expand=false'
+        :onrightclick '${EWW_CMD} update wifi-stats-force-expand=$([[ $(${EWW_CMD} get wifi-stats-force-expand) == "false" ]] && echo "true" || echo "false")'
+        (box
+            :style "padding: 5px 0;"
+            :space-evenly false
+            :tooltip 'up: ${wifi-info["rx"]["val"]}/s, down: ${wifi-info["tx"]["val"]}/s'
+            (box
+                :visible {wifi-info["vpn"] != "Disconnected" }
+                :style "padding: 0 8px 0 0;"
+                :space-evenly false
+                (image
+                    :path 'topbar/stats-bar/icons/wifi-vpn-key.svg'
+                    :image-width 18 :image-height 18
+                )
+                (revealer
+                    :transition "slideleft"
+                    :reveal {(wifi-info["should-expand"] || wifi-stats-hover-expand || wifi-stats-force-expand) && wifi-info["connection"] != ""}
+                    :style 'padding: 0 0 0 8px;'
+                    (label :text {wifi-info["vpn"]})
+                )
+            )
+            (image
+                :path 'topbar/stats-bar/icons/wifi-${wifi-info["connection"] == "" ? "disconnected" : wifi-bars}.svg'
+                :image-width 18 :image-height 18
+            )
+            (revealer
+                :transition "slideleft"
+                :reveal {(wifi-info["should-expand"] || wifi-stats-hover-expand || wifi-stats-force-expand) && wifi-info["connection"] != ""}
+                :style 'padding: 0 0 0 8px;'
+                (box
+                    :space-evenly false
+                    :spacing 8
+                    (label :text {wifi-info["connection"]})
+                    (overlay
+                        :class "cpu-overlay"
+                        :height 20
+                        :width 40
+                        (graph
+                            :class "temp-graph"
+                            :max 23
+                            :value {wifi-info["rx"]["pseudolog"]}
+                            :time-range "20s"
+                            :thickness 2
+                        )
+                        (graph
+                            :class "cpu-graph"
+                            :max 23
+                            :value {wifi-info["tx"]["pseudolog"]}
+                            :time-range "20s"
+                            :thickness 2
+                        )
+                    )
+                )
+            )
+        )
+    )
+)

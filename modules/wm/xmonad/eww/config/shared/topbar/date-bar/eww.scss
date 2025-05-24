@@ -1,0 +1,19 @@
+.calendar-popup {
+    padding: 10px 10px 0 10px;
+    background-color: rgba($color: #282a28, $alpha: 0.85);
+
+    calendar {
+        padding: 0.5rem 0rem;
+
+        &:selected {
+            color: #388e3c;
+        }
+        &.header,
+        &.highlight {
+            color: #fff59d;
+        }
+        &:indeterminate {
+            color: #666;
+        }
+    }
+}

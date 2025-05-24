@@ -1,0 +1,24 @@
+* {
+    all: unset;
+    font-family: 'RecMonoDuotone Nerdfont';
+}
+
+@import 'power-menu/eww.scss', 'color-picker-menu/eww.scss',
+    'monitor-menu/eww.scss', 'bluetooth-menu/eww.scss';
+
+@import 'topbar/divider.scss';
+@import 'topbar/workspaces-bar/eww.scss', 'topbar/date-bar/eww.scss';
+
+@import 'topbar/stats-bar/audio.scss', 'topbar/stats-bar/battery.scss';
+
+.topbar {
+    // border-radius: 12px;
+    border-top: 3px solid #388e3c;
+    background-color: rgba(#282a28, 0.6);
+    font-weight: 500;
+    font-size: 1.15rem;
+}
+
+.topbar_content {
+    padding: 0 15px;
+}

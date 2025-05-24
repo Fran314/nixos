@@ -18,8 +18,6 @@
         ../../modules/gaming
     ];
 
-    networking.hostName = "kyogre";
-
     networking.firewall.allowedTCPPorts = [ 8080 ];
 
     my.options.wm.use = lib.mkDefault "xmonad";

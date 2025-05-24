@@ -1,0 +1,14 @@
+@import 'divider.scss';
+@import 'workspaces-bar/eww.scss', 'date-bar/eww.scss', 'stats-bar/eww.scss';
+
+.topbar {
+    // border-radius: 12px;
+    border-top: 3px solid #388e3c;
+    background-color: rgba(#282a28, 0.6);
+    font-weight: 500;
+    font-size: 1.15rem;
+}
+
+.topbar_content {
+    padding: 0 15px;
+}

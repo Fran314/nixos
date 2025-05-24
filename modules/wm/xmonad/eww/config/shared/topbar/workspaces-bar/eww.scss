@@ -1,0 +1,15 @@
+.workspaces-bar {
+    .extra-ws-container {
+        .ws-dot {
+            border-radius: 4px;
+            background-color: transparent;
+
+            &.visible {
+                background-color: #666;
+            }
+            &.current {
+                background-color: #fff59d;
+            }
+        }
+    }
+}

@@ -1,114 +1,118 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, machine, ... }:
 
-let
-    my-duplicate-alacritty = pkgs.writeShellApplication {
-        name = "my-duplicate-alacritty";
-        runtimeInputs = with pkgs; [
-            xdotool
-            procps              # pgrep
-        ];
-        text = builtins.readFile ./my-duplicate-alacritty;
-    };
-    my-set-brightness = pkgs.writeShellApplication {
-        name = "my-set-brightness";
-        runtimeInputs = with pkgs; [
-            xorg.xrandr
-        ];
-        text = builtins.readFile ./my-set-brightness;
-    };
-    my-screenshot = pkgs.writeShellApplication {
-        name = "my-screenshot";
-        runtimeInputs = with pkgs; [
-            maim
-            imagemagick         # convert
-            xclip
-            xdg-user-dirs
-        ];
-        text = builtins.readFile ./my-screenshot;
-    };
-	smart-playerctl = pkgs.writeShellApplication {
-		name = "smart-playerctl";
-		runtimeInputs = with pkgs; [
-			playerctl
-		];
-		text = builtins.readFile ./smart-playerctl;
-	};
-    my-shadowbox = pkgs.callPackage ./my-shadowbox {};
-    my-screencast = pkgs.writeShellApplication {
-        name = "my-screencast";
-        runtimeInputs = with pkgs; [
-            xdg-user-dirs
-            procps              # pkill
-            xorg.xprop
-            libnotify
-            slop
-            xorg.xwininfo
-            # (ffmpeg.override { withXcb = true; })
-            ffmpeg-full
+with lib; let
+	read = p: builtins.readFile p;
+	readInterpolate = from: to: p:
+		builtins.replaceStrings
+			# Scripts that need variable interpolation must NOT be run before
+			# interpolation as this would produce potentially harmful undefined
+			# behaviour. To prevent this each script starts with a flag that
+			# prevents the script to be ran if set to 1. This interpolation,
+			# besides interpolating the correct values to the variables, also
+			# sets this flag to 0
+			(["STOP_EXECUTION_BEFORE_INTERPOLATION=1"] ++ from)
+			(["STOP_EXECUTION_BEFORE_INTERPOLATION=0"] ++ to)
+			(read p);
+    
+in mkIf config.my.options.wm.xmonad.enable {
+    environment.systemPackages = mkMerge [
+		[
+			(pkgs.writeShellApplication {
+				name = "duplicate-alacritty";
+				runtimeInputs = with pkgs; [
+					xdotool
+					procps              # pgrep
+				];
+				text = read ./duplicate-alacritty;
+			})
+			(pkgs.writeShellApplication {
+				name = "screenshot";
+				runtimeInputs = with pkgs; [
+					maim
+					imagemagick         # convert
+					xclip
+					xdg-user-dirs
+				];
+				text = read ./screenshot;
+			})
+			(pkgs.writeShellApplication {
+				name = "screencast";
+				runtimeInputs = with pkgs; [
+					xdg-user-dirs
+					procps              # pkill
+					xorg.xprop
+					libnotify
+					slop
+					xorg.xwininfo
+					# (ffmpeg.override { withXcb = true; })
+					ffmpeg-full
+					(pkgs.callPackage ./shadowbox {})
+				];
+				text = read ./screencast;
+			})
+			(pkgs.writeShellApplication {
+				name = "smart-playerctl";
+				runtimeInputs = with pkgs; [
+					playerctl
+				];
+				text = read ./smart-playerctl;
+			})
+			(pkgs.writeShellApplication {
+				name = "bluetooth-manager";
+				runtimeInputs = with pkgs; [
+					bluez-experimental      # bluetoothctl
+				];
+				text = read ./bluetooth-manager;
+			})
+			(pkgs.writeShellApplication {
+				name = "lockscreen";
+				runtimeInputs = with pkgs; [
+					lightdm
+				];
+				text = ''dm-tool lock'';
+			})
+		]
 
-            my-shadowbox
-        ];
-        text = builtins.readFile ./my-screencast;
-    };
-    my-monitor-manager = pkgs.writeShellApplication {
-        name = "my-monitor-manager";
-        runtimeInputs = with pkgs; [
-            xorg.xrandr
-        ];
-        text = builtins.readFile ./my-monitor-manager;
-    };
-    my-color-picker = pkgs.writeShellApplication {
-        name = "my-color-picker";
-        runtimeInputs = with pkgs; [
-            maim
-            slop
-            imagemagick         # convert
-            xclip
-        ];
-        text = builtins.readFile ./my-color-picker;
-    };
-    my-bluetooth-manager = pkgs.writeShellApplication {
-        name = "my-bluetooth-manager";
-        runtimeInputs = with pkgs; [
-            bluez-experimental      # bluetoothctl
-        ];
-        text = builtins.readFile ./my-bluetooth-manager;
-    };
-    my-lockscreen = pkgs.writeShellApplication {
-        name = "my-lockscreen";
-        runtimeInputs = with pkgs; [
-            lightdm     # dm-tool
-        ];
-        text = ''dm-tool lock'';
-    };
-    my-reconnect-wifi = pkgs.writeShellApplication {
-        name = "my-reconnect-wifi";
-        runtimeInputs = with pkgs; [
-            networkmanager
-        ];
-        text = ''nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^wlp4s0:yes' | cut -d: -f3)"'';
-    };
-in lib.mkIf config.my.options.wm.xmonad.enable {
-    environment.systemPackages = [
-        my-duplicate-alacritty
-        my-set-brightness
-        my-screenshot
-        my-screencast
-		smart-playerctl
-        my-monitor-manager
-        my-color-picker
-        my-bluetooth-manager
-        my-lockscreen
-        my-reconnect-wifi
-    ];
+		(mkIf (machine == "latias") [
+			(pkgs.writeShellApplication {
+				name = "set-brightness";
+				runtimeInputs = with pkgs; [
+					xorg.xrandr
+				];
+				text = readInterpolate
+					["<<primary-output-name>>"]
+					["eDP-1"]
+					./set-brightness;
+			})
+			(pkgs.writeShellApplication {
+				name = "monitor-manager";
+				runtimeInputs = with pkgs; [
+					xorg.xrandr
+				];
+				text = readInterpolate
+						["<<primary-output-name>>" "<<secondary-output-name>>"]
+						["eDP-1" "HDMI-1"]
+						./monitor-manager;
+			})
+			(pkgs.writeShellApplication {
+				name = "reconnect-wifi";
+				runtimeInputs = with pkgs; [
+					networkmanager
+				];
+				text = ''
+					nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^wlp4s0:yes' | cut -d: -f3)"
+				'';
+			})
+		])
+	];
 
-    home-manager.users.baldo = { config, pkgs, ... }:
-    {
-        home.file = {
-            ".config/slop" = {
-                source = ./slop-config;
-                recursive = true;
-            };
-        };
-    };
+    # home-manager.users.baldo = { config, pkgs, ... }:
+    # {
+    #     home.file = {
+    #         ".config/slop" = {
+    #             source = ./slop-config;
+    #             recursive = true;
+    #         };
+    #     };
+    # };
 }

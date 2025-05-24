@@ -7,28 +7,20 @@ mkdir -p "$DIR"
 
 TS=$(date +%F_%T)
 
-PIDFILE="/tmp/screenrcast.pid"
-WINIDFILE="/tmp/screencast.winid"
+PIDFILE="$(mktemp --suffix=-screencast-pid)"
+WINIDFILE="$(mktemp --suffix=-screencast-winid)"
 
 trap resolve INT QUIT
 function resolve() {
-    echo "prova 1"
     PID=$(cat "$PIDFILE")
     kill "$PID"
-    echo "prova 2"
-    pkill my-shadowbox
-    echo "prova 3"
+    pkill shadowbox
     # wait "$PID"
-    echo "prova 4"
     rm "$PIDFILE"
-    echo "prova 5"
 
     ID=$(cat "$WINIDFILE")
-    echo "prova 6"
     xprop -id "$ID" -remove _PICOM_STOP_ROUNDED
-    echo "prova 7"
     notify-send "screencast: done"
-    echo "prova 8"
 }
 
 {
@@ -56,7 +48,7 @@ fi
 # does what it's meant to do
 echo "$ID" > "$WINIDFILE"
 
-my-shadowbox "$X" "$Y" "$W" "$H" &
+shadowbox "$X" "$Y" "$W" "$H" &
 sleep 0.25
 ffmpeg -f x11grab -s "$W"x"$H" -i :0.0+"$X","$Y" "$DIR/$TS.mp4" &
 echo $! > "$PIDFILE"

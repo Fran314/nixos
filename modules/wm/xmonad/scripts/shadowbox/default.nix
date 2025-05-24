@@ -9,7 +9,7 @@
 }:
 
 python3Packages.buildPythonPackage rec {
-    pname = "my-shadowbox";
+    pname = "shadowbox";
     version = "0.1.0"; # in version.txt
 
     src = ./src;

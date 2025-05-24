@@ -7,16 +7,14 @@ with lib; {
 
     config = mkIf config.my.options.wm.xmonad.dunst.enable {
         environment.systemPackages = with pkgs; [
-            dunst
+			libnotify	# to have `notify-send`
         ];
-
         home-manager.users.baldo = { config, pkgs, ... }:
         {
-            home.file = {
-                ".config/dunst/dunstrc" = {
-                    source = ./dunstrc;
-                };
-            };
+			services.dunst = {
+				enable = true;
+				configFile = ./dunstrc;
+			};
         };
     };
 }

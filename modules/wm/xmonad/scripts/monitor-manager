@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# This value will be changed to 0 upon value interpolation by NixOS at compile
+STOP_EXECUTION_BEFORE_INTERPOLATION=1
+
+if [[ $STOP_EXECUTION_BEFORE_INTERPOLATION -eq 1 ]]; then
+	echo "!!! DO NOT RUN THIS SCRIPT DIRECTLY !!!"
+	echo ""
+	echo "This script is not meant to be run directly, as it uses some value interpolation"
+	echo "performed by NixOS at compile time."
+	echo ""
+	echo "It is not meant to be run directly. At best, it won't work. At worst, it will"
+	echo "have undefined behaviour and possibly destroy something."
+	echo ""
+	echo "If you want to run this script without NixOS, copy it and take some time to"
+	echo "make the necessary changes"
+	echo ""
+	echo "Values meant to be interpolated use the <<name>> nomenclature and usually have"
+	echo "the intended interpolated value next to them as a comment"
+	echo ""
+	echo "Other blocks of code might be conditionally inserted or omitted by interpolation"
+	echo "and are usually denoted by a comment starting with '# <<if-condition>>'"
+	exit 1
+fi
+
+PRIMARY="<<primary-output-name>>"     # "eDP-1"
+SECONDARY="<<secondary-output-name>>" # "HDMI-1"
+
+if [[ $1 == "auto" ]]
+then
+    xrandr --output "$PRIMARY" --mode 1920x1080
+    xrandr --output "$SECONDARY" --off
+elif [[ $1 == "split" ]]
+then
+    xrandr --output "$PRIMARY" --mode 1920x1080
+    xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
+    xrandr --output "$SECONDARY" --right-of "$PRIMARY"
+elif [[ $1 == "duplicate" ]]
+then
+    xrandr --output "$PRIMARY" --mode 1920x1080
+    xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
+    xrandr --output "$SECONDARY" --same-as "$PRIMARY"
+elif [[ $1 == "follow" ]]
+then
+    xrandr --output "$PRIMARY" --off
+    xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
+fi
+
+xmonad --restart
+systemctl --user restart random-background.service

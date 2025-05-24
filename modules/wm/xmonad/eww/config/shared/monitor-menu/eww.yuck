@@ -1,0 +1,37 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;         MONITOR MENU         ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget monitor-menu-entry [key label icon]
+	(box
+		:space-evenly false
+		:spacing 12
+		(label :class 'key-label'  :text key)
+		(image :path 'monitor-menu/icons/${icon}.svg'
+			:image-width 30
+			:image-height 30
+		)
+		(label :text label)
+	)
+)
+
+(defwindow monitor-menu
+    :monitor 0
+    :geometry (geometry
+        :x "-30"
+        ;; :y "-30"
+        :y '-65'
+        :anchor "bottom right"
+    )
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+    (box
+        :class 'monitor-menu-content' 
+        :orientation 'vertical'
+        :spacing 16
+		(monitor-menu-entry :key 'a' :label 'Auto' :icon 'laptop')
+		(monitor-menu-entry :key 's' :label 'Split' :icon 'split')
+		(monitor-menu-entry :key 'd' :label 'Duplicate' :icon 'duplicate')
+		(monitor-menu-entry :key 'f' :label 'Follow' :icon 'monitor')
+    )
+)

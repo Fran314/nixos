@@ -1,0 +1,38 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;       COLOR PICKER MENU      ;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defwidget color-picker-menu-entry [key label]
+	(box
+		:space-evenly false
+		:spacing 12
+		(label :class 'key-label'  :text key)
+		(image :path 'color-picker-menu/icons/color-pipette-gray.svg'
+			:image-width 30
+			:image-height 30
+		)
+		(label :text label)
+	)
+)
+
+(defwindow color-picker-menu
+    :monitor 0
+    :geometry (geometry
+        :x "-30"
+        ;; :y "-30"
+        :y '-65'
+        :anchor "bottom right"
+    )
+    :stacking "fg"
+    :windowtype "dialog"
+    :wm-ignore true
+    (box
+        :class 'color-picker-menu-content' 
+        :orientation 'vertical'
+        :spacing 16
+		(color-picker-menu-entry :key 'a' :label 'hex')
+		(color-picker-menu-entry :key 's' :label 'HEX')
+		(color-picker-menu-entry :key 'd' :label 'rgb')
+		;; (color-picker-menu-entry :key 'd' :label 'rgb (0-255)')
+		;; (color-picker-menu-entry :key 'f' :label 'rgb (0-1)')
+    )
+)

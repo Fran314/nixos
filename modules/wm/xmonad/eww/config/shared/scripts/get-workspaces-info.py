@@ -58,4 +58,4 @@ if current == "scratchpad":
 elif len(workspaces[10]) > 0:
     scratchpad_state = "visible"
 
-print(f'{{ "numbered_ws": [ {", ".join(numbws)} ], "dashboard": "{dashboard_state}", "scratchpad": "{scratchpad_state}", "current": "{current}" }}')
+print(f'{{ "numbered-ws": [ {", ".join(numbws)} ], "dashboard": "{dashboard_state}", "scratchpad": "{scratchpad_state}", "current": "{current}" }}')

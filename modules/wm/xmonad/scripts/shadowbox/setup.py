@@ -7,6 +7,6 @@ setup(
     description='@desc@',
     install_requires=['pycairo', 'requests', 'PyGObject'],
     scripts=[
-        'my-shadowbox',
+        'shadowbox',
     ],
 )
