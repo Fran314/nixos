@@ -4,6 +4,11 @@ let
     font-size = if (config.my.options.wm.xmonad.enable or false) then 7 else 12;
     padding = if (config.my.options.wm.xmonad.enable or false) then 5 else 10;
 in {
+
+	fonts.packages = with pkgs; [
+		nerd-fonts.recursive-mono
+	];
+
     home-manager.users.baldo = { config, pkgs, ... }:
     {
         programs.alacritty = {
@@ -15,20 +20,8 @@ in {
                 colors.primary.background = "#28282A";
                 font = {
                     normal = {
-                        # family = "FiraCode Nerdfont Mono";
-                        # family = "ComicShannsMono Nerdfont Mono";
-                        # family = "DroidSansM Nerdfont Mono";
-                        # family = "Caskaydia Mono Nerdfont Mono";
-                        # family = "RecMonoLinear Nerdfont Mono";
-                        # family = "RecMonoCasual Nerdfont Mono";
-                        # family = "RecMonoSmCasual Nerdfont Mono";
-
                         # family = "RecMonoDuotone Nerdfont Mono";
                         family = "RecMonoDuotone Nerdfont"; # Actually, don't add 'Mono' at the end for bigger icons!
-
-                        # family = "RobotoMono Nerdfont Mono";
-                        # family = "SpaceMono Nerd Font Mono";
-                        # family = "UbuntuMono Nerdfont Mono";
                         style = "Regular";
                     };
                     size = font-size;
@@ -47,23 +40,9 @@ in {
 
         home.packages = with pkgs; [
             alacritty 
-
-            ### Font(s)
-            (pkgs.nerdfonts.override {
-                fonts = [
-                    # "FiraCode"
-                    # "ComicShannsMono"
-                    # "DroidSansMono"
-                    # "CascadiaMono"
-                    "Recursive"
-                    # "RobotoMono"
-                    # "SpaceMono"
-                    # "UbuntuMono"
-                ];
-            })
         ];
 
-        fonts.fontconfig.enable = true;
+        fonts.fontconfig.enable = true; # unsure to if this goes here or not
 
         home.file = {
             ".config/alacritty" = {

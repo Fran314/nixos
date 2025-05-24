@@ -9,6 +9,11 @@ with lib; {
         environment.systemPackages = with pkgs; [
 			libnotify	# to have `notify-send`
         ];
+
+		fonts.packages = with pkgs; [
+			nerd-fonts.noto
+		];
+
         home-manager.users.baldo = { config, pkgs, ... }:
         {
 			services.dunst = {

@@ -9,13 +9,11 @@ with lib; {
         environment.systemPackages = with pkgs; [
             eww
             wmctrl
-
-            (pkgs.nerdfonts.override {
-                fonts = [
-                    "Recursive"
-                ];
-            })
         ];
+
+		fonts.packages = with pkgs; [
+			nerd-fonts.recursive-mono
+		];
 
         home-manager.users.baldo = { config, pkgs, ... }:
         {

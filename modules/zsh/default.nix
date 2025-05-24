@@ -63,7 +63,7 @@ with lib; {
                     save = 10000000;
                     size = 10000000;
                 };
-                initExtra = builtins.readFile ./init-extra.sh;
+                initContent = builtins.readFile ./init-extra.sh;
                 shellAliases = {
                     # Nix & Home-Manager
                     nix-update="sudo nixos-rebuild switch --flake ~/.dotfiles";

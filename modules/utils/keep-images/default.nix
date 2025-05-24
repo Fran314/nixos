@@ -5,7 +5,7 @@
 , libnotify
 , wrapGAppsHook3
 , gobject-introspection
-, substituteAll
+, replaceVars
 }:
 
 python3Packages.buildPythonPackage rec {
@@ -32,8 +32,7 @@ python3Packages.buildPythonPackage rec {
 
     postPatch =
         let
-            setup = substituteAll {
-                src = ./setup.py;
+            setup = replaceVars ./setup.py {
                 desc = "open a view to select which images to keep";
                 inherit pname version;
             };

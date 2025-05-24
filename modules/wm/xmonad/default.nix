@@ -21,15 +21,15 @@ with lib; {
         services.xserver.windowManager.xmonad = {
             enable = true;
 
-            # enableContribAndExtras = true;
-			extraPackages = haskellPackages: [
-				# Manually add xmonad-contrib and xmonad-extras instead of using
-				# `enableContribAndExtras` because this way you can add the most
-				# recent version of xmonad-contrib, which is needed for the
-				# `fixSteamFlicker` hack
-				haskellPackages.xmonad-contrib_0_18_1
-				haskellPackages.xmonad-extras
-			];
+            enableContribAndExtras = true;
+			# extraPackages = haskellPackages: [
+			# 	# Manually add xmonad-contrib and xmonad-extras instead of using
+			# 	# `enableContribAndExtras` because this way you can add the most
+			# 	# recent version of xmonad-contrib, which is needed for the
+			# 	# `fixSteamFlicker` hack
+			# 	haskellPackages.xmonad-contrib_0_18_1
+			# 	haskellPackages.xmonad-extras
+			# ];
 
 			ghcArgs = [
 				"-i ${./xmonad-modules/shared}"

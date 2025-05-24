@@ -50,7 +50,7 @@ with lib; {
                 displayScript;
         in {
             programs.zsh = {
-                initExtra =  init;
+                initContent =  init;
             };
         };
     };
