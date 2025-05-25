@@ -66,8 +66,8 @@ with lib; {
                 initContent = builtins.readFile ./init-extra.sh;
                 shellAliases = {
                     # Nix & Home-Manager
-                    nix-update="sudo nixos-rebuild switch --flake ~/.dotfiles";
-                    nix-boot="sudo nixos-rebuild boot --flake ~/.dotfiles";
+                    nix-update="sudo nixos-rebuild switch --flake ~/.dotfiles/nixos";
+                    nix-boot="sudo nixos-rebuild boot --flake ~/.dotfiles/nixos";
                     nix-gc="sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
 
                     # General purpose

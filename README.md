@@ -38,13 +38,13 @@ With NixOS installed, start a shell with `git` and `neovim` using
 nix-shell -p git neovim
 ```
 
-Using this shell, clone this repo to `~/.dotfiles` with
+Using this shell, clone this repo to `~/.dotfiles/nixos` with
 
 ```bash
-git clone https://github.com/Fran314/nixos.git ~/.dotfiles
+git clone https://github.com/Fran314/nixos.git ~/.dotfiles/nixos
 ```
 
-Then, in the `~/.dotfiles/profiles` directory, copy the profile directory of
+Then, in the `~/.dotfiles/nixos/profiles` directory, copy the profile directory of
 your choice, so to have a clone that you can edit to adapt to your hardware.
 
 In the cloned profile directory, copy your version of
@@ -71,7 +71,7 @@ cloning the existing profile and changing the paths.
 Then, update the system with
 
 ```bash
-sudo nixos-rebuild switch --flake ~/.dotfiles#YOUR_PROFILE_NAME
+sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#YOUR_PROFILE_NAME
 ```
 
 ## Post-installation
