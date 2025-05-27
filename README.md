@@ -44,8 +44,8 @@ Using this shell, clone this repo to `~/.dotfiles/nixos` with
 git clone https://github.com/Fran314/nixos.git ~/.dotfiles/nixos
 ```
 
-Then, in the `~/.dotfiles/nixos/profiles` directory, copy the profile directory of
-your choice, so to have a clone that you can edit to adapt to your hardware.
+Then, in the `~/.dotfiles/nixos/profiles` directory, copy the profile directory
+of your choice, so to have a clone that you can edit to adapt to your hardware.
 
 In the cloned profile directory, copy your version of
 `hardware-configuration.nix` (the one from `/etc/nixos`) to adapt the profile to
@@ -62,8 +62,8 @@ your specific hardware.
 >
 > - `boot.loader.*` for the boot loader location and type
 > - `networking.hostName` for the hostname of the machine (I guess this isn't
->   strictly necessary but it also isn't set anywhere else and you might want
->   to customise it)
+>   strictly necessary but it also isn't set anywhere else and you might want to
+>   customise it)
 
 Finally, edit the `flake.nix` file in the repo to add your new profile by
 cloning the existing profile and changing the paths.
@@ -88,16 +88,16 @@ These operation might be necessary:
 Additionally if you're running the **latias** profile you might want to
 
 - remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
-- (if you're using GNOME) add the nvim-memo window to the floating exceptions for
-  pop-shell
+- (if you're using GNOME) add the nvim-memo window to the floating exceptions
+  for pop-shell
 
 ## Profiles
 
 This configuration is structured around three profiles:
 
-- **latias**: this is the profile for my personal computer. It's supposed to
-  be a full-featured environment intended for multiple possible uses, from
-  simple daily browsing, to coding, 3D modeling and more,
+- **latias**: this is the profile for my personal computer. It's supposed to be
+  a full-featured environment intended for multiple possible uses, from simple
+  daily browsing, to coding, 3D modeling and more,
 - ~~**umbreon**: this is the profile for my homelab. It's supposed to be a
   CLI-only but comfortable environment, intended to be used for managing
   self-hosted applications via ssh.~~

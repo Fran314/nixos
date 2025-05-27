@@ -1,4 +1,4 @@
-{ lib, config, pkgs-gnome, ... }:
+{ lib, config, pkgs, ... }:
 
 with lib; {
     options.my.options.wm.gnome = {
@@ -49,7 +49,7 @@ with lib; {
         #--- ---#
 
         #--- Reduced GNOME ---#
-        environment.gnome.excludePackages = with pkgs-gnome; [
+        environment.gnome.excludePackages = with pkgs; [
             gnome-photos        # GNOME also comes with image viewer, which is better
             gnome-tour
             gnome-text-editor
@@ -77,13 +77,14 @@ with lib; {
         ];
         #--- ---#
 
-        home-manager.users.baldo = { config, lib, pkgs-gnome, ... }:
+        home-manager.users.baldo = { config, lib, pkgs, ... }:
         {
             imports = [
                 ./pop-shell.nix
+                ./nvim-memo-integration.nix
             ];
 
-            home.packages = with pkgs-gnome; [
+            home.packages = with pkgs; [
                 gnome-extension-manager
                 gnome-tweaks
                 gnomeExtensions.just-perfection
