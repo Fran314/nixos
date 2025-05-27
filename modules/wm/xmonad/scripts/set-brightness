@@ -23,38 +23,34 @@ if [[ $STOP_EXECUTION_BEFORE_INTERPOLATION -eq 1 ]]; then
 	exit 1
 fi
 
-PRIMARY="<<primary-output-name>>"     # "eDP-1"
+PRIMARY="<<primary-output-name>>" # "eDP-1"
 
 CURR_VAL=$(xrandr --verbose | grep -oP "Brightness: \K.*")
-if [[ $CURR_VAL != "1.0" ]] && [[ $CURR_VAL != "0.75" ]] && [[ $CURR_VAL != "0.50" ]] && [[ $CURR_VAL != "0.25" ]]
-then
-    xrandr --output $PRIMARY --brightness 1
-    exit 0
+if [[ $CURR_VAL != "1.0" ]] && [[ $CURR_VAL != "0.75" ]] && [[ $CURR_VAL != "0.50" ]] && [[ $CURR_VAL != "0.25" ]]; then
+	xrandr --output "$PRIMARY" --brightness 1
+	exit 0
 fi
 
 re='^[+-]$'
 if ! [[ $1 =~ $re ]]; then
-	echo "error: first parameter must be either '+' or '-'" >&2; exit 1
+	echo "error: first parameter must be either '+' or '-'" >&2
+	exit 1
 fi
 
 if [[ $1 == '+' ]]; then
-    if [[ $CURR_VAL == "0.25" ]]
-    then
-        xrandr --output $PRIMARY --brightness 0.5
-    elif [[ $CURR_VAL == "0.50" ]]
-    then
-        xrandr --output $PRIMARY --brightness 0.75
-    else
-        xrandr --output $PRIMARY --brightness 1
-    fi
+	if [[ $CURR_VAL == "0.25" ]]; then
+		xrandr --output "$PRIMARY" --brightness 0.5
+	elif [[ $CURR_VAL == "0.50" ]]; then
+		xrandr --output "$PRIMARY" --brightness 0.75
+	else
+		xrandr --output "$PRIMARY" --brightness 1
+	fi
 else
-    if [[ $CURR_VAL == "1.0" ]]
-    then
-        xrandr --output $PRIMARY --brightness 0.75
-    elif [[ $CURR_VAL == "0.75" ]]
-    then
-        xrandr --output $PRIMARY --brightness 0.5
-    else
-        xrandr --output $PRIMARY --brightness 0.25
-    fi
+	if [[ $CURR_VAL == "1.0" ]]; then
+		xrandr --output "$PRIMARY" --brightness 0.75
+	elif [[ $CURR_VAL == "0.75" ]]; then
+		xrandr --output "$PRIMARY" --brightness 0.5
+	else
+		xrandr --output "$PRIMARY" --brightness 0.25
+	fi
 fi

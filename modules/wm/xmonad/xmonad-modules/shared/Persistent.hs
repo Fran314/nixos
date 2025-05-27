@@ -1,25 +1,24 @@
-module Persistent(
-	initSpawnPersistent,
-	initSmartKill
+module Persistent (
+    initSpawnPersistent,
+    initSmartKill,
 ) where
 
-import XMonad
+import           XMonad
 
-import XMonad.Operations
+import           XMonad.Operations
 
 -- the default configuration import it qualified as W and it seems a gloabl
 -- convention
-import qualified XMonad.StackSet as W
+import qualified XMonad.StackSet           as W
 
 -- same as the W
-import qualified Data.Map as M
+import qualified Data.Map                  as M
 
-import Data.Bool
+import           Data.Bool
 
-import Control.Monad
+import           Control.Monad
 
-import XMonad.Actions.TagWindows
-
+import           XMonad.Actions.TagWindows
 
 findWindows :: (Window -> X Bool) -> X [Window]
 findWindows condition = do
@@ -41,22 +40,22 @@ initSpawnPersistent persistentProcesses name = do
     if (length procWindows > 0)
         then windows $ (shiftHere (head procWindows))
         else procCommand
-	where
-		persProcMap = M.fromList (map (\(name, query, command) -> (name, (query, command))) persistentProcesses)
+  where
+    persProcMap = M.fromList (map (\(name, query, command) -> (name, (query, command))) persistentProcesses)
 
 initSmartKill :: [(String, Window -> X Bool, X ())] -> X ()
 initSmartKill persistentProcesses = withFocused f
-	where
-		f w = do
-			shouldLive <- do
-				forM
-					persistentProcesses
-					( \(_, procIdentifier, _) -> do
-						res <- procIdentifier w
-						return res
-					)
-					>>= return . or
-			currWorkspace <- withWindowSet (pure . W.currentTag)
-			if shouldLive && currWorkspace /= "scratchpad"
-				then windows $ W.shift "scratchpad"
-				else kill
+  where
+    f w = do
+        shouldLive <- do
+            forM
+                persistentProcesses
+                ( \(_, procIdentifier, _) -> do
+                    res <- procIdentifier w
+                    return res
+                )
+                >>= return . or
+        currWorkspace <- withWindowSet (pure . W.currentTag)
+        if shouldLive && currWorkspace /= "scratchpad"
+            then windows $ W.shift "scratchpad"
+            else kill

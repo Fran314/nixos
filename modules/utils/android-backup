@@ -2,16 +2,16 @@
 
 print_help() {
 	#    "--------------------------------------------------------------------------------"
-    echo "android-backup"
-    echo ""
+	echo "android-backup"
+	echo ""
 	echo "backup files (mainly images and videos) from android phone"
 	echo ""
-    echo "USAGE: android-backup [OPTIONS] DEVICE"
+	echo "USAGE: android-backup [OPTIONS] DEVICE"
 	echo ""
-    echo "OPTIONS:"
-    echo "    -h, --help             print help text"
-    echo ""
-    echo "SCALE must be one of the following: 'pixel-4a', 'pixel-9pro'"
+	echo "OPTIONS:"
+	echo "    -h, --help             print help text"
+	echo ""
+	echo "SCALE must be one of the following: 'pixel-4a', 'pixel-9pro'"
 	echo ""
 	echo "The device gets mounted to /tmp/aft-mountpoint and its content gets backedup"
 	echo "in a directory inside ~/desktop/telefono-dump that depends on the specified"
@@ -33,37 +33,35 @@ exit_help() {
 }
 
 exit_error() {
-    print_help
-    echo ""
-    echo "ERROR: $1"
-    exit 1
+	print_help
+	echo ""
+	echo "ERROR: $1"
+	exit 1
 }
 
 POSITIONAL_ARGS=()
 
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        -h|--help)
-            exit_help
-            ;;
-        -*)
-			exit_error "Unknown option '$1'"
-			;;
-        *)
-			POSITIONAL_ARGS+=("$1") # save positional arg
-		  	shift # past argument
-		  	;;
-    esac
+	case $1 in
+	-h | --help)
+		exit_help
+		;;
+	-*)
+		exit_error "Unknown option '$1'"
+		;;
+	*)
+		POSITIONAL_ARGS+=("$1") # save positional arg
+		shift                   # past argument
+		;;
+	esac
 done
 
 set -- "${POSITIONAL_ARGS[@]}"
 
-if [[ -z ${1+x} ]]
-then
+if [[ -z ${1+x} ]]; then
 	exit_error "No device specified"
 
-elif [[ "$1" != "pixel-4a" ]] && [[ "$1" != "pixel-9pro" ]]
-then
+elif [[ "$1" != "pixel-4a" ]] && [[ "$1" != "pixel-9pro" ]]; then
 	exit_error "Unknown device '$1'. Device must be one of the following: 'pixel-4a', 'pixel-9pro'"
 fi
 
@@ -85,20 +83,18 @@ echo ""
 echo "Mounting..."
 # Ensure mountpoint exists
 mkdir -p /tmp/aft-mountpoint
-# Mount android device to 
+# Mount android device to
 aft-mtp-mount /tmp/aft-mountpoint
 
 echo ""
 echo "Starting backup..."
-if [[ "$DEVICE" == "pixel-4a" ]]
-then
+if [[ "$DEVICE" == "pixel-4a" ]]; then
 	mkdir -p ~/desktop/telefono-dump/pixel-4a/.
 
 	# Rsync
 	rsync --info=progress2 -avzh /tmp/aft-mountpoint/Memoria\ condivisa\ interna/{DCIM,Movies,Music,Pictures,Telegram,Fran} ~/desktop/telefono-dump/pixel-4a/.
 
-elif [[ "$DEVICE" == "pixel-9pro" ]]
-then
+elif [[ "$DEVICE" == "pixel-9pro" ]]; then
 	mkdir -p ~/desktop/telefono-dump/pixel-9pro/.
 
 	# Rsync
@@ -125,6 +121,6 @@ FAIL=$(
 	echo -e "\033[1;31m  Failed to unmount! \033[0m"
 	echo "Unmount manually"
 )
-sudo -p "$SUDO_PROMPT" umount /tmp/aft-mountpoint && \
-	echo "$SUCCESS" || \
+sudo -p "$SUDO_PROMPT" umount /tmp/aft-mountpoint &&
+	echo "$SUCCESS" ||
 	echo "$FAIL"

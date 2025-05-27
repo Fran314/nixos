@@ -1,9 +1,9 @@
 module StatusBar where
 
-import XMonad
+import           XMonad
 
-import XMonad.Hooks.StatusBar
-import XMonad.Hooks.StatusBar.PP
+import           XMonad.Hooks.StatusBar
+import           XMonad.Hooks.StatusBar.PP
 
 myPP :: PP
 myPP =
@@ -17,7 +17,8 @@ myPP =
 ewwTopBar :: StatusBarConfig
 ewwTopBar = statusBarProp "eww open topbar" (pure myPP)
 
-withEwwTB :: LayoutClass l Window
-       => XConfig l
-	   -> XConfig l
+withEwwTB ::
+    (LayoutClass l Window) =>
+    XConfig l ->
+    XConfig l
 withEwwTB = withSB ewwTopBar

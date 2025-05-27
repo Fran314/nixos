@@ -1,8 +1,8 @@
-{ config, pkgs, ...}:
+{ config, pkgs, ... }:
 
 {
-    environment.systemPackages = with pkgs; [
-        prusa-slicer
-        freecad
-    ];
+  environment.systemPackages = with pkgs; [
+    prusa-slicer
+    freecad
+  ];
 }

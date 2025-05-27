@@ -5,15 +5,13 @@
 
 WINDOW_CLASS=$(xdotool getactivewindow getwindowclassname)
 WINDOW_PID=$(xdotool getactivewindow getwindowpid)
-if [[ "$WINDOW_CLASS" != "Alacritty" ]]
-then
+if [[ "$WINDOW_CLASS" != "Alacritty" ]]; then
     exit 1
 fi
 
 # Get last child of terminal window (should be shell)
 SHELL_PID=$(pgrep -P "$WINDOW_PID" | tail -n 1)
-if [[ "$SHELL_PID" == "" ]]
-then
+if [[ "$SHELL_PID" == "" ]]; then
     exit 1
 fi
 

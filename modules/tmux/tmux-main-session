@@ -2,5 +2,5 @@ if ! tmux has-session -t tmux-main-session > /dev/null 2>&1; then
     # If session doesn't exist, create it
     tmux -u new-session -s tmux-main-session
 else
-	tmux -u attach-session -t tmux-main-session
+    tmux -u attach-session -t tmux-main-session
 fi

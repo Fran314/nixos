@@ -22,58 +22,48 @@
 # any possible previous notification
 
 OLD_STATE="ok"
-NOTIFICATION_ID=68041204	# certified random number
+NOTIFICATION_ID=68041204 # certified random number
 
-while true
-do
-    BATTERY_LEVEL=$(acpi -b | grep -oP '[0-9]+(?=%)')
+while true; do
+	BATTERY_LEVEL=$(acpi -b | grep -oP '[0-9]+(?=%)')
 	CHARGING=0
-	if acpi -b | grep -q "Charging"
-	then
+	if acpi -b | grep -q "Charging"; then
 		CHARGING=1
 	fi
 
 	NEW_STATE="ok"
-	if [[ $BATTERY_LEVEL -le 20 ]] && [[ $CHARGING -eq 0 ]]
-	then
+	if [[ $BATTERY_LEVEL -le 20 ]] && [[ $CHARGING -eq 0 ]]; then
 		NEW_STATE="crit"
-	elif [[ $BATTERY_LEVEL -le 30 ]] && [[ $CHARGING -eq 0 ]]
-	then
+	elif [[ $BATTERY_LEVEL -le 30 ]] && [[ $CHARGING -eq 0 ]]; then
 		NEW_STATE="low"
 	fi
 
-
 	# ok -> low
-	if [[ "$OLD_STATE" == "ok" ]] && [[ "$NEW_STATE" == "low" ]]
-	then
+	if [[ "$OLD_STATE" == "ok" ]] && [[ "$NEW_STATE" == "low" ]]; then
 		dunstify -C "$NOTIFICATION_ID"
 		dunstify -r "$NOTIFICATION_ID" -u critical "Battery below 30%"
 
 	# ok -> crit
-	elif [[ "$OLD_STATE" == "ok" ]] && [[ "$NEW_STATE" == "crit" ]]
-	then
+	elif [[ "$OLD_STATE" == "ok" ]] && [[ "$NEW_STATE" == "crit" ]]; then
 		dunstify -C "$NOTIFICATION_ID"
 		dunstify -r "$NOTIFICATION_ID" -u critical "Battery below 20%!!!"
 
 	# low -> ok
-	elif [[ "$OLD_STATE" == "low" ]] && [[ "$NEW_STATE" == "ok" ]]
-	then
+	elif [[ "$OLD_STATE" == "low" ]] && [[ "$NEW_STATE" == "ok" ]]; then
 		dunstify -C "$NOTIFICATION_ID"
-	
+
 	# low -> crit
-	elif [[ "$OLD_STATE" == "low" ]] && [[ "$NEW_STATE" == "crit" ]]
-	then
+	elif [[ "$OLD_STATE" == "low" ]] && [[ "$NEW_STATE" == "crit" ]]; then
 		dunstify -C "$NOTIFICATION_ID"
 		dunstify -r "$NOTIFICATION_ID" -u critical "Battery below 20%!!!"
 
 	# crit -> ok
-	elif [[ "$OLD_STATE" == "crit" ]] && [[ "$NEW_STATE" == "ok" ]]
-	then
+	elif [[ "$OLD_STATE" == "crit" ]] && [[ "$NEW_STATE" == "ok" ]]; then
 		dunstify -C "$NOTIFICATION_ID"
 	fi
 	# any other combination doesn't require any action
 
 	OLD_STATE="$NEW_STATE"
 
-    sleep 2 # seconds
+	sleep 2 # seconds
 done

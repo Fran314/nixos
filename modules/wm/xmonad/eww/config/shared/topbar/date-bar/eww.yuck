@@ -3,71 +3,68 @@
 (defvar date-bar-hover-expand false)
 (defvar date-bar-force-expand false)
 
-
 (defwindow calendar-popup
-    :monitor 0
-    :geometry (geometry
-        :x 0
-        :y 62
-        :width "15%"
-        :anchor "top center"
-    )
-    :stacking "fg"
-    :windowtype "dialog"
+	:monitor 0
+	:geometry (geometry
+		:x 0
+		:y 62
+		:width "15%"
+		:anchor "top center"
+	)
+	:stacking "fg"
+	:windowtype "dialog"
 
-    (box
-        :style "padding: 10px 20px 0 20px;"
-        (calendar)
-    )
+	(box
+		:style "padding: 10px 20px 0 20px;"
+		(calendar)
+	)
 )
 (defwidget date-bar []
-    (eventbox
-        :onclick '${EWW_CMD} open calendar-popup'
-        :onrightclick '${EWW_CMD} update date-bar-force-expand=$([[ $(${EWW_CMD} get date-bar-force-expand) == "false" ]] && echo "true" || echo "false")'
-        :onhover '${EWW_CMD} update date-bar-hover-expand=true'
-        :onhoverlost '${EWW_CMD} update date-bar-hover-expand=false'
-        (box
-            :class "date-container"
-            :spacing 20
-            :space-evenly false
-            (box
-                :space-evenly false
-                :spacing 8
-                (box
-                    :class "date-test"
-                    :space-evenly false
-                    (label :text '${date["day-short"]}')
-                    (revealer 
-                        :transition "slideleft"
-                        :reveal {date-bar-hover-expand || date-bar-force-expand}
-                        (label :text '${date["day-remaining"]}')
-                    )
-                )
-                (label :text " ${date["date"]}")
-                (box
-                    :space-evenly false
-                    (label :text '${date["month-short"]}')
-                    (revealer
-                        :transition "slideleft"
-                        :reveal {date-bar-hover-expand || date-bar-force-expand}
-                        (label :text '${date["month-remaining"]} ${date["year"]}')
-                    )
-                )
-            )
-            (box
-                :space-evenly false
-                (box
-                    :space-evenly false
-                    (label :text '${date["hours"]}:${date["minutes"]}')
-                    (revealer
-                        :transition "slideleft"
-                        :reveal {date-bar-hover-expand || date-bar-force-expand}
-                        (label :text ':${date["seconds"]}')
-                    )
-                )
-            )
-        )
-    )
+	(eventbox
+		:onclick '${EWW_CMD} open calendar-popup'
+		:onrightclick '${EWW_CMD} update date-bar-force-expand=$([[ $(${EWW_CMD} get date-bar-force-expand) == "false" ]] && echo "true" || echo "false")'
+		:onhover '${EWW_CMD} update date-bar-hover-expand=true'
+		:onhoverlost '${EWW_CMD} update date-bar-hover-expand=false'
+		(box
+			:class "date-container"
+			:spacing 20
+			:space-evenly false
+			(box
+				:space-evenly false
+				:spacing 8
+				(box
+					:class "date-test"
+					:space-evenly false
+					(label :text '${date["day-short"]}')
+					(revealer
+						:transition "slideleft"
+						:reveal {date-bar-hover-expand || date-bar-force-expand}
+						(label :text '${date["day-remaining"]}')
+					)
+				)
+				(label :text " ${date["date"]}")
+				(box
+					:space-evenly false
+					(label :text '${date["month-short"]}')
+					(revealer
+						:transition "slideleft"
+						:reveal {date-bar-hover-expand || date-bar-force-expand}
+						(label :text '${date["month-remaining"]} ${date["year"]}')
+					)
+				)
+			)
+			(box
+				:space-evenly false
+				(box
+					:space-evenly false
+					(label :text '${date["hours"]}:${date["minutes"]}')
+					(revealer
+						:transition "slideleft"
+						:reveal {date-bar-hover-expand || date-bar-force-expand}
+						(label :text ':${date["seconds"]}')
+					)
+				)
+			)
+		)
+	)
 )
-
-

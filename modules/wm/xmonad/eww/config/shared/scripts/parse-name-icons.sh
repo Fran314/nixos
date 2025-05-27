@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 if [[ $1 == "Cuffie" ]]; then
-    echo "cuffie"
+	echo "cuffie"
 # elif [[ $1 == "Main" ]]; then
 #     echo "main"
 elif [[ $1 == "Dot" ]]; then
-    echo "dot"
+	echo "dot"
 else
-    echo "unknown"
+	echo "unknown"
 fi

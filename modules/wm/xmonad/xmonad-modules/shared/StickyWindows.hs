@@ -1,21 +1,21 @@
-module StickyWindows(withStickyWindows) where
+module StickyWindows (withStickyWindows) where
 
-import XMonad
+import           XMonad
 
-import Utils
+import           Utils
 
 -- the default configuration import it qualified as W and it seems a gloabl
 -- convention
-import qualified XMonad.StackSet as W
+import qualified XMonad.StackSet            as W
 
 -- same as the W
-import qualified Data.Map as M
+import qualified Data.Map                   as M
 
-import Data.Ratio -- `%` operator
+import           Data.Ratio
 
-import XMonad.Actions.TagWindows
+import           XMonad.Actions.TagWindows
 
-import XMonad.Hooks.ManageHelpers
+import           XMonad.Hooks.ManageHelpers
 
 max_sticky_size :: Rational
 max_sticky_size = 2 / 3
@@ -28,7 +28,6 @@ sticky_size_min_step :: Integer
 sticky_size_min_step = 0
 sticky_size_default_step :: Integer
 sticky_size_default_step = 5
-
 
 toggleTag :: String -> Window -> X ()
 toggleTag tag w = do
@@ -55,7 +54,6 @@ whenSticky f win = do
             f win
             updateStickyWindow win
         else pure ()
-
 
 toggleSticky :: Window -> X ()
 toggleSticky w = do
@@ -121,7 +119,7 @@ updateStickyWindow win = do
     x <- if isLeft then return (28 / 1920) else return (1 - p - 28 / 1920)
     -- y <- if isTop then return (28 / 1080) else return (1 - p - 28 / 1080)
     -- y <- if isTop then return (96 / 1080) else return (1 - p - 28 / 1080) -- Leave margin for firefox tabs
-    y <- if isTop then return (28 / 1080) else return (1 - p - 64 / 1080)   -- Topbar at bottom (bottombar I guess)
+    y <- if isTop then return (28 / 1080) else return (1 - p - 64 / 1080) -- Topbar at bottom (bottombar I guess)
     windows $ W.float win (W.RationalRect x y p p)
 
 hasTagHook :: String -> Query Bool
@@ -143,48 +141,52 @@ moveToWorkspace i = do
         )
     refresh
 
-
 adjustAllWorkspaces :: KeyMask -> (M.Map (KeyMask, KeySym) (X ())) -> (M.Map (KeyMask, KeySym) (X ()))
 adjustAllWorkspaces modMask keys =
-	(foldr (.) id
-		[
-			(M.adjust (\p -> p >> moveToWorkspace i) (modMask, k)) .
-			(M.adjust (\p -> p >> moveToWorkspace i) (modMask .|. shiftMask, k))
-			| (i, k) <- zip (map show [1 .. 9]) [xK_1 .. xK_9]
-		]
-	) $ keys
+    ( foldr
+        (.)
+        id
+        [ (M.adjust (\p -> p >> moveToWorkspace i) (modMask, k))
+            . (M.adjust (\p -> p >> moveToWorkspace i) (modMask .|. shiftMask, k))
+        | (i, k) <- zip (map show [1 .. 9]) [xK_1 .. xK_9]
+        ]
+    )
+        $ keys
 
-appendWhenStickyWithFallback :: (Window -> X()) -> (X () -> X (), X ())
-appendWhenStickyWithFallback command = (
-		\fallback -> withFocused $ whenStickyWithFallback $ (command, fallback),
-		withFocused $ whenSticky $ command
-	)
+appendWhenStickyWithFallback :: (Window -> X ()) -> (X () -> X (), X ())
+appendWhenStickyWithFallback command =
+    ( \fallback -> withFocused $ whenStickyWithFallback $ (command, fallback)
+    , withFocused $ whenSticky $ command
+    )
 
 insertKeysWhenStickyWithFallback :: [((KeyMask, KeySym), Window -> X ())] -> (M.Map (KeyMask, KeySym) (X ())) -> (M.Map (KeyMask, KeySym) (X ()))
-insertKeysWhenStickyWithFallback mappings = insertKeysWith (map
-		(\(chord, command) -> (chord, appendWhenStickyWithFallback command))
-		mappings
-	)
+insertKeysWhenStickyWithFallback mappings =
+    insertKeysWith
+        ( map
+            (\(chord, command) -> (chord, appendWhenStickyWithFallback command))
+            mappings
+        )
 
 injectKeys :: KeyMask -> M.Map (KeyMask, KeySym) (X ()) -> M.Map (KeyMask, KeySym) (X ())
 injectKeys modMask keys =
-	insertKeys [
-		((modMask,               xK_o), withFocused toggleSticky),
-		((modMask .|. shiftMask, xK_o), withTaggedGlobalP "stickywindow" (W.shiftWin "scratchpad"))
-	] .
-	insertKeysWhenStickyWithFallback [
-		((modMask, xK_Left),  moveSticky $ "stickyshifthoriz"),
-		((modMask, xK_Right), moveSticky $ "stickyshifthoriz"),
-		((modMask, xK_Up),    moveSticky $ "stickyshiftvert"),
-		((modMask, xK_Down),  moveSticky $ "stickyshiftvert"),
-		((modMask, xK_plus),  changeStickySize $ (1)),
-		((modMask, xK_minus), changeStickySize $ (-1))
-	] .
-	(adjustAllWorkspaces modMask) $ keys
+    insertKeys
+        [ ((modMask, xK_o), withFocused toggleSticky)
+        , ((modMask .|. shiftMask, xK_o), withTaggedGlobalP "stickywindow" (W.shiftWin "scratchpad"))
+        ]
+        . insertKeysWhenStickyWithFallback
+            [ ((modMask, xK_Left), moveSticky $ "stickyshifthoriz")
+            , ((modMask, xK_Right), moveSticky $ "stickyshifthoriz")
+            , ((modMask, xK_Up), moveSticky $ "stickyshiftvert")
+            , ((modMask, xK_Down), moveSticky $ "stickyshiftvert")
+            , ((modMask, xK_plus), changeStickySize $ (1))
+            , ((modMask, xK_minus), changeStickySize $ (-1))
+            ]
+        . (adjustAllWorkspaces modMask)
+        $ keys
 
 withStickyWindows :: XConfig l -> XConfig l
-withStickyWindows conf@(XConfig { modMask }) =
-	conf {
-		keys = \cnf -> injectKeys modMask (keys conf cnf),
-		manageHook = stickyWindowFloat <> manageHook conf
-	}
+withStickyWindows conf@(XConfig{modMask}) =
+    conf
+        { keys = \cnf -> injectKeys modMask (keys conf cnf)
+        , manageHook = stickyWindowFloat <> manageHook conf
+        }

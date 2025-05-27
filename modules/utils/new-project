@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
 
 print_help() {
-    echo "new-project"
-    echo ""
-    echo "initialize a directory for a new project with the necessary boilerplate"
-    echo ""
-    echo "USAGE: new-project [OPTIONS] TYPE"
-    echo ""
-    echo "OPTIONS:"
-    #    "--- 80 characters --------------------------------------------------------------"
-    echo "    -h, --help    print help text"
-    echo "    -g, --git     also initialize a git repository"
+	echo "new-project"
+	echo ""
+	echo "initialize a directory for a new project with the necessary boilerplate"
+	echo ""
+	echo "USAGE: new-project [OPTIONS] TYPE"
+	echo ""
+	echo "OPTIONS:"
+	#    "--- 80 characters --------------------------------------------------------------"
+	echo "    -h, --help    print help text"
+	echo "    -g, --git     also initialize a git repository"
 	echo "    -gg           initialize git repository and create initial commit (implies"
 	echo "                   -g)"
-    echo ""
-    echo "TYPE: currently supported types are 'node', 'python', 'nix-shell-application'"
+	echo ""
+	echo "TYPE: currently supported types are 'node', 'python', 'nix-shell-application'"
 }
 
 print_error() {
-    print_help
-    echo ""
-    echo "ERROR: $1"
-    exit 1
+	print_help
+	echo ""
+	echo "ERROR: $1"
+	exit 1
 }
 
 POSITIONAL_ARGS=()
@@ -29,38 +29,39 @@ GIT=0
 GGIT=0
 
 while [[ $# -gt 0 ]]; do
-    case $1 in
-        -h|--help)
-            print_help
-            exit 0
-            ;;
-        -g|--git)
-            GIT=1
-            shift # past argument
-            ;;
-		-gg)
-			GIT=1
-			GGIT=1
-			shift
-			;;
-        # -*|--*)
-        -*)
-            print_error "Unknown option $1"
-            ;;
-        *)
-            POSITIONAL_ARGS+=("$1") # save positional arg
-            shift # past argument
-            ;;
-    esac
+	case $1 in
+	-h | --help)
+		print_help
+		exit 0
+		;;
+	-g | --git)
+		GIT=1
+		shift # past argument
+		;;
+	-gg)
+		GIT=1
+		GGIT=1
+		shift
+		;;
+	# -*|--*)
+	-*)
+		print_error "Unknown option $1"
+		;;
+	*)
+		POSITIONAL_ARGS+=("$1") # save positional arg
+		shift                   # past argument
+		;;
+	esac
 done
 
 set -- "${POSITIONAL_ARGS[@]}"
 
 TYPE=$1
 
-PROJECT_NAME=$(basename "$(pwd)")
+PROJECT_NAME=$(basename "$PWD")
 
-PRETTIERRC=$(cat << EOF
+PRETTIERRC=$(
+	cat <<EOF
 {
     "printWidth": 80,
     "singleQuote": true,
@@ -74,13 +75,12 @@ PRETTIERRC=$(cat << EOF
 EOF
 )
 
-if [[ $TYPE == 'node' ]]
-then
-    [[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" > .prettierrc.json
-    [[ ! -f package.json ]] && cat <<- EOF > package.json
+if [[ $TYPE == 'node' ]]; then
+	[[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" >.prettierrc.json
+	[[ ! -f package.json ]] && cat <<-EOF >package.json
 		{
 		    "name": "$PROJECT_NAME",
-			"type": "module",
+		    "type": "module",
 		    "version": "1.0.0",
 		    "main": "index.js",
 		    "scripts": {
@@ -91,39 +91,36 @@ then
 		    "license": "ISC",
 		    "description": ""
 		}
-		EOF
-	
-	[[ ! -f index.js ]] && cat <<- EOF > index.js
-		console.log("Hello World!")
-		EOF
+	EOF
 
-    if [[ $GIT -eq 1 ]]
-    then
-        [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+	[[ ! -f index.js ]] && cat <<-EOF >index.js
+		console.log("Hello World!")
+	EOF
+
+	if [[ $GIT -eq 1 ]]; then
+		[[ ! -f .gitignore ]] && cat <<-EOF >.gitignore
 			node_modules/
-			
+
 			.env*
 			!.env*.example
-			EOF
+		EOF
 
-		[[ ! -f README.md ]] && cat <<- EOF > README.md
+		[[ ! -f README.md ]] && cat <<-EOF >README.md
 			# $PROJECT_NAME
-			EOF
+		EOF
 
-        [[ ! -d .git ]] && { 
-            git init
-            if [[ $GGIT -eq 1 ]]
-            then
-                git add .
-                git commit -m "initial commit"
-            fi
-        }
-    fi
-elif [[ $TYPE == 'python' ]]
-then
-    [[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" > .prettierrc.json
+		[[ ! -d .git ]] && {
+			git init
+			if [[ $GGIT -eq 1 ]]; then
+				git add .
+				git commit -m "initial commit"
+			fi
+		}
+	fi
+elif [[ $TYPE == 'python' ]]; then
+	[[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" >.prettierrc.json
 
-	[[ ! -f shell.nix ]] && cat <<- EOF > shell.nix
+	[[ ! -f shell.nix ]] && cat <<-EOF >shell.nix
 		with (import <nixpkgs> {});
 		mkShell {
 		    buildInputs = [
@@ -131,38 +128,34 @@ then
 		        ]))
 		    ];
 		}
-		EOF
+	EOF
 
-    if [[ $GIT -eq 1 ]]
-    then
-        [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+	if [[ $GIT -eq 1 ]]; then
+		[[ ! -f .gitignore ]] && cat <<-EOF >.gitignore
 			__pycache__/
 
 			.env*
 			!.env*.example
-			EOF
+		EOF
 
-
-		[[ ! -f README.md ]] && cat <<- EOF > README.md
+		[[ ! -f README.md ]] && cat <<-EOF >README.md
 			# $PROJECT_NAME
-			EOF
+		EOF
 
-        [[ ! -d .git ]] && { 
-            git init
-            if [[ $GGIT -eq 1 ]]
-            then
-                git add .
-                git commit -m "initial commit"
-            fi
-        }
-    fi
-elif [[ $TYPE == 'nix-shell-application' ]]
-then
-    [[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" > .prettierrc.json
+		[[ ! -d .git ]] && {
+			git init
+			if [[ $GGIT -eq 1 ]]; then
+				git add .
+				git commit -m "initial commit"
+			fi
+		}
+	fi
+elif [[ $TYPE == 'nix-shell-application' ]]; then
+	[[ ! -f .prettierrc.json ]] && echo "$PRETTIERRC" >.prettierrc.json
 
-	[[ ! -f source.sh ]] && cat <<- EOF > source.sh
+	[[ ! -f source.sh ]] && cat <<-EOF >source.sh
 		#!/usr/bin/env bash
-		
+
 		print_help() {
 		    #    "--------------------------------------------------------------------------------"
 		    echo "$PROJECT_NAME"
@@ -180,24 +173,24 @@ then
 		    echo ""
 		    echo "Long detailed description if needed"
 		}
-		
+
 		exit_help() {
 		    print_help
 		    exit 0
 		}
-		
+
 		exit_error() {
 		    print_help
 		    echo ""
 		    echo "ERROR: \$1"
 		    exit 1
 		}
-		
-		
+
+
 		POSITIONAL_ARGS=()
 		BOOL_OPT=1    # 1 = True
 		STR_OPT=""
-		
+
 		while [[ \$# -gt 0 ]]; do
 		    case \$1 in
 		        -h|--help)
@@ -221,24 +214,24 @@ then
 		            ;;
 		    esac
 		done
-		
+
 		set -- "\${POSITIONAL_ARGS[@]}"
-		
+
 		if [[ -z \${1+x} ]]
 		then
 		    exit_error "No [first argument] specified"
-		
+
 		elif [[ "\$1" != "possible-value-#1" ]] && [[ "\$1" != "possible-value-#2" ]]
 		then
 		    exit_error "Unknown [first argument] '\$1'. [First argument] must be one of the following: 'possible-value-#1', 'possible-value-#2'"
 		fi
-	
+
 		if [[ -n \${2+x} ]]
 		then
 		    echo "second argument is set!"
 		else
 		    echo "second argument is not set..."
-		fi	
+		fi 
 
 		FIRST_ARGUMENT="\$1"
 
@@ -250,10 +243,9 @@ then
 		fi
 		echo "STR_OPT: '\$STR_OPT'"
 		echo "\$FIRST_ARGUMENT"
-		EOF
+	EOF
 
-
-	[[ ! -f shell.nix ]] && cat <<- EOF > shell.nix
+	[[ ! -f shell.nix ]] && cat <<-EOF >shell.nix
 		with (import <nixpkgs> {});
 		mkShell {
 		    packages = [
@@ -263,34 +255,31 @@ then
 		                util-linux
 		            ];
 		            text = builtins.readFile ./source.sh;
-				})
+		        })
 		    ];
 		}
-		EOF
+	EOF
 
-    if [[ $GIT -eq 1 ]]
-    then
-        [[ ! -f .gitignore ]] && cat <<- EOF > .gitignore
+	if [[ $GIT -eq 1 ]]; then
+		[[ ! -f .gitignore ]] && cat <<-EOF >.gitignore
 			__pycache__/
 
 			.env*
 			!.env*.example
-			EOF
+		EOF
 
-
-		[[ ! -f README.md ]] && cat <<- EOF > README.md
+		[[ ! -f README.md ]] && cat <<-EOF >README.md
 			# $PROJECT_NAME
-			EOF
+		EOF
 
-        [[ ! -d .git ]] && { 
-            git init
-            if [[ $GGIT -eq 1 ]]
-            then
-                git add .
-                git commit -m "initial commit"
-            fi
-        }
-    fi
+		[[ ! -d .git ]] && {
+			git init
+			if [[ $GGIT -eq 1 ]]; then
+				git add .
+				git commit -m "initial commit"
+			fi
+		}
+	fi
 else
-    print_error "Unsupported type '$1'"
+	print_error "Unsupported type '$1'"
 fi

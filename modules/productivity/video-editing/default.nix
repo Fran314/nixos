@@ -1,16 +1,21 @@
-{ config, pkgs, pkgs-unstable, ...}:
+{
+  config,
+  pkgs,
+  pkgs-unstable,
+  ...
+}:
 
 {
-    environment.systemPackages = with pkgs; [
-		ffmpeg-full
+  environment.systemPackages = with pkgs; [
+    ffmpeg-full
 
-		pkgs-unstable.shotcut
-		# davinci-resolve
-		# openshot-qt
-		pkgs-unstable.kdePackages.kdenlive
+    pkgs-unstable.shotcut
+    # davinci-resolve
+    # openshot-qt
+    pkgs-unstable.kdePackages.kdenlive
 
-		tenacity
+    tenacity
 
-		handbrake
-    ];
+    handbrake
+  ];
 }

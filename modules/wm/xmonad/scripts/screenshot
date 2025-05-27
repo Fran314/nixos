@@ -7,4 +7,4 @@ TS=$(date +%F_%T)
 
 maim --format="png" --hidecursor --select | convert - -resize '600x800<' "$DIR/$TS.png"
 
-xclip -selection clipboard -t image/png < "$DIR/$TS.png"
+xclip -selection clipboard -t image/png <"$DIR/$TS.png"

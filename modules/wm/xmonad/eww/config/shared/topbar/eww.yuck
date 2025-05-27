@@ -4,16 +4,16 @@
 (include "./topbar/stats-bar/eww.yuck")
 
 (defwindow topbar
-    :monitor 0
-    ;; :geometry (geometry :x 0 :y 10 :width "1900" :height "30px" :anchor "top center")
-    :geometry (geometry :x 0 :y 0 :width "100%" :height "32px" :anchor "bottom center")
-    :reserve (struts :distance "40px" :side "bottom")
-    :stacking "bg"
-    :windowtype "dock"
-    (centerbox
-        :class "topbar_content"
-        (workspaces-bar)
-        (date-bar)
-        (stats-bar)
-    )
+	:monitor 0
+	;; :geometry (geometry :x 0 :y 10 :width "1900" :height "30px" :anchor "top center")
+	:geometry (geometry :x 0 :y 0 :width "100%" :height "32px" :anchor "bottom center")
+	:reserve (struts :distance "40px" :side "bottom")
+	:stacking "bg"
+	:windowtype "dock"
+	(centerbox
+		:class "topbar_content"
+		(workspaces-bar)
+		(date-bar)
+		(stats-bar)
+	)
 )

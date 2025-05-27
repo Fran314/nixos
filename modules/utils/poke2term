@@ -4,12 +4,26 @@ import requests
 from PIL import Image
 import argparse
 
-parser = argparse.ArgumentParser(prog='poke2term', description='Draw pokemon in the terminal')
-parser.add_argument('input', help='pokémon to draw')
-parser.add_argument('-f', '--file', help='read image from file instead of from the github repo', action='store_true')
-parser.add_argument('-l', '--large', help='draw the large version (x2)', action='store_true')
-parser.add_argument('-s', '--shiny', help='draw the shiny variant', action='store_true')
-parser.add_argument('-o', '--old', help='draw the old sprite (gen7) instead of the new sprite (gen8)', action='store_true')
+parser = argparse.ArgumentParser(
+    prog="poke2term", description="Draw pokemon in the terminal"
+)
+parser.add_argument("input", help="pokémon to draw")
+parser.add_argument(
+    "-f",
+    "--file",
+    help="read image from file instead of from the github repo",
+    action="store_true",
+)
+parser.add_argument(
+    "-l", "--large", help="draw the large version (x2)", action="store_true"
+)
+parser.add_argument("-s", "--shiny", help="draw the shiny variant", action="store_true")
+parser.add_argument(
+    "-o",
+    "--old",
+    help="draw the old sprite (gen7) instead of the new sprite (gen8)",
+    action="store_true",
+)
 args = parser.parse_args()
 
 padding = [1, 2, 1, 2]
@@ -45,10 +59,10 @@ def get_bounding_box(img):
 
 
 def get_pixel(img, bb, x, y):
-    if (bb[0] <= x <= bb[2] and bb[1] <= y <= bb[3]):
+    if bb[0] <= x <= bb[2] and bb[1] <= y <= bb[3]:
         [r, g, b, a] = img.getpixel((x, y))
         if a > 0:
-            return f'{r};{g};{b}'
+            return f"{r};{g};{b}"
         else:
             return "0"
     else:
@@ -57,16 +71,16 @@ def get_pixel(img, bb, x, y):
 
 def fg(color):
     if color == "0":
-        return '\033[39m'
+        return "\033[39m"
     else:
-        return f'\033[38;2;{color}m'
+        return f"\033[38;2;{color}m"
 
 
 def bg(color):
     if color == "0":
-        return '\033[49m'
+        return "\033[49m"
     else:
-        return f'\033[48;2;{color}m'
+        return f"\033[48;2;{color}m"
 
 
 def img_to_text_small(img):
@@ -171,9 +185,9 @@ if __name__ == "__main__":
     if args.file:
         img = Image.open(args.input)
     else:
-        gen = 'gen7x' if args.old else 'gen8'
-        shiny = 'shiny' if args.shiny else 'regular'
-        img_url = f'https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-{gen}/{shiny}/{args.input}.png'
+        gen = "gen7x" if args.old else "gen8"
+        shiny = "shiny" if args.shiny else "regular"
+        img_url = f"https://raw.githubusercontent.com/msikma/pokesprite/master/pokemon-{gen}/{shiny}/{args.input}.png"
         img = Image.open(requests.get(img_url, stream=True).raw)
 
     render = img_to_text_large(img) if args.large else img_to_text_small(img)

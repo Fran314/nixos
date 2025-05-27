@@ -1,51 +1,49 @@
 (deflisten ws-info :initial '{}' 'scripts/listen-workspaces.sh')
 
 (defwidget numbered-ws-indicator [id state icon]
-    (eventbox
-        :onclick 'wmctrl -s ${id - 1}'
-        (image
-            :path 'topbar/workspaces-bar/icons/${icon}-${state}.svg'
-            :image-width 15
-            :image-height 15
-        )
-    )
+	(eventbox
+		:onclick 'wmctrl -s ${id - 1}'
+		(image
+			:path 'topbar/workspaces-bar/icons/${icon}-${state}.svg'
+			:image-width 15
+			:image-height 15
+		)
+	)
 )
 (defwidget extra-ws-indicator [state]
-    (box
-        :class "ws-dot ${state}"
-        :width 5
-        :height 5
-    )
+	(box
+		:class "ws-dot ${state}"
+		:width 5
+		:height 5
+	)
 )
 (defwidget numbered-ws []
-    (box
-        :class "numbered-ws-container"
-        :spacing 8
-        (for i in {ws-info["numbered-ws"]}
-            (numbered-ws-indicator :id {i["id"]} :state {i["state"]} :icon {i["icon"]})
-        )
-    )
+	(box
+		:class "numbered-ws-container"
+		:spacing 8
+		(for i in {ws-info["numbered-ws"]}
+			(numbered-ws-indicator :id {i["id"]} :state {i["state"]} :icon {i["icon"]})
+		)
+	)
 )
 (defwidget extra-ws []
-    (box
-        :class "extra-ws-container"
-        :orientation "vertical"
-        :valign "center"
-        :space-evenly false
-        :spacing 4
-        (extra-ws-indicator :state {ws-info["dashboard"]})
-        (extra-ws-indicator :state {ws-info["scratchpad"]})
-    )
+	(box
+		:class "extra-ws-container"
+		:orientation "vertical"
+		:valign "center"
+		:space-evenly false
+		:spacing 4
+		(extra-ws-indicator :state {ws-info["dashboard"]})
+		(extra-ws-indicator :state {ws-info["scratchpad"]})
+	)
 )
 (defwidget workspaces-bar []
-    (box
-        :class "workspaces-bar"
-        :space-evenly false
-        :spacing 10
-        (extra-ws)
-        (divider)
-        (numbered-ws)
-    )
+	(box
+		:class "workspaces-bar"
+		:space-evenly false
+		:spacing 10
+		(extra-ws)
+		(divider)
+		(numbered-ws)
+	)
 )
-
-

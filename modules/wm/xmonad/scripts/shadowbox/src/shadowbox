@@ -20,8 +20,7 @@ from gi.repository import Gtk, Gdk
 
 def get_screen_size(display):  # TODO: Multiple monitor size support
     mon_geoms = [
-        display.get_monitor(i).get_geometry()
-        for i in range(display.get_n_monitors())
+        display.get_monitor(i).get_geometry() for i in range(display.get_n_monitors())
     ]
 
     x0 = min(r.x for r in mon_geoms)
@@ -76,13 +75,13 @@ class ShadowBox(Gtk.Window):
             self.box_x + self.box_width,
             self.box_y,
             self.screen_width - self.box_x - self.box_width,
-            self.box_height
+            self.box_height,
         )
         ctx.rectangle(
             0,
             self.box_y + self.box_height,
             self.screen_width,
-            self.screen_height - self.box_y - self.box_height
+            self.screen_height - self.box_y - self.box_height,
         )
         ctx.fill()
 

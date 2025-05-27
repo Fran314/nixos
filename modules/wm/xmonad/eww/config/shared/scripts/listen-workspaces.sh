@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 
 output_info_on_newline() {
-    while read -r XMONAD_INFO
-    do
-        CURRENT_WS=$(sed 's/.*"\(.*\)"/\1/' <<< $XMONAD_INFO)
-        ./get-workspaces-info.py $CURRENT_WS
+    while read -r XMONAD_INFO; do
+        CURRENT_WS=$(sed 's/.*"\(.*\)"/\1/' <<<"$XMONAD_INFO")
+        ./get-workspaces-info.py "$CURRENT_WS"
     done
 }
 

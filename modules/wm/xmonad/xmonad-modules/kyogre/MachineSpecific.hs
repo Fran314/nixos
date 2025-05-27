@@ -1,9 +1,9 @@
-module MachineSpecific(
-	machineSpecificKeys,
-	machineSpecificManageHook
+module MachineSpecific (
+    machineSpecificKeys,
+    machineSpecificManageHook,
 ) where
 
-import XMonad
+import           XMonad
 
 import qualified Data.Map as M
 

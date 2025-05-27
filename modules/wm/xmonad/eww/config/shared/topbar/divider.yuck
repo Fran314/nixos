@@ -1,6 +1,6 @@
 (defwidget divider []
-    (box
-        :class "divider"
-        :valign "center"
-    )
+	(box
+		:class "divider"
+		:valign "center"
+	)
 )

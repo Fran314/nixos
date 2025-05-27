@@ -6,19 +6,19 @@
 (include "./topbar/stats-bar/battery.yuck")
 
 (defwidget stats-bar []
-    (box
-        :style 'padding: 0 5px 0 0'
-        :halign "end"
-        :spacing 15
-        :space-evenly false
-        (do-not-disturb-stats)
-        (wifi-stats)
-        (divider)
-        (bluetooth-stats)
-        (audio-stats)
-        (divider)
-        (cpu-stats)
-        (divider)
-        (battery-stats)
-    )
+	(box
+		:style 'padding: 0 5px 0 0'
+		:halign "end"
+		:spacing 15
+		:space-evenly false
+		(do-not-disturb-stats)
+		(wifi-stats)
+		(divider)
+		(bluetooth-stats)
+		(audio-stats)
+		(divider)
+		(cpu-stats)
+		(divider)
+		(battery-stats)
+	)
 )

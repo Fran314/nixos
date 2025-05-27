@@ -10,17 +10,19 @@ import subprocess
 import exiftool
 
 import gi
-gi.require_version('Gtk', '3.0')
+
+gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
 from gi.repository import Gdk
+
 
 class Image(Gtk.Window):
     def __init__(self, images, state):
         Gtk.Window.__init__(self)
         self.set_title("Image")
         self.connect("destroy", self.on_quit)
-        self.connect("key-press-event",self.on_key_press)
+        self.connect("key-press-event", self.on_key_press)
 
         grid = Gtk.Grid()
         self.add(grid)
@@ -37,7 +39,7 @@ class Image(Gtk.Window):
 
     def set_image(self):
         curr_image = self.images[self.state["current"]]
-        print(f'{curr_image}\t[ {self.state["current"]} / {len(self.images)} ]')
+        print(f"{curr_image}\t[ {self.state['current']} / {len(self.images)} ]")
 
         rot = GdkPixbuf.PixbufRotation.NONE
         with exiftool.ExifToolHelper() as et:
@@ -59,31 +61,39 @@ class Image(Gtk.Window):
         width = max(width, 1000)
         height = max(height, 1000)
 
-        if rot == GdkPixbuf.PixbufRotation.CLOCKWISE or rot == GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE:
+        if (
+            rot == GdkPixbuf.PixbufRotation.CLOCKWISE
+            or rot == GdkPixbuf.PixbufRotation.COUNTERCLOCKWISE
+        ):
             width, height = height, width
- 
+
         pixbuf = GdkPixbuf.Pixbuf.rotate_simple(
-                    GdkPixbuf.Pixbuf.new_from_file_at_scale(filename=curr_image, width=width, height=height, preserve_aspect_ratio=True),
-                    rot
-                )
+            GdkPixbuf.Pixbuf.new_from_file_at_scale(
+                filename=curr_image,
+                width=width,
+                height=height,
+                preserve_aspect_ratio=True,
+            ),
+            rot,
+        )
 
         self.image.set_from_pixbuf(pixbuf)
 
     def on_key_press(self, widget, event):
         key = Gdk.keyval_name(event.keyval)
-        if key == 'p' or key == 'k' or key == 'd':
-            if key == 'p':
+        if key == "p" or key == "k" or key == "d":
+            if key == "p":
                 self.state["current"] -= 1
                 if self.state["current"] < 0:
                     self.state["current"] = 0
             else:
-                if key == 'k':
+                if key == "k":
                     self.state["keepers"][self.state["current"]] = True
-                if key == 'd':
+                if key == "d":
                     self.state["keepers"][self.state["current"]] = False
                 self.state["current"] += 1
 
-            with open('.keep-images.json', 'w') as outfile:
+            with open(".keep-images.json", "w") as outfile:
                 json.dump(self.state, outfile)
 
             if self.state["current"] == len(self.images):
@@ -92,31 +102,42 @@ class Image(Gtk.Window):
                 self.set_image()
 
     def on_quit(self, widget):
-        val = input('Copy keepers [Y/n]? ')
-        if val != 'n':
-            ps_args = ['cp', '-p', '--']
+        val = input("Copy keepers [Y/n]? ")
+        if val != "n":
+            ps_args = ["cp", "-p", "--"]
             for i in range(len(self.state["keepers"])):
                 if self.state["keepers"][i]:
                     ps_args += [self.images[i]]
-            ps_args += ['./keepers/.']
+            ps_args += ["./keepers/."]
 
             subprocess.run(ps_args)
-            
+
         Gtk.main_quit()
 
-if not exists('./keepers'):
-    makedirs('./keepers')
 
-images = [f for f in listdir('.') if isfile(f) and (f.endswith('.JPG') or f.endswith('.jpg') or f.endswith('.JPEG') or f.endswith('.jpeg') or f.endswith('.PNG') or f.endswith('.png') or f.endswith('.CR2'))]
+if not exists("./keepers"):
+    makedirs("./keepers")
+
+images = [
+    f
+    for f in listdir(".")
+    if isfile(f)
+    and (
+        f.endswith(".JPG")
+        or f.endswith(".jpg")
+        or f.endswith(".JPEG")
+        or f.endswith(".jpeg")
+        or f.endswith(".PNG")
+        or f.endswith(".png")
+        or f.endswith(".CR2")
+    )
+]
 images.sort()
 
-state = {
-    'current': 0,
-    'keepers': [False for _ in range(len(images))]
-}
+state = {"current": 0, "keepers": [False for _ in range(len(images))]}
 
-if exists('.keep-images.json'):
-    with open('.keep-images.json') as state_file:
+if exists(".keep-images.json"):
+    with open(".keep-images.json") as state_file:
         state = json.load(state_file)
 
 

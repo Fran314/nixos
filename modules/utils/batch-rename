@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ -z ${1+x} ]] || [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]
-then
+if [[ -z ${1+x} ]] || [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
     echo "Rename files in directory"
     echo ""
     echo "USAGE: batch-rename [PATTERN]"
@@ -22,11 +21,9 @@ then
     echo "  ciao123.txt -> 123-ciao.txt"
     exit 0
 fi
-for f in *
-do
-    NEWNAME=$(sed "$1" <<< "$f")
-    if [[ $NEWNAME != "$f" ]]
-    then
+for f in *; do
+    NEWNAME=$(sed "$1" <<<"$f")
+    if [[ $NEWNAME != "$f" ]]; then
         echo "$f -> $NEWNAME"
     fi
 done
@@ -35,13 +32,10 @@ echo -n "Procede to rename? [y/N] "
 read -rn1 CONTINUE
 echo ""
 
-if [[ $CONTINUE == "y" ]] || [[ $CONTINUE == "Y" ]]
-then
-    for f in *
-    do
-        NEWNAME=$(sed "$1" <<< "$f")
-        if [[ $NEWNAME != "$f" ]]
-        then
+if [[ $CONTINUE == "y" ]] || [[ $CONTINUE == "Y" ]]; then
+    for f in *; do
+        NEWNAME=$(sed "$1" <<<"$f")
+        if [[ $NEWNAME != "$f" ]]; then
             mv -- "$f" "$NEWNAME"
         fi
     done

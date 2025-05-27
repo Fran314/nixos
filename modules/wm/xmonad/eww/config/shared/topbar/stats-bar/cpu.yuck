@@ -1,6 +1,6 @@
 (defwidget cpu-stats []
-    (box
-        :style "min-width: 85px;"
-        (label :text '${round(EWW_CPU["avg"], 0)}%  ${round(EWW_TEMPS["K10TEMP_TCTL"], 0)}°C')
-    )
+	(box
+		:style "min-width: 85px;"
+		(label :text '${round(EWW_CPU["avg"], 0)}%  ${round(EWW_TEMPS["K10TEMP_TCTL"], 0)}°C')
+	)
 )

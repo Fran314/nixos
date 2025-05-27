@@ -3,10 +3,10 @@
 print_help() {
     echo "img-resize"
     echo ""
-	echo "resize image(s) by a given percentage"
-	echo ""
-	echo "the resized images are put in a ./resized directory, which is created if it"
-	echo "does not exits already"
+    echo "resize image(s) by a given percentage"
+    echo ""
+    echo "the resized images are put in a ./resized directory, which is created if it"
+    echo "does not exits already"
     echo ""
     echo "USAGE: img-resize [OPTIONS] SCALE FILE [FILE ...]"
     echo ""
@@ -25,34 +25,34 @@ VERBOSE=0
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -h|--help)
-            print_help
-            exit 0
-            ;;
-        -p|--pixel-perfect)
-            PIXEL_PERFECT=1
-            shift # past argument
-            ;;
-        -v|--verbose)
-            VERBOSE=1
-            shift # past argument
-            ;;
-        # -o|--output)
-        #     OUTPUT="$2"
-        #     shift # past argument
-        #     shift # past value
-        #     ;;
-        # -*|--*)
-        -*)
-          print_help
-          echo ""
-          echo "ERROR: Unknown option $1"
-          exit 1
-          ;;
-        *)
-          POSITIONAL_ARGS+=("$1") # save positional arg
-          shift # past argument
-          ;;
+    -h | --help)
+        print_help
+        exit 0
+        ;;
+    -p | --pixel-perfect)
+        PIXEL_PERFECT=1
+        shift # past argument
+        ;;
+    -v | --verbose)
+        VERBOSE=1
+        shift # past argument
+        ;;
+    # -o|--output)
+    #     OUTPUT="$2"
+    #     shift # past argument
+    #     shift # past value
+    #     ;;
+    # -*|--*)
+    -*)
+        print_help
+        echo ""
+        echo "ERROR: Unknown option $1"
+        exit 1
+        ;;
+    *)
+        POSITIONAL_ARGS+=("$1") # save positional arg
+        shift                   # past argument
+        ;;
     esac
 done
 
@@ -79,8 +79,7 @@ SCALE="$1"
 shift
 
 mkdir ./resized
-for i in "$@"
-do
+for i in "$@"; do
     if [[ $VERBOSE -eq 1 ]]; then
         echo "$i"
     fi

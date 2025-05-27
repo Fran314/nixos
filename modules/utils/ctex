@@ -27,37 +27,37 @@ CLEANUP=0
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-        -h|--help)
-            print_help
-            exit 0
-            ;;
-        -c|--compiler)
-            if [[ "$2" != "pdflatex" ]] && [[ "$2" != "xelatex" ]] && [[ "$2" != "lualatex" ]]; then
-                print_error "Invalid compiler value '$2'"
-            fi
-            COMPILER="$2"
-            shift # past argument
-            shift # past value
-            ;;
-        -C|--clean-up)
-            CLEANUP=1
-            shift # past argument
-            ;;
-        # -*|--*)
-        -*)
-            print_error "Unknown option $1"
-            ;;
-        *)
-            POSITIONAL_ARGS+=("$1") # save positional arg
-            shift # past argument
-            ;;
+    -h | --help)
+        print_help
+        exit 0
+        ;;
+    -c | --compiler)
+        if [[ "$2" != "pdflatex" ]] && [[ "$2" != "xelatex" ]] && [[ "$2" != "lualatex" ]]; then
+            print_error "Invalid compiler value '$2'"
+        fi
+        COMPILER="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    -C | --clean-up)
+        CLEANUP=1
+        shift # past argument
+        ;;
+    # -*|--*)
+    -*)
+        print_error "Unknown option $1"
+        ;;
+    *)
+        POSITIONAL_ARGS+=("$1") # save positional arg
+        shift                   # past argument
+        ;;
     esac
 done
 
 set -- "${POSITIONAL_ARGS[@]}"
 
 if [[ -z ${1+x} ]]; then
-	print_error "Source file not given"
+    print_error "Source file not given"
 fi
 
 SOURCE="$1"
@@ -79,9 +79,9 @@ cleanup() {
             [[ -f "$LOG_FILE" ]] && echo "$LOG_FILE"
             echo ""
 
-			echo -n "Delete the temporary compile files? [y/N]: "
-			read -rn1 CHOICE
-			echo ""
+            echo -n "Delete the temporary compile files? [y/N]: "
+            read -rn1 CHOICE
+            echo ""
             if [[ "$CHOICE" == "y" ]] || [[ "$CHOICE" == "Y" ]]; then
                 PROCEDE=1
             fi

@@ -1,23 +1,23 @@
 (defpoll bluetooth :initial '{}' :interval "1s" 'scripts/get-bluetooth.sh')
 
 (defwidget bluetooth-stats []
-    (box
-        :space-evenly false
-        :visible {bluetooth["status"] == "connected"}
-        :spacing 15
-        (box
-            (image
-                :visible {bluetooth["icon"] != ""}
-                :path 'topbar/stats-bar/icons/bluetooth-${bluetooth["icon"]}.svg'
-                :image-width 16
-                :image-height 16
-            )
-            (label
-                :style 'color: #0099FF;'
-                :visible {bluetooth["icon"] == ""}
-                :text {bluetooth["device"]}
-            )
-        )
-        (divider)
-    )
+	(box
+		:space-evenly false
+		:visible {bluetooth["status"] == "connected"}
+		:spacing 15
+		(box
+			(image
+				:visible {bluetooth["icon"] != ""}
+				:path 'topbar/stats-bar/icons/bluetooth-${bluetooth["icon"]}.svg'
+				:image-width 16
+				:image-height 16
+			)
+			(label
+				:style 'color: #0099FF;'
+				:visible {bluetooth["icon"] == ""}
+				:text {bluetooth["device"]}
+			)
+		)
+		(divider)
+	)
 )

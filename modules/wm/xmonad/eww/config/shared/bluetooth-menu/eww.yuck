@@ -1,36 +1,36 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;        BLUETOOTH MENU        ;
+;		BLUETOOTH MENU		;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defpoll bluetooth-devices :initial '[]' :interval "2s" 'bluetooth-manager info-devices')
 (defvar midrow-keys "[ \"a\", \"s\", \"d\", \"f\", \"g\", \"h\", \"j\", \"k\", \"l\" ]")
 
 (defwindow bluetooth-menu
-    :monitor 0
-    :geometry (geometry
-        :x '-30'
-        ;; :y '-30'
-        :y '-65'
-        :anchor 'bottom right'
-    )
-    :stacking 'fg'
-    :windowtype 'dialog'
-    :wm-ignore true
-    (box
-        :class 'bluetooth-menu-content' 
-        :orientation 'vertical'
-        :spacing 16
-        (for device in bluetooth-devices
-            (box
-                :space-evenly false
-                :spacing 12
-                (label :class 'key-label'  :text {midrow-keys[device["index"]]})
-                (image :path "bluetooth-menu/icons/bluetooth-${device["icon"]}-${device["status"]}.svg"
-                    :image-width 30
-                    :image-height 30
-                )
-                (label :text {device["name"]})
-            )
-        )
-    )
+	:monitor 0
+	:geometry (geometry
+		:x '-30'
+		;; :y '-30'
+		:y '-65'
+		:anchor 'bottom right'
+	)
+	:stacking 'fg'
+	:windowtype 'dialog'
+	:wm-ignore true
+	(box
+		:class 'bluetooth-menu-content'
+		:orientation 'vertical'
+		:spacing 16
+		(for device in bluetooth-devices
+			(box
+				:space-evenly false
+				:spacing 12
+				(label :class 'key-label'  :text {midrow-keys[device["index"]]})
+				(image :path "bluetooth-menu/icons/bluetooth-${device["icon"]}-${device["status"]}.svg"
+					:image-width 30
+					:image-height 30
+				)
+				(label :text {device["name"]})
+			)
+		)
+	)
 )

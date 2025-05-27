@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd "$(dirname "$0")"
+cd "$(dirname "$0")" || exit
 
 output_info() {
     VOLUME=$(./get-volume.sh)
@@ -11,8 +11,7 @@ output_info() {
 }
 
 output_info_on_newline() {
-    while read -r UNUSED_LINE
-    do
+    while read -r UNUSED_LINE; do
         output_info
     done
 }

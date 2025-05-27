@@ -26,24 +26,20 @@ fi
 PRIMARY="<<primary-output-name>>"     # "eDP-1"
 SECONDARY="<<secondary-output-name>>" # "HDMI-1"
 
-if [[ $1 == "auto" ]]
-then
-    xrandr --output "$PRIMARY" --mode 1920x1080
-    xrandr --output "$SECONDARY" --off
-elif [[ $1 == "split" ]]
-then
-    xrandr --output "$PRIMARY" --mode 1920x1080
-    xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
-    xrandr --output "$SECONDARY" --right-of "$PRIMARY"
-elif [[ $1 == "duplicate" ]]
-then
-    xrandr --output "$PRIMARY" --mode 1920x1080
-    xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
-    xrandr --output "$SECONDARY" --same-as "$PRIMARY"
-elif [[ $1 == "follow" ]]
-then
-    xrandr --output "$PRIMARY" --off
-    xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
+if [[ $1 == "auto" ]]; then
+	xrandr --output "$PRIMARY" --mode 1920x1080
+	xrandr --output "$SECONDARY" --off
+elif [[ $1 == "split" ]]; then
+	xrandr --output "$PRIMARY" --mode 1920x1080
+	xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
+	xrandr --output "$SECONDARY" --right-of "$PRIMARY"
+elif [[ $1 == "duplicate" ]]; then
+	xrandr --output "$PRIMARY" --mode 1920x1080
+	xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
+	xrandr --output "$SECONDARY" --same-as "$PRIMARY"
+elif [[ $1 == "follow" ]]; then
+	xrandr --output "$PRIMARY" --off
+	xrandr --output "$SECONDARY" --mode 1920x1080 || xrandr --output "$SECONDARY" --auto
 fi
 
 xmonad --restart

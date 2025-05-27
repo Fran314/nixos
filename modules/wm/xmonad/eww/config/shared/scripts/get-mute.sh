@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 MUTE=$(pamixer --get-mute)
-if [[ $MUTE == "true" ]]
-then
-    echo "muted"
+if [[ $MUTE == "true" ]]; then
+	echo "muted"
 else
-    echo "unmuted"
+	echo "unmuted"
 fi
