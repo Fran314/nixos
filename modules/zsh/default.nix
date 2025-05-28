@@ -27,6 +27,26 @@ with lib;
         enable = true;
       };
 
+      enableLsColors = true;
+
+      histFile = "$HOME/.zsh_history";
+      histSize = 10000000;
+      setOptions = [
+        "HIST_IGNORE_ALL_DUPS"
+        "INC_APPEND_HISTORY" # Write to the history file immediately, not when the shell exits.
+        "HIST_SAVE_NO_DUPS" # Don't write duplicate entries in the history file.
+        "HIST_REDUCE_BLANKS" # Remove superfluous blanks before recording entry.
+        "HIST_VERIFY" # Don't execute immediately upon history expansion.
+
+        "EMACS"
+        # Emacs mode is default mode. This forces the mode to be the default
+        # mode. This is necessary because for some absurd reason, if zsh finds
+        # the string "vi" in the $EDITOR environment variable, it defaults to vi
+        # vi mode. This makes no sense to me. I want my default editor to be
+        # "nvim", but I do NOT WANT vi mode in the terminal. I hate that this is
+        # the default behaviour of zsh.
+      ];
+
       shellAliases = {
         cp = "cp -i";
         mv = "mv -i";
@@ -43,6 +63,17 @@ with lib;
         dir-size-sort = "du -sh ./* ./.* 2>/dev/null | sort -h";
       };
 
+      interactiveShellInit = ''
+        export PATH="$PATH:$HOME/.local/bin"
+        export TERM=xterm-256color
+
+        # To allow to tab-complete .. to ../
+        zstyle ':completion:*' special-dirs true
+
+        # To allow ctrl+arrow to work
+        bindkey "^[[1;5C" forward-word
+        bindkey "^[[1;5D" backward-word
+      '';
       promptInit = builtins.replaceStrings [ "<<HOST-ICON>>" ] [ config.my.options.zsh.hostIcon ] (
         builtins.readFile ./prompt-init.sh
       );
@@ -66,15 +97,8 @@ with lib;
       {
         programs.zsh = {
           enable = true;
-          history = {
-            ignoreAllDups = true;
-            path = "$HOME/.zsh_history";
-            save = 10000000;
-            size = 10000000;
-          };
-          initContent = builtins.readFile ./init-extra.sh;
           shellAliases = {
-            # Nix & Home-Manager
+            # Nix Stuff
             nix-update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos";
             nix-boot = "sudo nixos-rebuild boot --flake ~/.dotfiles/nixos";
             nix-gc = "sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";

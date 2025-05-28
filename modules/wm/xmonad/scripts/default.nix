@@ -8,19 +8,31 @@
 
 with lib;
 let
-  read = p: builtins.readFile p;
-  readInterpolate =
-    from: to: p:
-    builtins.replaceStrings
-      # Scripts that need variable interpolation must NOT be run before
-      # interpolation as this would produce potentially harmful undefined
-      # behaviour. To prevent this each script starts with a flag that
-      # prevents the script to be ran if set to 1. This interpolation,
-      # besides interpolating the correct values to the variables, also
-      # sets this flag to 0
-      ([ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ] ++ from)
-      ([ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ] ++ to)
-      (read p);
+  # Scripts that need variable interpolation must NOT be run before interpolation as
+  # this would produce potentially harmful undefined behaviour.
+  #
+  # To prevent this, any script that needs interpolation to function starts with a
+  # flag that prevents the script to be ran if set to 1.
+  #
+  # The readWithVariables function takes a set of variables and does the following:
+  # - replaces the flag from 1 to 0 if needed, allowing the script to run
+  # - replaces the local variables with their values
+  # - replaces the machine variables with their values
+  # Note that the correct function of these substitutions depends on attrNames and
+  # attrValues returning the keys and values in the same order (which they do, and
+  # the order is alphabetical in the key)
+  formatNames = list: map (x: "<nix-interpolate:${x}>") list;
+  from =
+    localVariables:
+    [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
+    ++ (formatNames (builtins.attrNames (machine // localVariables)));
+  to =
+    localVariables:
+    [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ] ++ (builtins.attrValues (machine // localVariables));
+  readWithVariables =
+    localVariables: path:
+    builtins.replaceStrings (from localVariables) (to localVariables) (builtins.readFile path);
+  read = path: readWithVariables { } path;
 
 in
 mkIf config.my.options.wm.xmonad.enable {
@@ -82,22 +94,20 @@ mkIf config.my.options.wm.xmonad.enable {
       })
     ]
 
-    (mkIf (machine == "latias") [
+    (mkIf (machine.name == "latias") [
       (pkgs.writeShellApplication {
         name = "set-brightness";
         runtimeInputs = with pkgs; [
           xorg.xrandr
         ];
-        text = readInterpolate [ "<<primary-output-name>>" ] [ "eDP-1" ] ./set-brightness;
+        text = read ./set-brightness;
       })
       (pkgs.writeShellApplication {
         name = "monitor-manager";
         runtimeInputs = with pkgs; [
           xorg.xrandr
         ];
-        text =
-          readInterpolate [ "<<primary-output-name>>" "<<secondary-output-name>>" ] [ "eDP-1" "HDMI-1" ]
-            ./monitor-manager;
+        text = read ./monitor-manager;
       })
       (pkgs.writeShellApplication {
         name = "reconnect-wifi";

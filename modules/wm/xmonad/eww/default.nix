@@ -31,10 +31,10 @@ with lib;
             recursive = true;
           };
           ".config/eww/eww.yuck" = {
-            source = ./config/${machine}/eww.yuck;
+            source = ./config/${machine.name}/eww.yuck;
           };
           ".config/eww/eww.scss" = {
-            source = ./config/${machine}/eww.scss;
+            source = ./config/${machine.name}/eww.scss;
           };
         };
       };

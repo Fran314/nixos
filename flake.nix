@@ -1,30 +1,35 @@
 {
-  description = "Flake of Fran314";
+  description = "NixOS configuration of Fran314";
 
   outputs =
     inputs@{ self, ... }:
     let
       system = "x86_64-linux";
       user = "baldo";
-      machines = [
-        "latias"
-        "kyogre"
-        "umbreon"
-      ];
+      machines = {
+        latias = {
+          primary-monitor-output = "eDP-1";
+          secondary-monitor-output = "HDMI-1";
+        };
+        kyogre = {
+          primary-monitor-output = "HDMI-1";
+        };
+        umbreon = { };
+      };
 
       lib = inputs.nixpkgs.lib;
-      pkgs = import inputs.nixpkgs { inherit system; };
+      # pkgs = import inputs.nixpkgs { inherit system; };
       pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
 
       mkConfiguration =
-        name:
+        machine:
         lib.nixosSystem {
           inherit system;
           modules = [
-            ./profiles/${name}/configuration.nix
+            ./profiles/${machine.name}/configuration.nix
 
             {
-              networking.hostName = name;
+              networking.hostName = machine.name;
             }
 
             {
@@ -37,7 +42,7 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 inherit pkgs-unstable;
-                machine = name;
+                inherit machine;
                 inherit user;
               };
             }
@@ -45,18 +50,15 @@
           specialArgs = {
             inherit inputs;
             inherit pkgs-unstable;
-            machine = name;
+            inherit machine;
             inherit user;
           };
         };
+      mkConfigurations =
+        machines: builtins.mapAttrs (name: value: mkConfiguration (value // { inherit name; })) machines;
     in
     {
-      nixosConfigurations = builtins.listToAttrs (
-        builtins.map (name: {
-          name = name;
-          value = mkConfiguration name;
-        }) machines
-      );
+      nixosConfigurations = mkConfigurations machines;
     };
 
   inputs = {

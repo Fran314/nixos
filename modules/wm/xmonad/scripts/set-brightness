@@ -9,21 +9,16 @@ if [[ $STOP_EXECUTION_BEFORE_INTERPOLATION -eq 1 ]]; then
 	echo "This script is not meant to be run directly, as it uses some value interpolation"
 	echo "performed by NixOS at compile time."
 	echo ""
-	echo "It is not meant to be run directly. At best, it won't work. At worst, it will"
-	echo "have undefined behaviour and possibly destroy something."
-	echo ""
 	echo "If you want to run this script without NixOS, copy it and take some time to"
 	echo "make the necessary changes"
 	echo ""
-	echo "Values meant to be interpolated use the <<name>> nomenclature and usually have"
+	echo "Values meant to be interpolated use the <nix-interpolate:name> nomenclature and usually have"
 	echo "the intended interpolated value next to them as a comment"
-	echo ""
-	echo "Other blocks of code might be conditionally inserted or omitted by interpolation"
-	echo "and are usually denoted by a comment starting with '# <<if-condition>>'"
+
 	exit 1
 fi
 
-PRIMARY="<<primary-output-name>>" # "eDP-1"
+PRIMARY="<nix-interpolate:primary-monitor-output>" # "eDP-1"
 
 CURR_VAL=$(xrandr --verbose | grep -oP "Brightness: \K.*")
 if [[ $CURR_VAL != "1.0" ]] && [[ $CURR_VAL != "0.75" ]] && [[ $CURR_VAL != "0.50" ]] && [[ $CURR_VAL != "0.25" ]]; then

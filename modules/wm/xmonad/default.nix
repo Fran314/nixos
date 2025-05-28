@@ -31,7 +31,7 @@ with lib;
       enableContribAndExtras = true;
       ghcArgs = [
         "-i ${./xmonad-modules/shared}"
-        "-i ${./xmonad-modules/${machine}}"
+        "-i ${./xmonad-modules/${machine.name}}"
         "-hidir /tmp"
         "-odir /tmp"
       ];
@@ -50,7 +50,7 @@ with lib;
     my.options.wm.xmonad.eww.enable = true;
     my.options.wm.xmonad.rofi.enable = true;
 
-    my.options.wm.xmonad.battery-monitor.enable = machine == "latias";
+    my.options.wm.xmonad.battery-monitor.enable = machine.name == "latias";
 
     environment.systemPackages = with pkgs; [
       pamixer

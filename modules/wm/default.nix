@@ -80,7 +80,7 @@ in
         };
     }
 
-    (mkIf (machine == "latias") {
+    (mkIf (machine.name == "latias") {
       # Originally these were only for XMonad, but they seems to work nicely
       # with GNOME as well (they make idle go to sleep and lock instead of only making
       # the screen go black) so I'm leaving it here
