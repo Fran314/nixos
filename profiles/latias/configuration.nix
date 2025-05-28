@@ -46,7 +46,6 @@
           g = 130;
           b = 104;
         };
-        image = "latias";
         variant = true;
       };
     };

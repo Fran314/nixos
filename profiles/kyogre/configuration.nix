@@ -40,7 +40,6 @@
           g = 144;
           b = 219;
         };
-        image = "kyogre";
         variant = true;
       };
     };

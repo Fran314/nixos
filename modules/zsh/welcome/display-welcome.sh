@@ -1,9 +1,9 @@
 [[ $- =~ i ]] && {
-	IMAGE="<<WELCOME-IMAGE>>"
+	IMAGE="<nix-interpolate:welcome-image>"
 	if [[ $((RANDOM % 20)) -eq 0 ]]; then
 		# Handle variant if supported
 		# If the following line reads "IMAGE=$IMAGE" then variant is not supported
-		IMAGE="<<VARIANT-IMAGE>>"
+		IMAGE="<nix-interpolate:variant-image>"
 	fi
 	# Why -1-2? -1 is to remove the newline character which must not be counted
 	# and the -2 removes the first and last characters which count for the left
@@ -12,7 +12,7 @@
 
 	DATE="  \033[0;90m[$(date "+%a %d %b %Y %T")]\033[0m"
 
-	TEXT="Welcome to \033[1;3<<HOST-COLOR>>m$HOST\033[0m, $USER!"
+	TEXT="Welcome to \033[1;38;2;<nix-interpolate:host-color>m$HOST\033[0m, $USER!"
 	TEXT_WIDTH=$(echo -n "Welcome to $HOST, $USER!" | wc -m)
 
 	MAX_WIDTH=$IMAGE_WIDTH
