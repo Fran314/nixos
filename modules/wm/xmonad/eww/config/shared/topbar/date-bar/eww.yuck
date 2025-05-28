@@ -42,14 +42,19 @@
 						(label :text '${date["day-remaining"]}')
 					)
 				)
-				(label :text " ${date["date"]}")
+				(label :text "${date["date"]}")
 				(box
 					:space-evenly false
 					(label :text '${date["month-short"]}')
 					(revealer
 						:transition "slideleft"
 						:reveal {date-bar-hover-expand || date-bar-force-expand}
-						(label :text '${date["month-remaining"]} ${date["year"]}')
+						(box
+							:space-evenly false
+							:spacing 8
+							(label :text "${date["month-remaining"]}")
+							(label :text "${date["year"]}")
+						)
 					)
 				)
 			)
