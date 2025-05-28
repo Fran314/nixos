@@ -1,4 +1,4 @@
-machine: final: prev:
+machine:
 
 let
   # Utility function that reads a file and automatically interpolates the
@@ -20,7 +20,6 @@ let
 in
 
 {
-  lib = prev.lib // {
-    inherit readInterpolate;
-  };
+  inherit readInterpolateWith;
+  inherit readInterpolate;
 }

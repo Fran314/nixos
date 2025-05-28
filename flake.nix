@@ -29,6 +29,7 @@
             inherit pkgs-unstable;
             inherit machine;
             inherit user;
+            my-utils = (import ./meta/utils.nix machine);
           };
         in
         lib.nixosSystem {
@@ -37,9 +38,6 @@
           modules = [
             # general default stuff
             {
-              nixpkgs.overlays = [
-                ((import ./overlays/lib-utils.nix) machine)
-              ];
               networking.hostName = machine.name;
             }
 

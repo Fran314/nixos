@@ -3,6 +3,7 @@
   pkgs,
   config,
   machine,
+  my-utils,
   ...
 }:
 
@@ -18,7 +19,7 @@ let
     builtins.replaceStrings
       [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
       [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ]
-      (pkgs.lib.readInterpolate path);
+      (my-utils.readInterpolate path);
 in
 mkIf config.my.options.wm.xmonad.enable {
   environment.systemPackages = mkMerge [
@@ -29,7 +30,7 @@ mkIf config.my.options.wm.xmonad.enable {
           xdotool
           procps # pgrep
         ];
-        text = pkgs.lib.readInterpolate ./duplicate-alacritty;
+        text = my-utils.readInterpolate ./duplicate-alacritty;
       })
       (pkgs.writeShellApplication {
         name = "screenshot";
@@ -39,7 +40,7 @@ mkIf config.my.options.wm.xmonad.enable {
           xclip
           xdg-user-dirs
         ];
-        text = pkgs.lib.readInterpolate ./screenshot;
+        text = my-utils.readInterpolate ./screenshot;
       })
       (pkgs.writeShellApplication {
         name = "screencast";
@@ -47,28 +48,28 @@ mkIf config.my.options.wm.xmonad.enable {
           xdg-user-dirs
           procps # pkill
           xorg.xprop
-          pkgs.libnotify
+          libnotify
           slop
           xorg.xwininfo
           # (ffmpeg.override { withXcb = true; })
           ffmpeg-full
           (pkgs.callPackage ./shadowbox { })
         ];
-        text = pkgs.lib.readInterpolate ./screencast;
+        text = my-utils.readInterpolate ./screencast;
       })
       (pkgs.writeShellApplication {
         name = "smart-playerctl";
         runtimeInputs = with pkgs; [
           playerctl
         ];
-        text = pkgs.lib.readInterpolate ./smart-playerctl;
+        text = my-utils.readInterpolate ./smart-playerctl;
       })
       (pkgs.writeShellApplication {
         name = "bluetooth-manager";
         runtimeInputs = with pkgs; [
           bluez-experimental # bluetoothctl
         ];
-        text = pkgs.lib.readInterpolate ./bluetooth-manager;
+        text = my-utils.readInterpolate ./bluetooth-manager;
       })
       (pkgs.writeShellApplication {
         name = "lockscreen";
