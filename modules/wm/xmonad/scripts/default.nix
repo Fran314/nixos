@@ -4,6 +4,7 @@
   config,
   machine,
   my-utils,
+  inputs,
   ...
 }:
 
@@ -14,14 +15,34 @@ let
   #
   # To prevent this, any script that needs interpolation to function starts with a
   # flag that prevents the script to be ran if set to 1.
-  readRemoveStop =
-    path:
+  readRemoveStopWith =
+    variables: path:
     builtins.replaceStrings
       [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
       [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ]
-      (my-utils.readInterpolate path);
+      (my-utils.readInterpolateWith variables path);
+  readRemoveStop = path: readRemoveStopWith { } path;
+
+  bluetooth-devices-source = inputs.private-data.outPath + "/secrets/bluetooth-devices";
+
 in
 mkIf config.my.options.wm.xmonad.enable {
+  assertions = [
+    {
+      assertion =
+        (builtins.pathExists bluetooth-devices-source)
+        && ((builtins.readFileType bluetooth-devices-source) == "regular");
+      message = ''
+        file "bluetooth-devices" imported from private-data repo is missing at location
+        "${bluetooth-devices-source}"
+
+        Check that the file exists at path "./secrets/bluetooth-devices" in
+        the private-data repo
+      '';
+    }
+
+  ];
+
   environment.systemPackages = mkMerge [
     [
       (pkgs.writeShellApplication {
@@ -69,7 +90,7 @@ mkIf config.my.options.wm.xmonad.enable {
         runtimeInputs = with pkgs; [
           bluez-experimental # bluetoothctl
         ];
-        text = my-utils.readInterpolate ./bluetooth-manager;
+        text = readRemoveStopWith { inherit bluetooth-devices-source; } ./bluetooth-manager;
       })
       (pkgs.writeShellApplication {
         name = "lockscreen";

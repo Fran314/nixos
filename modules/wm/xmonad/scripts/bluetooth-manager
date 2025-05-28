@@ -1,72 +1,91 @@
 #!/usr/bin/env bash
+#
+# This value will be changed to 0 upon value interpolation by NixOS at compile
+STOP_EXECUTION_BEFORE_INTERPOLATION=1
 
-readarray DEVICES <~/.local/secrets/bluetooth-devices
+if [[ $STOP_EXECUTION_BEFORE_INTERPOLATION -eq 1 ]]; then
+	echo "!!! DO NOT RUN THIS SCRIPT DIRECTLY !!!"
+	echo ""
+	echo "This script is not meant to be run directly, as it uses some value interpolation"
+	echo "performed by NixOS at compile time."
+	echo ""
+	echo "If you want to run this script without NixOS, copy it and take some time to"
+	echo "make the necessary changes"
+	echo ""
+	echo "Values meant to be interpolated use the <nix-interpolate:name> nomenclature and usually have"
+	echo "the intended interpolated value next to them as a comment"
+
+	exit 1
+fi
+
+BLUETOOTH_DEVICES_SOURCE="<nix-interpolate:bluetooth-devices-source>"
+readarray DEVICES <"$BLUETOOTH_DEVICES_SOURCE"
 
 print_help() {
-    echo "Get info about bluetooth devices"
-    echo ""
-    echo "USAGE: bluetooth-manager [OPERATION]"
-    echo ""
-    echo "where OPERATION must be one of the following:"
-    echo "  toggle [DEVICE_INDEX]"
-    echo "  list-devices"
-    echo "  info-devices"
-    echo "  info-connection"
-    echo "  info [DEVICE_INDEX]"
+	echo "Get info about bluetooth devices"
+	echo ""
+	echo "USAGE: bluetooth-manager [OPERATION]"
+	echo ""
+	echo "where OPERATION must be one of the following:"
+	echo "  toggle [DEVICE_INDEX]"
+	echo "  list-devices"
+	echo "  info-devices"
+	echo "  info-connection"
+	echo "  info [DEVICE_INDEX]"
 }
 
 if [[ $1 == "" ]]; then
-    print_help
-    exit 1
+	print_help
+	exit 1
 elif [[ $1 == "-h" ]] || [[ $1 == "--help" ]]; then
-    print_help
-    exit
+	print_help
+	exit
 elif [[ $1 == "toggle" ]]; then
-    if [[ $2 == "" ]]; then
-        print_help
-        exit 1
-    fi
+	if [[ $2 == "" ]]; then
+		print_help
+		exit 1
+	fi
 
-    read -r MAC_ADRESS ICON NAME <<<"${DEVICES[$2]}"
-    if bluetoothctl info "$MAC_ADRESS" | grep 'Connected: yes' -q; then
-        bluetoothctl disconnect "$MAC_ADRESS"
-    else
-        bluetoothctl connect "$MAC_ADRESS"
-    fi
+	read -r MAC_ADRESS ICON NAME <<<"${DEVICES[$2]}"
+	if bluetoothctl info "$MAC_ADRESS" | grep 'Connected: yes' -q; then
+		bluetoothctl disconnect "$MAC_ADRESS"
+	else
+		bluetoothctl connect "$MAC_ADRESS"
+	fi
 elif [[ $1 == "info-devices" ]]; then
-    OUTPUT="[ "
-    for i in "${!DEVICES[@]}"; do
-        read -r MAC_ADRESS ICON NAME <<<"${DEVICES[$i]}"
-        if bluetoothctl info "$MAC_ADRESS" | grep "Connected: yes" >/dev/null; then
-            OUTPUT+="{ \"mac_adress\": \"${MAC_ADRESS}\", \"icon\": \"${ICON}\", \"name\": \"${NAME}\", \"index\": \"${i}\", \"status\": \"connected\" }"
-        else
-            OUTPUT+="{ \"mac_adress\": \"${MAC_ADRESS}\", \"icon\": \"${ICON}\", \"name\": \"${NAME}\", \"index\": \"${i}\", \"status\": \"disconnected\" }"
-        fi
+	OUTPUT="[ "
+	for i in "${!DEVICES[@]}"; do
+		read -r MAC_ADRESS ICON NAME <<<"${DEVICES[$i]}"
+		if bluetoothctl info "$MAC_ADRESS" | grep "Connected: yes" >/dev/null; then
+			OUTPUT+="{ \"mac_adress\": \"${MAC_ADRESS}\", \"icon\": \"${ICON}\", \"name\": \"${NAME}\", \"index\": \"${i}\", \"status\": \"connected\" }"
+		else
+			OUTPUT+="{ \"mac_adress\": \"${MAC_ADRESS}\", \"icon\": \"${ICON}\", \"name\": \"${NAME}\", \"index\": \"${i}\", \"status\": \"disconnected\" }"
+		fi
 
-        if [[ $i -lt $((${#DEVICES[@]} - 1)) ]]; then
-            OUTPUT+=", "
-        fi
-    done
-    OUTPUT+=" ]"
-    echo "$OUTPUT"
+		if [[ $i -lt $((${#DEVICES[@]} - 1)) ]]; then
+			OUTPUT+=", "
+		fi
+	done
+	OUTPUT+=" ]"
+	echo "$OUTPUT"
 elif [[ $1 == "info-connection" ]]; then
-    read -ra CONNECTED <<<"$(bluetoothctl info | grep -oP "Device \K(..:..:..:..:..:..)")"
+	read -ra CONNECTED <<<"$(bluetoothctl info | grep -oP "Device \K(..:..:..:..:..:..)")"
 
-    if [[ ${#CONNECTED[@]} -gt 0 ]]; then
-        MAC_ADRESS="${CONNECTED[0]}"
-        NAME=$(bluetoothctl info "${DEVICES[$NUMBER]}" | grep -oP "Name: \K(.*)")
-        ICON="bluetooth"
+	if [[ ${#CONNECTED[@]} -gt 0 ]]; then
+		MAC_ADRESS="${CONNECTED[0]}"
+		NAME=$(bluetoothctl info "${DEVICES[$NUMBER]}" | grep -oP "Name: \K(.*)")
+		ICON="bluetooth"
 
-        for d in "${DEVICES[@]}"; do
-            read -r D_MAC_ADRESS D_ICON D_NAME <<<"$d"
-            if [[ "$MAC_ADRESS" == "$D_MAC_ADRESS" ]]; then
-                NAME=$D_NAME
-                ICON=$D_ICON
-            fi
-        done
+		for d in "${DEVICES[@]}"; do
+			read -r D_MAC_ADRESS D_ICON D_NAME <<<"$d"
+			if [[ "$MAC_ADRESS" == "$D_MAC_ADRESS" ]]; then
+				NAME=$D_NAME
+				ICON=$D_ICON
+			fi
+		done
 
-        echo "{ \"mac_adress\": \"${MAC_ADRESS}\", \"icon\": \"${ICON}\", \"name\": \"${NAME}\", \"status\": \"connected\" }"
-    else
-        echo "{ \"mac_adress\": \"\", \"icon\": \"\", \"name\": \"\", \"status\": \"disconnected\" }"
-    fi
+		echo "{ \"mac_adress\": \"${MAC_ADRESS}\", \"icon\": \"${ICON}\", \"name\": \"${NAME}\", \"status\": \"connected\" }"
+	else
+		echo "{ \"mac_adress\": \"\", \"icon\": \"\", \"name\": \"\", \"status\": \"disconnected\" }"
+	fi
 fi

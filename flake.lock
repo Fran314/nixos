@@ -254,10 +254,10 @@
     "private-data": {
       "flake": false,
       "locked": {
-        "lastModified": 1747296481,
-        "narHash": "sha256-cPQttydnvuUP43mfqgEWM2ifKFNcsb71s2nfKjsr3Qw=",
+        "lastModified": 1748445254,
+        "narHash": "sha256-CCvpHc2B8ySBerMqw4Lfs9HQudnK2iGxhXPMhFUZQtE=",
         "ref": "main",
-        "rev": "e5761f5ce45134d33134a4497d83bfa06df10c87",
+        "rev": "5dd093c1ec0f46a8dab15d7aeec533fe5185136b",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/Fran314/nixos-private.git"
