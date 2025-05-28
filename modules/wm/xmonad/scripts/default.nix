@@ -13,27 +13,12 @@ let
   #
   # To prevent this, any script that needs interpolation to function starts with a
   # flag that prevents the script to be ran if set to 1.
-  #
-  # The readWithVariables function takes a set of variables and does the following:
-  # - replaces the flag from 1 to 0 if needed, allowing the script to run
-  # - replaces the local variables with their values
-  # - replaces the machine variables with their values
-  # Note that the correct function of these substitutions depends on attrNames and
-  # attrValues returning the keys and values in the same order (which they do, and
-  # the order is alphabetical in the key)
-  formatNames = list: map (x: "<nix-interpolate:${x}>") list;
-  from =
-    localVariables:
-    [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
-    ++ (formatNames (builtins.attrNames (machine // localVariables)));
-  to =
-    localVariables:
-    [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ] ++ (builtins.attrValues (machine // localVariables));
-  readWithVariables =
-    localVariables: path:
-    builtins.replaceStrings (from localVariables) (to localVariables) (builtins.readFile path);
-  read = path: readWithVariables { } path;
-
+  readRemoveStop =
+    path:
+    builtins.replaceStrings
+      [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
+      [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ]
+      (pkgs.lib.readInterpolate path);
 in
 mkIf config.my.options.wm.xmonad.enable {
   environment.systemPackages = mkMerge [
@@ -44,7 +29,7 @@ mkIf config.my.options.wm.xmonad.enable {
           xdotool
           procps # pgrep
         ];
-        text = read ./duplicate-alacritty;
+        text = pkgs.lib.readInterpolate ./duplicate-alacritty;
       })
       (pkgs.writeShellApplication {
         name = "screenshot";
@@ -54,7 +39,7 @@ mkIf config.my.options.wm.xmonad.enable {
           xclip
           xdg-user-dirs
         ];
-        text = read ./screenshot;
+        text = pkgs.lib.readInterpolate ./screenshot;
       })
       (pkgs.writeShellApplication {
         name = "screencast";
@@ -62,28 +47,28 @@ mkIf config.my.options.wm.xmonad.enable {
           xdg-user-dirs
           procps # pkill
           xorg.xprop
-          libnotify
+          pkgs.libnotify
           slop
           xorg.xwininfo
           # (ffmpeg.override { withXcb = true; })
           ffmpeg-full
           (pkgs.callPackage ./shadowbox { })
         ];
-        text = read ./screencast;
+        text = pkgs.lib.readInterpolate ./screencast;
       })
       (pkgs.writeShellApplication {
         name = "smart-playerctl";
         runtimeInputs = with pkgs; [
           playerctl
         ];
-        text = read ./smart-playerctl;
+        text = pkgs.lib.readInterpolate ./smart-playerctl;
       })
       (pkgs.writeShellApplication {
         name = "bluetooth-manager";
         runtimeInputs = with pkgs; [
           bluez-experimental # bluetoothctl
         ];
-        text = read ./bluetooth-manager;
+        text = pkgs.lib.readInterpolate ./bluetooth-manager;
       })
       (pkgs.writeShellApplication {
         name = "lockscreen";
@@ -100,14 +85,14 @@ mkIf config.my.options.wm.xmonad.enable {
         runtimeInputs = with pkgs; [
           xorg.xrandr
         ];
-        text = read ./set-brightness;
+        text = readRemoveStop ./set-brightness;
       })
       (pkgs.writeShellApplication {
         name = "monitor-manager";
         runtimeInputs = with pkgs; [
           xorg.xrandr
         ];
-        text = read ./monitor-manager;
+        text = readRemoveStop ./monitor-manager;
       })
       (pkgs.writeShellApplication {
         name = "reconnect-wifi";

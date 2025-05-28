@@ -23,36 +23,41 @@
 
       mkConfiguration =
         machine:
-        lib.nixosSystem {
-          inherit system;
-          modules = [
-            ./profiles/${machine.name}/configuration.nix
-
-            {
-              networking.hostName = machine.name;
-            }
-
-            {
-              environment.systemPackages = [ inputs.nixvim.packages.${system}.default ];
-              environment.variables.EDITOR = "nvim";
-            }
-
-            inputs.home-manager.nixosModules.default
-            {
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                inherit pkgs-unstable;
-                inherit machine;
-                inherit user;
-              };
-            }
-          ];
+        let
           specialArgs = {
             inherit inputs;
             inherit pkgs-unstable;
             inherit machine;
             inherit user;
           };
+        in
+        lib.nixosSystem {
+          inherit system;
+          inherit specialArgs;
+          modules = [
+            # general default stuff
+            {
+              nixpkgs.overlays = [
+                ((import ./overlays/lib-utils.nix) machine)
+              ];
+              networking.hostName = machine.name;
+            }
+
+            # nixvim
+            {
+              environment.systemPackages = [ inputs.nixvim.packages.${system}.default ];
+              environment.variables.EDITOR = "nvim";
+            }
+
+            # home manager
+            inputs.home-manager.nixosModules.default
+            {
+              home-manager.extraSpecialArgs = specialArgs;
+            }
+
+            # configuration
+            ./profiles/${machine.name}/configuration.nix
+          ];
         };
       mkConfigurations =
         machines: builtins.mapAttrs (name: value: mkConfiguration (value // { inherit name; })) machines;
