@@ -65,8 +65,7 @@ with lib;
           name = "android-backup";
           runtimeInputs = with pkgs; [
             rsync
-            pkgs-unstable.android-file-transfer # needs unstable only to get v4.4 which fixes an
-            #                                     issue that prevents it from working with Pixel 9
+            android-file-transfer
             util-linux
           ];
           text = builtins.readFile ./android-backup;
