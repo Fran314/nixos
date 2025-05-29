@@ -32,10 +32,6 @@
   # };
 
   my.options = {
-    xdg = {
-      bind-to-data = true;
-      with-archivio = true;
-    };
     zsh = {
       # hostIcon = "";
       # hostIcon = "󰅟";

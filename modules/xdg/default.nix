@@ -1,48 +1,16 @@
 {
   lib,
   config,
+  machine,
   pkgs,
   ...
 }:
 
 with lib;
 {
-  options.my.options.xdg = {
-    bind-to-data = mkEnableOption "Bind XDG directories to the corresponding directories in /data";
-    with-archivio = mkEnableOption "Enable universita directory";
-  };
+  config = mkMerge [
 
-  config =
-    let
-      bind-to-data = config.my.options.xdg.bind-to-data;
-      with-archivio = config.my.options.xdg.with-archivio;
-      data-drive = d: {
-        depends = [
-          "/"
-          "/data"
-        ];
-        device = "/data/${d}";
-        fsType = "none";
-        options = [
-          "bind"
-          "rw"
-        ];
-      };
-    in
     {
-      fileSystems = mkIf bind-to-data {
-        "/home/baldo/archivio" = mkIf with-archivio (data-drive "archivio");
-        "/home/baldo/desktop" = data-drive "desktop";
-        "/home/baldo/documents" = data-drive "documents";
-        "/home/baldo/downloads" = data-drive "downloads";
-        "/home/baldo/music" = data-drive "music";
-        "/home/baldo/pictures" = data-drive "pictures";
-        "/home/baldo/public" = data-drive "public";
-        "/home/baldo/templates" = data-drive "templates";
-        "/home/baldo/universita" = data-drive "archivio/universita";
-        "/home/baldo/videos" = data-drive "videos";
-      };
-
       home-manager.users.baldo =
         { config, pkgs, ... }:
         {
@@ -83,7 +51,6 @@ with lib;
           };
 
           systemd.user.tmpfiles.rules = [
-            (mkIf with-archivio "d ${config.home.homeDirectory}/archivio     - - - - -")
             "d ${config.home.homeDirectory}/desktop      - - - - -"
             "d ${config.home.homeDirectory}/documents    - - - - -"
             "d ${config.home.homeDirectory}/downloads    - - - - -"
@@ -95,5 +62,44 @@ with lib;
             "d ${config.home.homeDirectory}/videos       - - - - -"
           ];
         };
-    };
+    }
+
+    (mkIf (machine.name == "latias") {
+      fileSystems =
+        let
+          data-drive = d: {
+            depends = [
+              "/"
+              "/data"
+            ];
+            device = "/data/${d}";
+            fsType = "none";
+            options = [
+              "bind"
+              "rw"
+            ];
+          };
+        in
+        {
+          "/home/baldo/archivio" = data-drive "archivio";
+          "/home/baldo/desktop" = data-drive "desktop";
+          "/home/baldo/documents" = data-drive "documents";
+          "/home/baldo/downloads" = data-drive "downloads";
+          "/home/baldo/music" = data-drive "music";
+          "/home/baldo/pictures" = data-drive "pictures";
+          "/home/baldo/public" = data-drive "public";
+          "/home/baldo/templates" = data-drive "templates";
+          "/home/baldo/universita" = data-drive "archivio/universita";
+          "/home/baldo/videos" = data-drive "videos";
+        };
+
+      home-manager.users.baldo =
+        { config, pkgs, ... }:
+        {
+          systemd.user.tmpfiles.rules = [
+            "d ${config.home.homeDirectory}/archivio     - - - - -"
+          ];
+        };
+    })
+  ];
 }
