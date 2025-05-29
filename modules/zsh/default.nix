@@ -100,6 +100,23 @@ with lib;
         {
           programs.zsh = {
             enable = true;
+
+            history = {
+              # But Fran314, aren't these options already set in the
+              # system-wide settings for zsh? Well yes, but home-manager has
+              # these options with default values and if they're left
+              # undeclared the default value (which is false for ignoreAllDups
+              # and saveNoDups) will override the system-wide value.
+              #
+              # This is also true for the size value. As for the path, both the
+              # system-wide and the user values are actually the default value
+              # but I left it here just to be sure
+              ignoreAllDups = true;
+              saveNoDups = true;
+              path = "$HOME/.zsh_history";
+              size = 10000000;
+            };
+
             shellAliases = {
               # Nix Stuff
               nix-update = "sudo nixos-rebuild switch --flake ~/.dotfiles/nixos";
