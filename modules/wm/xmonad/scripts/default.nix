@@ -122,7 +122,7 @@ mkIf config.my.options.wm.xmonad.enable {
           networkmanager
         ];
         text = ''
-          nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^wlp4s0:yes' | cut -d: -f3)"
+          nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^${machine.wifi-device}:yes' | cut -d: -f3)"
         '';
       })
     ])

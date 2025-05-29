@@ -10,6 +10,7 @@
         latias = {
           primary-monitor-output = "eDP-1";
           secondary-monitor-output = "HDMI-1";
+          wifi-device = "wlp4s0";
         };
         kyogre = {
           primary-monitor-output = "HDMI-1";
