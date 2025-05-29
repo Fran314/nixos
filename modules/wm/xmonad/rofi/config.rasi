@@ -19,19 +19,19 @@
 
 /*****----- Font -----*****/
 * {
-    font: "Comic Code 10";
+    font: "RecMonoDuotone Nerd Font Propo 11";
 }
 
 /*****----- Configuration -----*****/
 configuration {
-	modi:                       "drun,run";
+    modi:                       "drun,run";
     show-icons:                 false;
     display-drun:               "";
     display-run:                "";
     display-filebrowser:        "";
     display-window:             "";
-	drun-display-format:        "{name}";
-	window-format:              "{w} · {c} · {t}";
+    drun-display-format:        "{name}";
+    window-format:              "{w} · {c} · {t}";
 }
 
 /*****----- Global Properties -----*****/
