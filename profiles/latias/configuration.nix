@@ -14,13 +14,9 @@
     ../../modules/xdg
     ../../modules/alacritty
     ../../modules/utils
-    ../../modules/virtualization/docker
-    ../../modules/virtualization/virtualbox
 
-    ../../modules/productivity/3d-modeling
-    ../../modules/productivity/lean4
-    ../../modules/productivity/video-editing
-
+    ../../modules/virtualization
+    ../../modules/productivity
     ../../modules/gaming
   ];
 
@@ -33,8 +29,6 @@
 
   my.options = {
     zsh = {
-      # hostIcon = "";
-      # hostIcon = "󰅟";
       welcome = {
         enable = true;
         textColor = {
@@ -44,6 +38,15 @@
         };
         variant = true;
       };
+    };
+    virtualization = {
+      docker.enable = true;
+      virtualbox.enable = true;
+    };
+    productivity = {
+      video-editing.enable = true;
+      three-d-modeling.enable = true;
+      lean4.enable = true;
     };
     utils = {
       keep-images = true;
@@ -123,7 +126,6 @@
     ### CLI utils
     tldr
     tgpt
-    shellcheck
     pkgs-unstable.yt-dlp # needs unstable because not-up-to-date versions
     #						  stop working fairly quickly
     rar

@@ -71,6 +71,7 @@
     atool
     dust
     fd
+    yazi
 
     imagemagick
     mediainfo

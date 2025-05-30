@@ -5,8 +5,17 @@
   ...
 }:
 
+with lib;
+
+let
+  cfg = config.my.options.virtualization.docker;
+in
 {
-  config = {
+  options.my.options.virtualization.docker = {
+    enable = mkEnableOption "";
+  };
+
+  config = mkIf cfg.enable {
     virtualisation.docker.enable = true;
 
     # Rootless mode

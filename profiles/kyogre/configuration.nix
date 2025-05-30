@@ -13,14 +13,9 @@
     ../../modules/wm
     ../../modules/xdg
     ../../modules/alacritty
-    # ../../modules/utils
-    # ../../modules/virtualization/docker
-    # ../../modules/virtualization/virtualbox
+    ../../modules/utils
 
-    # ../../modules/productivity/3d-modeling
-    # ../../modules/productivity/lean4
-    # ../../modules/productivity/video-editing
-
+    ../../modules/productivity
     ../../modules/gaming
   ];
 
@@ -33,6 +28,7 @@
 
   my.options = {
     zsh = {
+      hostIcon = "";
       welcome = {
         enable = true;
         textColor = {
@@ -42,6 +38,21 @@
         };
         variant = true;
       };
+    };
+    productivity = {
+      video-editing.enable = true;
+      three-d-modeling.enable = true;
+    };
+    utils = {
+      keep-images = true;
+      batch-rename = true;
+      img-resize = true;
+      canon-import = true;
+      android-backup = true;
+      ctex = true;
+      new-project = true;
+      bookletify = true;
+      poke2term = true;
     };
   };
 
@@ -87,20 +98,19 @@
     firefox
     nautilus
     file-roller # archive browser (.zip, .tar, ...)
-    # telegram-desktop
+    telegram-desktop
     eog # image viewer
 
     ### Occasional usage
-    # spotify
+    spotify
     vlc
-    # inkscape
-    # krita
-    # aseprite
-    # geogebra6
-    # darktable
-    # libreoffice
-    # gparted
-    # android-file-transfer
+    inkscape
+    krita
+    aseprite
+    geogebra6
+    darktable
+    libreoffice
+    gparted
 
     flatpak
     appimage-run
@@ -108,31 +118,34 @@
     ### CLI utils
     tldr
     tgpt
-    # shellcheck
-    # pkgs-unstable.yt-dlp
+    pkgs-unstable.yt-dlp
     rar
     unrar
 
     ### Developement
-    # cargo
-    # clippy
-    # (python3.withPackages (ps: with ps; [
-    #     matplotlib
-    #     numpy
-    #     scipy
-    # 	networkx	# draw graphs and networks
-    # ]))
-    # jupyter
-    # nodejs
-    # godot_4
-    # fritzing	# utility to draw arduino circuit diagrams (hardly ever used, added only for opening old files from very old projects)
+    cargo
+    clippy
+    (python3.withPackages (
+      ps: with ps; [
+        matplotlib
+        numpy
+        scipy
+        networkx # draw graphs and networks
+      ]
+    ))
+    jupyter
+    nodejs
+    godot_4
+    fritzing # utility to draw arduino circuit diagrams (hardly ever used, added only for opening old files from very old projects)
 
     ### Productivity
-    # (octaveFull.withPackages (ps: with ps; [
-    #     # Search for `octavePackages` in NixOS packages to see all the possible options
-    #     # Once in octave, load the package with `pkg load <name-of-the-package>`
-    #     nurbs
-    # ]))
+    (octaveFull.withPackages (
+      ps: with ps; [
+        # Search for `octavePackages` in NixOS packages to see all the possible options
+        # Once in octave, load the package with `pkg load <name-of-the-package>`
+        nurbs
+      ]
+    ))
   ];
 
   services.openssh.enable = true;
