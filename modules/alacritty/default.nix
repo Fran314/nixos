@@ -1,9 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  font-size = if (config.my.options.wm.xmonad.enable or false) then 7 else 12;
-  padding = if (config.my.options.wm.xmonad.enable or false) then 5 else 10;
-in
 {
 
   fonts.packages = with pkgs; [
@@ -26,15 +22,24 @@ in
               family = "RecMonoDuotone Nerdfont"; # Actually, don't add 'Mono' at the end for bigger icons!
               style = "Regular";
             };
-            size = font-size;
+
+            # Yes, this is a weird value, but it's the one that looks nice.
+            # 11.5 has the same number of rows in a fullscreen terminal, but
+            # but the font is rendered with smaller (as in less tall) letters.
+            # 11.9 or more is HUGE
+            size = 11.7;
           };
           window = {
             decorations = "none";
             opacity = 0.9;
             padding = {
-              x = padding;
-              y = padding;
+              x = 8;
+              y = 8;
             };
+          };
+          env = {
+            WINIT_X11_SCALE_FACTOR = "1"; # Necessary otherwise on latias w/ xmonad it would be
+            #                               automatically set to 1.666... and make the font HUGE
           };
         };
 
