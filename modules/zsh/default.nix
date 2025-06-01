@@ -130,6 +130,7 @@ with lib;
               pgrep = "pgrep -a";
               fim = "nvim $(fzf)";
               rsync = "rsync -hv --info=progress2";
+              cdtemp = "cd $(mktemp -d)";
 
               # Git
               glog = "git log --all --decorate --oneline --graph -15";
