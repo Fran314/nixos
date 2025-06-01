@@ -1,5 +1,5 @@
-(deflisten wifi-info :initial '{}' 'scripts/listen-wifi.sh')
-(defpoll   wifi-bars :initial '4'  :interval '20s' 'scripts/get-wifi-bars.sh')
+(deflisten wifi-info :initial '{}' 'listen-wifi')
+(defpoll   wifi-bars :initial '4'  :interval '20s' 'get-wifi-bars')
 
 (defvar wifi-stats-force-expand false)
 (defvar wifi-stats-hover-expand false)
@@ -23,18 +23,18 @@
 				)
 				(revealer
 					:transition "slideleft"
-					:reveal {(wifi-info["should-expand"] || wifi-stats-hover-expand || wifi-stats-force-expand) && wifi-info["connection"] != ""}
+					:reveal {(wifi-info["should-expand"] || wifi-stats-hover-expand || wifi-stats-force-expand) && wifi-info["state"] != "disconnected"}
 					:style 'padding: 0 0 0 8px;'
 					(label :text {wifi-info["vpn"]})
 				)
 			)
 			(image
-				:path 'topbar/stats-bar/icons/wifi-${wifi-info["connection"] == "" ? "disconnected" : wifi-bars}.svg'
+				:path 'topbar/stats-bar/icons/wifi-${wifi-info["state"] == "connected" ? wifi-bars : "disconnected"}.svg'
 				:image-width 18 :image-height 18
 			)
 			(revealer
 				:transition "slideleft"
-				:reveal {(wifi-info["should-expand"] || wifi-stats-hover-expand || wifi-stats-force-expand) && wifi-info["connection"] != ""}
+				:reveal {(wifi-info["should-expand"] || wifi-stats-hover-expand || wifi-stats-force-expand) && wifi-info["state"] != "disconnected"}
 				:style 'padding: 0 0 0 8px;'
 				(box
 					:space-evenly false

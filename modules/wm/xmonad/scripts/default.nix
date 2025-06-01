@@ -10,21 +10,7 @@
 
 with lib;
 let
-  # Scripts that need variable interpolation must NOT be run before interpolation as
-  # this would produce potentially harmful undefined behaviour.
-  #
-  # To prevent this, any script that needs interpolation to function starts with a
-  # flag that prevents the script to be ran if set to 1.
-  readRemoveStopWith =
-    variables: path:
-    builtins.replaceStrings
-      [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
-      [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ]
-      (my-utils.readInterpolateWith variables path);
-  readRemoveStop = path: readRemoveStopWith { } path;
-
   bluetooth-devices-source = inputs.private-data.outPath + "/secrets/bluetooth-devices";
-
 in
 mkIf config.my.options.wm.xmonad.enable {
   assertions = [
@@ -90,7 +76,7 @@ mkIf config.my.options.wm.xmonad.enable {
         runtimeInputs = with pkgs; [
           bluez-experimental # bluetoothctl
         ];
-        text = readRemoveStopWith { inherit bluetooth-devices-source; } ./bluetooth-manager;
+        text = my-utils.readRemoveStopWith { inherit bluetooth-devices-source; } ./bluetooth-manager;
       })
       (pkgs.writeShellApplication {
         name = "lockscreen";
@@ -107,14 +93,14 @@ mkIf config.my.options.wm.xmonad.enable {
         runtimeInputs = with pkgs; [
           xorg.xrandr
         ];
-        text = readRemoveStop ./set-brightness;
+        text = my-utils.readRemoveStop ./set-brightness;
       })
       (pkgs.writeShellApplication {
         name = "monitor-manager";
         runtimeInputs = with pkgs; [
           xorg.xrandr
         ];
-        text = readRemoveStop ./monitor-manager;
+        text = my-utils.readRemoveStop ./monitor-manager;
       })
       (pkgs.writeShellApplication {
         name = "reconnect-wifi";

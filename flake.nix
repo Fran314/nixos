@@ -14,6 +14,8 @@
         };
         kyogre = {
           primary-monitor-output = "HDMI-1";
+          wifi-device = "placeholder-value";
+          ethernet-device = "placeholder-value";
         };
         umbreon = { };
       };

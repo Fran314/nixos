@@ -1,4 +1,4 @@
-(deflisten audio :initial '{}' 'scripts/listen-audio.sh')
+(deflisten audio :initial '{}' 'listen-audio')
 
 (defvar audio-stats-force-expand false)
 (defvar audio-stats-hover-expand false)

@@ -1,4 +1,4 @@
-(defpoll bluetooth :initial '{}' :interval "1s" 'scripts/get-bluetooth.sh')
+(defpoll bluetooth :initial '{}' :interval "1s" 'get-bluetooth')
 
 (defwidget bluetooth-stats []
 	(box

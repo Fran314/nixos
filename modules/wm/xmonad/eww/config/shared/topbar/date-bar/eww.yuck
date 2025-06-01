@@ -1,4 +1,4 @@
-(defpoll date :initial '{}' :interval "1s" 'scripts/get-date.sh')
+(defpoll date :initial '{}' :interval "1s" 'get-date')
 
 (defvar date-bar-hover-expand false)
 (defvar date-bar-force-expand false)

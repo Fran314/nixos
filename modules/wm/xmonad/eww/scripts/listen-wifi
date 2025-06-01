@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# This value will be changed to 0 upon value interpolation by NixOS at compile
+STOP_EXECUTION_BEFORE_INTERPOLATION=1
+
+if [[ $STOP_EXECUTION_BEFORE_INTERPOLATION -eq 1 ]]; then
+    echo "!!! DO NOT RUN THIS SCRIPT DIRECTLY !!!"
+    echo ""
+    echo "This script is not meant to be run directly, as it uses some value interpolation"
+    echo "performed by NixOS at compile time."
+    echo ""
+    echo "If you want to run this script without NixOS, copy it and take some time to"
+    echo "make the necessary changes"
+    echo ""
+    echo "Values meant to be interpolated use the <nix-interpolate:name> nomenclature and usually have"
+    echo "the intended interpolated value next to them as a comment"
+
+    exit 1
+fi
+
+WIFI_DEVICE="<nix-interpolate:wifi-device>" # wlp4s0
+
+SLEEP_DURATION=2
+
+RX=$(cat /sys/class/net/"$WIFI_DEVICE"/statistics/rx_bytes)
+TX=$(cat /sys/class/net/"$WIFI_DEVICE"/statistics/tx_bytes)
+LASTID=""
+SHOULD_EXPAND="false"
+
+while true; do
+    if [[ $(nmcli device show "$WIFI_DEVICE" | grep -oP "GENERAL.STATE.*\K\(.*") == "(connected)" ]]; then
+        NEWRX=$(cat /sys/class/net/"$WIFI_DEVICE"/statistics/rx_bytes)
+        NEWTX=$(cat /sys/class/net/"$WIFI_DEVICE"/statistics/tx_bytes)
+        DIFFRX=$(((NEWRX - RX) / SLEEP_DURATION))
+        DIFFTX=$(((NEWTX - TX) / SLEEP_DURATION))
+        RX=$NEWRX
+        TX=$NEWTX
+
+        CONNECTION=$(nmcli device show "$WIFI_DEVICE" | grep -oP "GENERAL.CONNECTION: *\K.*")
+        if [[ "$CONNECTION" != "$LASTID" ]]; then
+            SHOULD_EXPAND="true"
+        else
+            SHOULD_EXPAND="false"
+        fi
+        LASTID=$CONNECTION
+
+        # VPN_STATUS=$(mullvad status | grep -oP "(Disconnected|in \K.*)")
+        # echo "{ \"connection\": \"$CONNECTION\", \"rx\": $(./format-bytes.py $DIFFRX), \"tx\": $(./format-bytes.py $DIFFTX), \"should_expand\": \"$SHOULD_EXPAND\", \"vpn\": \"$VPN_STATUS\"}"
+
+        echo "{ \"state\": \"connected\", \"connection\": \"$CONNECTION\", \"rx\": $(format-bytes "$DIFFRX"), \"tx\": $(format-bytes "$DIFFTX"), \"should-expand\": \"$SHOULD_EXPAND\", \"vpn\": \"Disconnected\"}"
+    else
+        LASTID=""
+        echo "{ \"state\": \"disconnected\", \"connection\": \"\", \"rx\": $(format-bytes "0"), \"tx\": $(format-bytes "0"), \"should-expand\": \"false\", \"vpn\": \"Disconnected\"}"
+    fi
+
+    sleep "$SLEEP_DURATION"
+done

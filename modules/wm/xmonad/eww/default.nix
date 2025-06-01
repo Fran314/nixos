@@ -7,12 +7,19 @@
 }:
 
 with lib;
+
+let
+  cfg = config.my.options.wm.xmonad.eww;
+in
 {
+  imports = [
+    ./scripts
+  ];
   options.my.options.wm.xmonad.eww = {
     enable = mkEnableOption "";
   };
 
-  config = mkIf config.my.options.wm.xmonad.eww.enable {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       eww
       wmctrl

@@ -17,9 +17,25 @@ let
   readInterpolateWith =
     variables: path: builtins.replaceStrings (from variables) (to variables) (builtins.readFile path);
   readInterpolate = path: readInterpolateWith { } path;
+
+  # Scripts that need variable interpolation must NOT be run before interpolation as
+  # this would produce potentially harmful undefined behaviour.
+  #
+  # To prevent this, any script that needs interpolation to function start with a
+  # flag that prevents the script to be ran if set to 1.
+  readRemoveStopWith =
+    variables: path:
+    builtins.replaceStrings
+      [ "STOP_EXECUTION_BEFORE_INTERPOLATION=1" ]
+      [ "STOP_EXECUTION_BEFORE_INTERPOLATION=0" ]
+      (readInterpolateWith variables path);
+  readRemoveStop = path: readRemoveStopWith { } path;
+
 in
 
 {
   inherit readInterpolateWith;
   inherit readInterpolate;
+  inherit readRemoveStopWith;
+  inherit readRemoveStop;
 }
