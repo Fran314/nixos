@@ -133,6 +133,8 @@ with lib;
 
               # Git
               glog = "git log --all --decorate --oneline --graph -15";
+              gsus = "git status --porcelain";
+              giff = "git diff";
 
               # yt-dlp
               yt = "noglob yt-dlp";
