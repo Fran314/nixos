@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
 output_info() {
-    VOLUME=$(get-volume)
-    MUTE=$(get-mute)
-    SINK=$(get-sink)
+    {
+        VOLUME=$(get-volume) &&
+            MUTE=$(get-mute) &&
+            SINK=$(get-sink)
+    } || {
+        VOLUME="100"
+        MUTE="muted"
+        SINK="{ \"name\": \"Main\", \"icon\": \"unknown\" }"
+    }
 
     echo "{ \"volume\": $VOLUME, \"mute\": \"$MUTE\", \"sink\": $SINK }"
 }

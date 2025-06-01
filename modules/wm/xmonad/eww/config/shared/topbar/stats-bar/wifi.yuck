@@ -1,4 +1,4 @@
-(deflisten wifi-info :initial '{}' 'listen-wifi')
+(deflisten wifi-info :initial '{ "state": "disconnected", "connection": "", "rx": { "val": "0 B", "pseudolog": "0" }, "tx": { "val": "0 B", "pseudolog": "0" }, "should-expand": "false", "vpn": "Disconnected" }' 'listen-wifi')
 (defpoll   wifi-bars :initial '4'  :interval '20s' 'get-wifi-bars')
 
 (defvar wifi-stats-force-expand false)
