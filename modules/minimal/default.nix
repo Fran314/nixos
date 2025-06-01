@@ -78,6 +78,8 @@
     exiftool
     pdftk
 
+    nix-search-cli
+
     home-manager
   ];
 
