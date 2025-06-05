@@ -83,7 +83,6 @@
   # Automount usb and SD card
   services.devmon.enable = true;
   services.gvfs.enable = true;
-  services.udisks2.enable = true;
 
   # MTP for android file transfer
   services.udev.packages = [
