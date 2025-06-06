@@ -98,5 +98,11 @@ in
 
       services.libinput.touchpad.naturalScrolling = true;
     })
+
+    (mkIf (machine.name == "kyogre") {
+      services.xserver.displayManager.setupCommands = ''
+        ${pkgs.xorg.xrandr}/bin/xrandr --output ${machine.primary-monitor-output} --mode 1920x1080
+      '';
+    })
   ];
 }
