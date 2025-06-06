@@ -72,6 +72,9 @@
     dust
     fd
     yazi
+    ets
+
+    gnupg
 
     imagemagick
     mediainfo
