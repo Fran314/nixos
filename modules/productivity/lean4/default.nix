@@ -49,8 +49,8 @@ in
               {
                 name = "lean4";
                 publisher = "leanprover";
-                version = "0.0.177";
-                sha256 = "sha256-4roh1M5F4eIX0UNNDCfO47zgJAL+nRnHUAD///4hbok=";
+                version = "0.0.207";
+                sha256 = "sha256-QySYHdrjsG0FirkdS2y6lFicsLx4wdcGnA7FoHXHbJ8=";
               }
             ];
         };
