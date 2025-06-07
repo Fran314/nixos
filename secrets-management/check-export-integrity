@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find . -name "sha256sums.txt" -execdir sha256sum -c sha256sums.txt \;

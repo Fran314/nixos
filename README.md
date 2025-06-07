@@ -1,27 +1,44 @@
 ![Showcase of the desktop environment of latias](showcase/img.png)
 
-# My NixOS configuration
+# Fran314's NixOS configuration
 
 This repo contains my multi-profile NixOS configuration.
 
-This configuration is still a work in progress and I wouldn't consider it ready
-for use, but it can be taken as an example on how to structure a NixOS
-configuration.
+> [!NOTE]  
+> This is not meant to be a general purpose configuration. You're free to take
+> inspiration from it and use it as you like, but don't expect it to work on
+> your machine out of the box without some serious tweaking
+
+## Profiles
+
+This configuration is structured around three profiles:
+
+- **latias**: this is the profile for my laptop. It's supposed to be a
+  full-featured environment intended for multiple possible uses, from simple
+  daily browsing, to coding, 3D modeling and more,
+- **kyogre**: this is the profile for my desktop. Its main use is gaming with
+  games that wouldn't run on the laptop. It inherits much of its configuration
+  from _latias_, mainly for convenience of having the same setup
+- **umbreon**: this is the profile for my homelab. It's supposed to be a
+  CLI-only but comfortable environment, intended to be used for managing
+  self-hosted applications via ssh.
 
 ## Installation
 
-> [!NOTE]  
-> I'm not 100% sure that this is the correct way to install a NixOS
-> configuration from github, but it is what I am using. If you know of a better
-> way (mainly, how to handle the hardware-configuration and bootloader
-> configurations) please let me know.
+> [!CAUTION]  
+> This installation assumes that you have access to your secrets-flash-drive.
+> This installation will fail if it doesn't find the secrets in the correct
+> places, so make sure you have your flash drive and make sure to install the
+> secrets (see below for how to install the secrets)
 
 ### Install default NixOS image
 
 First, install NixOS on the desired machine via a
-[installer ISO](https://nixos.org/download/#nixos-iso) (for your own sake, use
-the Graphical ISO image, as this choice still allows you to use a
-desktop-environment-less profile, and it's much easier to use).
+[installer ISO](https://nixos.org/download/#nixos-iso) (use the graphical
+installation, even if you want to install to a desktop-environment-less
+configuration. The profile installation will make it desktop-environment-less,
+but while setting things up it is much more convenient to be able to easily
+access a browser).
 
 For this installation, install with Swap (with Hibernate) and set Allow Unfree
 Software to true.
@@ -30,9 +47,37 @@ Software to true.
 finish. Just make the logs visible next to the progress bar to make sure that
 something is actually happening)
 
-### Apply profile
+### Install the secrets
 
-With NixOS installed, start a shell with `git` and `neovim` using
+To quickly import the secrets in all the correct places, use the script
+`import-secrets`. This script should be present in the flash drive, but it can
+be found (along with other scripts) in this repository inside the folder
+`secrets-management`.
+
+The script has some dependencies. To temporarily install them, run:
+
+```bash
+nix-shell -p coreutils gnupg
+```
+
+Then use the script as follows
+
+```bash
+sudo bash import-secrets YOUR_PROFILE_NAME /mountpoint/of/the/flash/drive
+```
+
+You will be prompted to insert the decryption passphrase, and then it should
+correctly import all the secrets related to the profile you specified. You may
+now exit the shell created to install the dependencies.
+
+<details>
+<summary>Here is a more detailed explanation of secrets and how they work (for example, if you want to manually import them instead of using the script)</summary>
+TODO
+</details>
+
+### Install configuration
+
+Start a shell with `git` and `neovim` using
 
 ```bash
 nix-shell -p git neovim
@@ -41,63 +86,41 @@ nix-shell -p git neovim
 Using this shell, clone this repo to `~/.dotfiles/nixos` with
 
 ```bash
-git clone https://github.com/Fran314/nixos.git ~/.dotfiles/nixos
+mkdir -p ~/.dotfiles/nixos
+git clone git@github.com:Fran314/nixos.git ~/.dotfiles/nixos
 ```
 
-Then, in the `~/.dotfiles/nixos/profiles` directory, copy the profile directory
-of your choice, so to have a clone that you can edit to adapt to your hardware.
-
-In the cloned profile directory, copy your version of
-`hardware-configuration.nix` (the one from `/etc/nixos`) to adapt the profile to
-your specific hardware.
-
-> [!IMPORTANT]  
-> Cloning `hardware-configuration.nix` might not be enough! `configuration.nix`
-> might also contain configurations relevant to your specific setup, such as the
-> location of the boot partition.
->
-> It's important that you check your `/etc/nixos/configuration.nix` for these
-> settings and that you copy them into the `configuration.nix` of the profile
-> you cloned. In particular, pay attention to the following settings:
->
-> - `boot.loader.*` for the boot loader location and type
-> - `networking.hostName` for the hostname of the machine (I guess this isn't
->   strictly necessary but it also isn't set anywhere else and you might want to
->   customise it)
-
-Finally, edit the `flake.nix` file in the repo to add your new profile by
-cloning the existing profile and changing the paths.
-
-Then, update the system with
+<details>
+<summary>Additionally, you might want to clone repos related to this configuration:</summary>
 
 ```bash
-sudo nixos-rebuild switch --flake ~/.dotfiles/nixos#YOUR_PROFILE_NAME
+# repo for the custom nvim flake
+mkdir -p ~/.dotfiles/nixvim
+git clone git@github.com:Fran314/nixvim.git ~/.dotfiles/nixvim
+
+# repo for the private (but not top-secret) data
+mkdir -p ~/.dotfiles/nixos-private
+git clone git@github.com:Fran314/nixos-private.git ~/.dotfiles/nixos-private
 ```
 
-## Post-installation
+</details>
+
+Then, build the system with
+
+```bash
+sudo nixos-rebuild boot --flake ~/.dotfiles/nixos#YOUR_PROFILE_NAME
+```
+
+The changes will be available on reboot
+
+### Post-installation
 
 Despite NixOS being an 100% declarative OS, a couple of finalization steps are
 required. It's a bit of a bummer, but they're the last imperative configuration
 you'll ever have to do.
 
-These operation might be necessary:
-
-- copy your secrets to this machine (see `restore-secrets.sh`)
-- run `git remote set-url origin git@github.com:Fran314/nixos.git`
-
-Additionally if you're running the **latias** profile you might want to
+If you're running the **latias** or **kyogre** profile you might want to
 
 - remove the unused version of the xdg-dirs (see `remove-old-xdg.sh`),
 - (if you're using GNOME) add the nvim-memo window to the floating exceptions
   for pop-shell
-
-## Profiles
-
-This configuration is structured around three profiles:
-
-- **latias**: this is the profile for my personal computer. It's supposed to be
-  a full-featured environment intended for multiple possible uses, from simple
-  daily browsing, to coding, 3D modeling and more,
-- ~~**umbreon**: this is the profile for my homelab. It's supposed to be a
-  CLI-only but comfortable environment, intended to be used for managing
-  self-hosted applications via ssh.~~
