@@ -131,6 +131,7 @@ with lib;
               fim = "nvim $(fzf)";
               rsync = "rsync -hv --info=progress2";
               cdtemp = "cd $(mktemp -d)";
+              cdlt = "cd $(ls -td -- */ | head -n 1)";
 
               # Git
               glog = "git log --all --decorate --oneline --graph -15";
