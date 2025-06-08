@@ -23,4 +23,14 @@
 
     mangohud
   ];
+
+  home-manager.users.baldo =
+    { config, pkgs, ... }:
+    {
+      home.file = {
+        ".config/MangoHud/MangoHud.conf" = {
+          source = ./MangoHud.conf;
+        };
+      };
+    };
 }
