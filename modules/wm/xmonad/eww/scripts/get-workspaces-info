@@ -4,11 +4,14 @@ import sys
 import os
 
 aliases = [
+    # to check the string to match against the lambda, use `wmctrl -l`
     [lambda n: n.endswith("Mozilla Firefox"), "firefox"],
     [lambda n: n.endswith("Mozilla Firefox Private Browsing"), "firefox-private"],
     [lambda n: n == "Spotify", "spotify"],
     [lambda n: n == "GNU Image Manipulation Program" or n.endswith("GIMP"), "gimp"],
     [lambda n: n.endswith("Inkscape"), "inkscape"],
+    [lambda n: n.endswith("Visual Studio Code"), "vscode"],
+    # terminal should be last
     [lambda n: n == "Alacritty", "terminal"],
 ]
 
