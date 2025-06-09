@@ -4,21 +4,46 @@ import sys
 import os
 
 aliases = [
-    # to check the string to match against the lambda, use `wmctrl -l`
-    [lambda n: n.endswith("Mozilla Firefox"), "firefox"],
-    [lambda n: n.endswith("Mozilla Firefox Private Browsing"), "firefox-private"],
-    [lambda n: n == "Spotify", "spotify"],
-    [lambda n: n == "GNU Image Manipulation Program" or n.endswith("GIMP"), "gimp"],
-    [lambda n: n.endswith("Inkscape"), "inkscape"],
-    [lambda n: n.endswith("Visual Studio Code"), "vscode"],
+    [
+        lambda window: (
+            window[1] == "firefox"
+            and (
+                window[0].endswith("Private Browsing")
+                or window[0].endswith("Navigazione anonima")
+            )
+        ),
+        "firefox-private",
+    ],
+    [lambda window: window[1] == "firefox", "firefox"],
+    [lambda window: window[1] == "Gimp", "gimp"],
+    [lambda window: window[1] == "Inkscape", "inkscape"],
+    [lambda window: window[1] == "Code", "vscode"],
+    [lambda window: window[1] == "octave-gui", "octave"],
+    [lambda window: window[1] == "krita", "krita"],
+    [lambda window: window[1] == "vlc", "vlc"],
+    [lambda window: window[1] == "Aseprite", "aseprite"],
+    #
+    # steam games
+    [
+        lambda window: window[0].startswith(
+            "The Elder Scrolls IV: Oblivion Remastered"
+        ),
+        "oblivion",
+    ],
+    [lambda window: window[1] == "steam", "steam"],
+    #
+    # persistent processes should be second to last
+    [lambda window: window[1] == "TelegramDesktop", "telegram"],
+    [lambda window: window[1] == "Spotify", "spotify"],
+    #
     # terminal should be last
-    [lambda n: n == "Alacritty", "terminal"],
+    [lambda window: window[1] == "Alacritty", "terminal"],
 ]
 
 
-def get_process_type(name):
+def get_process_type(window):
     for [check, alias] in aliases:
-        if check(name):
+        if check(window):
             return alias
     return "unknown"
 
@@ -34,13 +59,19 @@ current = sys.argv[1]
 maxws = (int(current) - 1) if current.isnumeric() else -1
 data = os.popen("wmctrl -l").readlines()
 workspaces = [[] for _ in range(11)]
+
 for line in data:
     split_line = line.split()
     pos = int(split_line[1])
     name = " ".join(split_line[3:])
+    class_name = (
+        os.popen(f"xprop -id {split_line[0]} WM_CLASS |  cut -d '\"' -f4")
+        .readline()
+        .rstrip()
+    )
     if pos <= 8:
         maxws = max(pos, maxws)
-    workspaces[pos].append(name)
+    workspaces[pos].append([name, class_name])
 
 numbws = ["" for _ in range(maxws + 1)]
 icons = ["" for _ in range(maxws + 1)]
