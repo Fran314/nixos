@@ -65,20 +65,34 @@ with lib;
           tree = "lsd --tree -I .git -I node_modules -I target";
           treeh = "lsd --tree -I .git -I node_modules -I target -l -git --date \"+%Y-%m-%d %H:%M:%S\"";
 
+          cdtemp = "cd $(mktemp -d)";
+          cdlt = "cd $(ls -td -- */ | head -n 1)";
+
           dir-size-sort = "du -sh ./* ./.* 2>/dev/null | sort -h";
         };
 
-        interactiveShellInit = ''
-          export PATH="$PATH:$HOME/.local/bin"
-          export TERM=xterm-256color
+        interactiveShellInit = # bash
+          ''
+            # "Alias" to inject the environment shell into 'nix develop'
+            nix() {
+              if [[ $1 == "develop" ]]; then
+                shift
+                command nix develop -c $SHELL "$@"
+              else
+                command nix "$@"
+              fi
+            }
 
-          # To allow to tab-complete .. to ../
-          zstyle ':completion:*' special-dirs true
+            export PATH="$PATH:$HOME/.local/bin"
+            export TERM=xterm-256color
 
-          # To allow ctrl+arrow to work
-          bindkey "^[[1;5C" forward-word
-          bindkey "^[[1;5D" backward-word
-        '';
+            # To allow to tab-complete .. to ../
+            zstyle ':completion:*' special-dirs true
+
+            # To allow ctrl+arrow to work
+            bindkey "^[[1;5C" forward-word
+            bindkey "^[[1;5D" backward-word
+          '';
         promptInit = my-utils.readInterpolateWith { host-icon = cfg.hostIcon; } ./prompt-init.sh;
         # syntaxHighlighting.enable = true;
       };
@@ -130,8 +144,6 @@ with lib;
               pgrep = "pgrep -a";
               fim = "nvim $(fzf)";
               rsync = "rsync -hv --info=progress2";
-              cdtemp = "cd $(mktemp -d)";
-              cdlt = "cd $(ls -td -- */ | head -n 1)";
 
               # Git
               glog = "git log --all --decorate --oneline --graph -15";
