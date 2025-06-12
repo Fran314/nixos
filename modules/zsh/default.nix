@@ -69,6 +69,8 @@ with lib;
           cdlt = "cd $(ls -td -- */ | head -n 1)";
 
           dir-size-sort = "du -sh ./* ./.* 2>/dev/null | sort -h";
+
+          nix-shell = "nix-shell --run zsh";
         };
 
         interactiveShellInit = # bash
@@ -77,7 +79,7 @@ with lib;
             nix() {
               if [[ $1 == "develop" ]]; then
                 shift
-                command nix develop -c $SHELL "$@"
+                command nix develop -c zsh "$@"
               else
                 command nix "$@"
               fi

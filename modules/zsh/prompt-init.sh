@@ -15,11 +15,13 @@ function precmd() {
 		USERNAME_PROMPT=' %B%F{1}%n%b%f@%m'
 	fi
 
-	if [[ "${name+x}" != "" ]] && [[ "$name" == "nix-shell-env" ]]; then
+	if [[ "${name+x}" != "" ]]; then
 		if [[ "$name" == "nix-shell-env" ]]; then
-			USERNAME_PROMPT+=$' [\033[1;33mdev\033[0m]'
-		elif [[ "$name" == "nix-shell-env" ]]; then
-			USERNAME_PROMPT+=$' [\033[1;33mshell\033[0m]'
+			# USERNAME_PROMPT+=$' [\033[1;33mdev\033[0m]'
+			USERNAME_PROMPT=$' [\033[1;33mdev\033[0m]'
+		elif [[ "$name" == "shell" ]]; then
+			# USERNAME_PROMPT+=$' [\033[1;33mshell\033[0m]'
+			USERNAME_PROMPT=$' [\033[1;33mshell\033[0m]'
 		fi
 	fi
 
