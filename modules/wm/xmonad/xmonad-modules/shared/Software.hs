@@ -18,6 +18,7 @@ import           Persistent
 import           Utils
 
 import           XMonad.Actions.Submap
+
 -- (/=?)
 import           XMonad.Hooks.InsertPosition
 import           XMonad.Hooks.ManageHelpers
@@ -77,6 +78,7 @@ injectKeys modMask keys =
           , ((modMask, xK_y), spawnPersistent "spotify")
           , ((modMask, xK_c), spawnPersistent "calcolatrice")
           , ((modMask .|. shiftMask, xK_e), spawn "eww open power-menu")
+          , ((modMask, xK_e), spawn "eww active-windows | grep topbar && eww close topbar || eww open topbar")
           , ((modMask, xK_F8), spawn "dunstctl set-paused toggle && eww update notifications=$(dunstctl is-paused)")
           , ((modMask, xK_a), spawn "rofi -show drun")
           , ((modMask, xK_z), spawn "alacritty")
