@@ -68,6 +68,7 @@ myManageHook =
     composeAll
         [ isDialog --> doCenterFloat
         , fmap not willFloat --> insertPosition End Newer
+        , checkDock --> doLower
         ]
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
