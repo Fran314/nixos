@@ -131,8 +131,11 @@
     unrar
 
     ### Developement
-    cargo
-    clippy
+    # # use 'github:oxalica/rust-overlay' instead
+    # rustc
+    # cargo
+    # clippy
+
     (python3.withPackages (
       ps: with ps; [
         matplotlib
