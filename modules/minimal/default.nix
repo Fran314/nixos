@@ -74,6 +74,7 @@
     yazi
     ets
 
+    age
     gnupg
 
     imagemagick
