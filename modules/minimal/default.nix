@@ -6,6 +6,8 @@
     ../tmux
     ../git
     ../fastfetch
+
+    ../secrets-manager
   ];
 
   networking.networkmanager.enable = true;
