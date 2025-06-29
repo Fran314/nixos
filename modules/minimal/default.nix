@@ -100,6 +100,17 @@
       # Let Home Manager install and manage itself.
       programs.home-manager.enable = true;
     };
+  home-manager.users.root =
+    { config, pkgs, ... }:
+    {
+      home.username = "root";
+      home.homeDirectory = "/root";
+
+      nixpkgs.config.allowUnfree = true;
+
+      # Let Home Manager install and manage itself.
+      programs.home-manager.enable = true;
+    };
 
   nix.settings.experimental-features = [
     "nix-command"

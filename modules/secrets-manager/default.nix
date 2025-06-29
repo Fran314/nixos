@@ -6,11 +6,21 @@
 let
   secrets-manager = pkgs.callPackage (builtins.fetchGit {
     url = "https://github.com/Fran314/secrets-manager-rs";
-    rev = "bc1d359463a9f0b8f9ba328bd5c51fa39e10ef06";
+    rev = "870ce747ff377d27455a0044bdc5142b750af5d9";
   }) { };
 in
 {
   environment.systemPackages = [
     secrets-manager
   ];
+
+  home-manager.users.root =
+    { config, pkgs, ... }:
+    {
+      home.file = {
+        ".config/secrets-manager/secrets-manager.toml" = {
+          source = ./secrets-manager.toml;
+        };
+      };
+    };
 }
