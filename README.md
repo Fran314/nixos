@@ -49,31 +49,30 @@ something is actually happening)
 
 ### Install the secrets
 
-To quickly import the secrets in all the correct places, use the script
-`import-secrets`. This script should be present in the flash drive, but it can
-be found (along with other scripts) in this repository inside the folder
-`secrets-management`.
-
-The script has some dependencies. To temporarily install them, run:
+Assuming that you have access to secrets-flash-drive, you should be able to
+import the secrets using the executable bundled with the secret's export, as
 
 ```bash
-nix-shell -p coreutils gnupg
+cd /path/to/usb/mountpoint
+sudo ./secrets-manager import .
 ```
 
-Then use the script as follows
+If for some reason the executable is not bundled together with the secrets, you
+can find it at the
+[secrets manager repository](https://github.com/Fran314/secrets-manager-rs),
+which you can either manually compile or run with (though you need experimental
+features to use `nix run` so if this is a fresh install, it probably is a bit
+pointless)
 
 ```bash
-sudo bash import-secrets YOUR_PROFILE_NAME /mountpoint/of/the/flash/drive
+sudo nix run github:Fran314/secrets-manager-rs -- import /path/to/usb/mountpoint
 ```
 
-You will be prompted to insert the decryption passphrase, and then it should
-correctly import all the secrets related to the profile you specified. You may
-now exit the shell created to install the dependencies.
-
-<details>
-<summary>Here is a more detailed explanation of secrets and how they work (for example, if you want to manually import them instead of using the script)</summary>
-TODO
-</details>
+Alternatively, `secrets-manager` is meant to be interoperable, as in you are
+able to import its exports without using `secrets-manager`. See
+[secrets manager's Interoperability section](https://github.com/Fran314/secrets-manager-rs?tab=readme-ov-file#interoperability)
+to see how to manually import the secrets without `secrets-manager`, using only
+coreutils and [age](https://github.com/FiloSottile/age)
 
 ### Install configuration
 
