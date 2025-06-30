@@ -102,6 +102,9 @@ mkdir -p ~/.dotfiles/nixos-private
 git clone git@github.com:Fran314/nixos-private.git ~/.dotfiles/nixos-private
 ```
 
+Note that these repos are not needed to fully install the configuration, you
+only need to install them locally if you intend to edit them.
+
 </details>
 
 Then, build the system with
