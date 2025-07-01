@@ -3,6 +3,7 @@
   config,
   pkgs,
   pkgs-unstable,
+  secrets,
   ...
 }:
 
@@ -11,9 +12,15 @@
     ./hardware-configuration.nix
     ../../modules/minimal
     ../../modules/services
+    ../../modules/ssh
   ];
 
   my.options = {
+    ssh = {
+      authorizedKeyFiles = [ secrets.ssh-pub-keys.latias ];
+      fail2ban = true;
+    };
+
     zsh = {
       hostIcon = "";
       welcome = {
@@ -40,8 +47,6 @@
       handbrake = true;
     };
   };
-
-  services.openssh.enable = true;
 
   environment.systemPackages = with pkgs; [
     ### CLI utils

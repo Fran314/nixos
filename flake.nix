@@ -33,6 +33,7 @@
             inherit machine;
             inherit user;
             my-utils = (import ./meta/utils.nix machine);
+            secrets = (import ./meta/secrets/${machine.name}.nix);
           };
         in
         lib.nixosSystem {
