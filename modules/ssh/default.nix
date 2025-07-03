@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -15,6 +14,7 @@ in
     authorizedKeyFiles = mkOption {
       description = "files for authorized keys";
       type = types.listOf types.path;
+      default = [ ];
     };
 
     fail2ban = mkEnableOption "";
@@ -24,11 +24,13 @@ in
     services.openssh = {
       enable = true;
       settings = {
+        PermitRootLogin = "no";
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
-        PermitRootLogin = "no";
       };
     };
+
+    networking.firewall.allowedTCPPorts = [ 22 ];
 
     users.users.baldo.openssh.authorizedKeys.keyFiles = cfg.authorizedKeyFiles;
 

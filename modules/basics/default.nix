@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, machine, ... }:
 
 {
   imports = [
@@ -6,16 +6,14 @@
     ../tmux
     ../git
     ../fastfetch
-
-    ../secrets-manager
   ];
 
+  networking.hostName = machine.name;
   networking.networkmanager.enable = true;
 
   time.timeZone = "Europe/Rome";
 
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8"; # alternativetely it_IT.UTF-8
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -48,9 +46,6 @@
     ];
   };
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   environment.systemPackages = with pkgs; [
     wget
     curl
@@ -68,49 +63,13 @@
     zip
     unzip
     xclip
-    bottom
     jq
-    atool
-    dust
-    fd
-    yazi
-    ets
-
-    age
-    gnupg
-
-    imagemagick
-    mediainfo
-    exiftool
-    pdftk
-
-    nix-search-cli
-
-    home-manager
+    atool # tools to universally zip/unzip/tar/untar
+    dust # disk space analyzer
+    fd # better find
+    yazi # file manager
+    ets # pipe utility to get timestamps
   ];
-
-  home-manager.users.baldo =
-    { config, pkgs, ... }:
-    {
-      home.username = "baldo";
-      home.homeDirectory = "/home/baldo";
-
-      nixpkgs.config.allowUnfree = true;
-
-      # Let Home Manager install and manage itself.
-      programs.home-manager.enable = true;
-    };
-  home-manager.users.root =
-    { config, pkgs, ... }:
-    {
-      home.username = "root";
-      home.homeDirectory = "/root";
-
-      nixpkgs.config.allowUnfree = true;
-
-      # Let Home Manager install and manage itself.
-      programs.home-manager.enable = true;
-    };
 
   nix.settings.experimental-features = [
     "nix-command"

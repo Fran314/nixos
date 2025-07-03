@@ -9,7 +9,8 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/minimal
+    ../../modules/basics
+    ../../modules/full-cli
     ../../modules/wm
     ../../modules/xdg
     ../../modules/alacritty

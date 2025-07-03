@@ -1,76 +1,36 @@
-{
-  pkgs,
-  secrets,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/basics
-    ../../modules/full-cli
-    ../../modules/services
     ../../modules/ssh
   ];
 
   my.options = {
-    ssh = {
-      authorizedKeyFiles = [ secrets.ssh-pub-keys.latias ];
-      fail2ban = true;
-    };
-
     zsh = {
-      hostIcon = "";
+      hostIcon = "󰅟";
       welcome = {
         enable = true;
         textColor = {
-          r = 106;
-          g = 189;
-          b = 222;
+          r = 104;
+          g = 202;
+          b = 246;
         };
+        variant = true;
       };
     };
 
     tmux.tmux-main-session = true;
-
-    services = {
-      pihole = true;
-
-      vaultwarden = true;
-      radicale = true;
-      forgejo = true;
-
-      jellyfin = true;
-      qbittorrent = true;
-      handbrake = true;
-    };
   };
 
   environment.systemPackages = with pkgs; [
-    ### CLI utils
-    tldr
-    imagemagick
-    mediainfo
-    pdftk
+    neovim
   ];
 
-  ##################
-  #   BOOTLOADER   #
-  ##################
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  fileSystems."/mnt/hdd1" = {
-    device = "/dev/disk/by-uuid/53ee69cb-d21b-427d-ba79-8910c3a16885";
-    fsType = "ext4";
+  users.users = {
+    root.hashedPassword = "!"; # Disable root login
   };
-
-  # ZFS stuff
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.forceImportRoot = false; # This is enabled by default for backwards compatibility purposes, but it is highly recommended to disable this option, as it bypasses some of the safeguards ZFS uses to protect your ZFS pools
-  boot.zfs.devNodes = "/dev/disk/by-path";
-  boot.zfs.extraPools = [ "hm01" ];
-  networking.hostId = "6adbf918"; # The primary use case is to ensure when using ZFS that a pool isn’t imported accidentally on a wrong machine
 
   home-manager.users.baldo =
     { config, pkgs, ... }:
@@ -82,7 +42,7 @@
       # You should not change this value, even if you update Home Manager. If you do
       # want to update the value, then make sure to first check the Home Manager
       # release notes.
-      home.stateVersion = "23.11"; # Please read the comment before changing.
+      home.stateVersion = "25.05"; # Please read the comment before changing.
     };
   home-manager.users.root =
     { config, pkgs, ... }:
@@ -94,7 +54,7 @@
       # You should not change this value, even if you update Home Manager. If you do
       # want to update the value, then make sure to first check the Home Manager
       # release notes.
-      home.stateVersion = "23.11"; # Please read the comment before changing.
+      home.stateVersion = "25.05"; # Please read the comment before changing.
     };
 
   # This value determines the NixOS release from which the default
@@ -103,5 +63,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 }

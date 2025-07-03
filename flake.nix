@@ -18,6 +18,7 @@
           ethernet-device = "enp33s0";
         };
         umbreon = { };
+        altaria = { };
       };
 
       lib = inputs.nixpkgs.lib;
@@ -45,32 +46,20 @@
           inherit system;
           inherit specialArgs;
           modules = [
-            # general default stuff
-            {
-              networking.hostName = machine.name;
-            }
-
-            # nixvim
-            {
-              environment.systemPackages = [ inputs.nixvim.packages.${system}.default ];
-              environment.variables.EDITOR = "nvim";
-            }
+            ./profiles/${machine.name}/configuration.nix
 
             # home manager
             inputs.home-manager.nixosModules.default
             {
               home-manager.extraSpecialArgs = specialArgs;
             }
-
-            # configuration
-            ./profiles/${machine.name}/configuration.nix
           ];
         };
       mkConfigurations =
         machines: builtins.mapAttrs (name: value: mkConfiguration (value // { inherit name; })) machines;
     in
     {
-      nixosConfigurations = mkConfigurations machines;
+      nixosConfigurations = (mkConfigurations machines);
     };
 
   inputs = {

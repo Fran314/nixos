@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# to create a partition table
+parted /dev/sda --script mklabel msdos
+
+# to create a boot partition
+parted /dev/sda --script mkpart primary ext4 1MiB 513MiB
+parted /dev/sda --script set 1 boot on
+mkfs.ext4 -L boot /dev/sda1
+
+# to create a swap partition of 8GB
+parted /dev/sda --script mkpart primary linux-swap 513MiB 8577MiB
+mkswap -L swap /dev/sda2
+swapon /dev/sda2
+
+# to create the root partition
+parted /dev/sda --script mkpart primary ext4 8577MiB 100%
+mkfs.ext4 -L nixos /dev/sda3
+
+mount /dev/disk/by-label/nixos /mnt
+mkdir /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
+
+# install
+nixos-install --no-root-passwd --flake github:Fran314/nixos#altaria
+
+nixos-enter --root /mnt -c 'passwd baldo'
