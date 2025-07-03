@@ -79,6 +79,13 @@ mkIf config.my.options.wm.xmonad.enable {
         text = my-utils.readRemoveStopWith { inherit bluetooth-devices-source; } ./bluetooth-manager;
       })
       (pkgs.writeShellApplication {
+        name = "firefox-toggle-full-screen";
+        runtimeInputs = with pkgs; [
+          xdotool
+        ];
+        text = my-utils.readInterpolate ./firefox-toggle-full-screen;
+      })
+      (pkgs.writeShellApplication {
         name = "lockscreen";
         runtimeInputs = with pkgs; [
           lightdm

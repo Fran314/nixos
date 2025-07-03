@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+sleep 0.5
+xdotool key ctrl+t
+sleep 0.5
+xdotool type "about:config"
+sleep 0.5
+xdotool key Enter
+sleep 1
+xdotool type "full-screen-api.ignore"
+sleep 1
+xdotool key Tab Tab space
+sleep 1
+xdotool key ctrl+w
