@@ -1,15 +1,16 @@
 {
   lib,
-  inputs,
   config,
   pkgs,
   machine,
+  private-data,
   ...
 }:
 
 with lib;
 let
-  private-data = inputs.private-data.outPath;
+  background-image-path =
+    private-data.outPath + "/background-images/final-fantasy/vivi-ornitier/background-1080p.png";
 in
 {
   imports = [
@@ -29,15 +30,34 @@ in
 
   config = mkMerge [
     {
-      # assertions = [
-      #     {
-      #         assertion = lib.lists.count (x: x) [
-      #             config.my.options.wm.gnome.enable
-      #             config.my.options.wm.xmonad.enable
-      #         ] <= 1;
-      #         message = "Can only enable one wm at a time. WM in this module are mutually exclusive";
-      #     }
-      # ];
+      assertions = [
+        # {
+        #   assertion =
+        #     lib.lists.count (x: x) [
+        #       config.my.options.wm.gnome.enable
+        #       config.my.options.wm.xmonad.enable
+        #     ] <= 1;
+        #   message = "Can only enable one wm at a time. WM in this module are mutually exclusive";
+        # }
+        {
+          assertion = (builtins.pathExists background-image-path);
+          message = ''
+            file "background-image-path" imported from private-data repo is missing at location
+            "${background-image-path}"
+
+            Check that the file exists in the private-data repo
+          '';
+        }
+        {
+          assertion = ((builtins.readFileType background-image-path) == "regular");
+          message = ''
+            object "background-image-path" imported from private-data repo at location
+            "${background-image-path}"
+            is not a regular file.
+          '';
+        }
+      ];
+
       my.options.wm.xmonad.enable = config.my.options.wm.use == "xmonad";
       my.options.wm.gnome.enable = config.my.options.wm.use == "gnome";
 
@@ -46,8 +66,7 @@ in
 
       # services.displayManager.sddm.wayland.enable = true;
       services.xserver.displayManager.lightdm.greeters.slick.enable = true;
-      services.xserver.displayManager.lightdm.background =
-        private-data + "/background-images/final-fantasy/vivi-ornitier/background-1080p.png";
+      services.xserver.displayManager.lightdm.background = background-image-path;
 
       services.xserver.autoRepeatDelay = 250;
       services.xserver.autoRepeatInterval = 30;

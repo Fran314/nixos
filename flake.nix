@@ -34,6 +34,11 @@
             inherit user;
             my-utils = (import ./meta/utils.nix machine);
             secrets = (import ./meta/secrets/${machine.name}.nix);
+            private-data = builtins.fetchGit {
+              url = "ssh://git@github.com/Fran314/nixos-private.git";
+              ref = "main";
+              rev = "5dd093c1ec0f46a8dab15d7aeec533fe5185136b";
+            };
           };
         in
         lib.nixosSystem {
@@ -74,11 +79,6 @@
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    private-data = {
-      url = "git+ssh://git@github.com/Fran314/nixos-private.git?ref=main&shallow=1";
-      flake = false;
     };
 
     nixvim.url = "github:Fran314/nixvim";

@@ -4,29 +4,33 @@
   config,
   machine,
   my-utils,
-  inputs,
+  private-data,
   ...
 }:
 
 with lib;
 let
-  bluetooth-devices-source = inputs.private-data.outPath + "/secrets/bluetooth-devices";
+  bluetooth-devices-source = private-data.outPath + "/secrets/bluetooth-devices";
 in
 mkIf config.my.options.wm.xmonad.enable {
   assertions = [
     {
-      assertion =
-        (builtins.pathExists bluetooth-devices-source)
-        && ((builtins.readFileType bluetooth-devices-source) == "regular");
+      assertion = (builtins.pathExists bluetooth-devices-source);
       message = ''
         file "bluetooth-devices" imported from private-data repo is missing at location
         "${bluetooth-devices-source}"
 
-        Check that the file exists at path "./secrets/bluetooth-devices" in
-        the private-data repo
+        Check that the file exists in the private-data repo
       '';
     }
-
+    {
+      assertion = ((builtins.readFileType bluetooth-devices-source) == "regular");
+      message = ''
+        object "bluetooth-devices" imported from private-data repo at location
+        "${bluetooth-devices-source}"
+        is not a regular file.
+      '';
+    }
   ];
 
   environment.systemPackages = mkMerge [

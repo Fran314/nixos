@@ -251,31 +251,12 @@
         "type": "github"
       }
     },
-    "private-data": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1748445254,
-        "narHash": "sha256-CCvpHc2B8ySBerMqw4Lfs9HQudnK2iGxhXPMhFUZQtE=",
-        "ref": "main",
-        "rev": "5dd093c1ec0f46a8dab15d7aeec533fe5185136b",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/Fran314/nixos-private.git"
-      },
-      "original": {
-        "ref": "main",
-        "shallow": true,
-        "type": "git",
-        "url": "ssh://git@github.com/Fran314/nixos-private.git"
-      }
-    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nixvim": "nixvim",
-        "private-data": "private-data"
+        "nixvim": "nixvim"
       }
     },
     "systems": {
