@@ -36,7 +36,6 @@
   # Configure console keymap
   console.keyMap = "it2";
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.baldo = {
     isNormalUser = true;
     description = "baldo";
@@ -69,7 +68,30 @@
     fd # better find
     yazi # file manager
     ets # pipe utility to get timestamps
+
+    home-manager
   ];
+
+  home-manager.users.baldo =
+    { config, pkgs, ... }:
+    {
+      home.username = "baldo";
+      home.homeDirectory = "/home/baldo";
+
+      nixpkgs.config.allowUnfree = true;
+
+      programs.home-manager.enable = true;
+    };
+  home-manager.users.root =
+    { config, pkgs, ... }:
+    {
+      home.username = "root";
+      home.homeDirectory = "/root";
+
+      nixpkgs.config.allowUnfree = true;
+
+      programs.home-manager.enable = true;
+    };
 
   nix.settings.experimental-features = [
     "nix-command"

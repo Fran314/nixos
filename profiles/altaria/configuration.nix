@@ -28,8 +28,18 @@
     neovim
   ];
 
+  services.caddy = {
+    enable = true;
+  };
+
   users.users = {
     root.hashedPassword = "!"; # Disable root login
+  };
+
+  nix.optimise.automatic = true;
+  nix.gc = {
+    automatic = true;
+    options = "--delete-older-than 14d";
   };
 
   home-manager.users.baldo =
