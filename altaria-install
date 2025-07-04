@@ -25,3 +25,27 @@ mount /dev/disk/by-label/boot /mnt/boot
 nixos-install --no-root-passwd --flake github:Fran314/nixos#altaria
 
 nixos-enter --root /mnt -c 'passwd baldo'
+nixos-enter --root /mnt -c 'sudo -u baldo mkdir /home/baldo/.ssh'
+nixos-enter --root /mnt -c 'sudo -u baldo echo "# put your public key here" > /home/baldo/.ssh/authorized_keys'
+nixos-enter --root /mnt -c 'sudo -u baldo nano /home/baldo/.ssh/authorized_keys'
+
+echo ""
+echo ""
+echo ""
+echo "The VPS will now shut off, unmount the ISO image before turning on."
+echo "You should be able to access the VPS through SSH and not need this console anymore"
+echo ""
+echo -n "5..."
+sleep 1
+echo -n "4..."
+sleep 1
+echo -n "3..."
+sleep 1
+echo -n "2..."
+sleep 1
+echo -n "1..."
+sleep 1
+
+echo ""
+
+shutdown -h now
