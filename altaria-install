@@ -25,9 +25,10 @@ mount /dev/disk/by-label/boot /mnt/boot
 nixos-install --no-root-passwd --flake github:Fran314/nixos#altaria
 
 nixos-enter --root /mnt -c 'passwd baldo'
-nixos-enter --root /mnt -c 'sudo -u baldo mkdir /home/baldo/.ssh'
-nixos-enter --root /mnt -c 'sudo -u baldo echo "# put your public key here" > /home/baldo/.ssh/authorized_keys'
-nixos-enter --root /mnt -c 'sudo -u baldo nano /home/baldo/.ssh/authorized_keys'
+nixos-enter --root /mnt -c 'mkdir /home/baldo/.ssh && chown baldo:users /home/baldo/.ssh'
+nixos-enter --root /mnt -c 'echo "# put your public key here" > /home/baldo/.ssh/authorized_keys'
+nixos-enter --root /mnt -c 'nano /home/baldo/.ssh/authorized_keys'
+nixos-enter --root /mnt -c 'chown baldo:users /home/baldo/.ssh/authorized_keys'
 
 echo ""
 echo ""
