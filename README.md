@@ -177,7 +177,8 @@ In this order, you will be asked to:
 
 - press `y` twice for creating the ext4 filesystems
 - create (and confirm) a password for the account `baldo`
-- enter your ssh public key through `nano` into `~/.ssh/authorized_keys`
+- enter your ssh public key through `nano` into `~/.ssh/authorized_keys` (once
+  again being careful of characters swaps, such as `+` for `=` or `@` for `2`)
 
 Once you have done this, the system should shut off automatically. You can now
 close the console forever, unmount the ISO and power on again the VPS. You
