@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   imports = [
@@ -30,7 +30,31 @@
 
   services.caddy = {
     enable = true;
+    virtualHosts."baldino.dev" = {
+      extraConfig = ''
+      	root * /var/www/html
+      	file_server
+      '';
+    };
+    virtualHosts."navidrome.baldino.dev" = {
+      extraConfig = ''
+        reverse_proxy http://localhost:4533
+      '';
+    };
   };
+  networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  services.navidrome = {
+    enable = true;
+    user = "baldo";
+    group = "users";
+    settings = {
+      MusicFolder = "/home/baldo/navidrome";
+    };
+  };
+  # Needed to allow the MusicFolder to be inside `/home`, since the service
+  # created by services.navidrome defaults to `ProtectHome = true`
+  systemd.services.navidrome.serviceConfig.ProtectHome = lib.mkForce false;
 
   users.users = {
     root.hashedPassword = "!"; # Disable root login
