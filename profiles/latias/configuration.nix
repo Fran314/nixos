@@ -108,6 +108,7 @@
     file-roller # archive browser (.zip, .tar, ...)
     telegram-desktop
     eog # image viewer
+    picard # mp3 tagger
 
     ### Occasional usage
     spotify
