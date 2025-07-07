@@ -7,7 +7,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.variables.EDITOR = "nano";
+  environment.variables.EDITOR = "nvim";
 
   environment.systemPackages = with pkgs; [
     inputs.nixvim.packages.${system}.default
