@@ -109,11 +109,11 @@
         "10.0.0.1"
         "fdc9:281f:04d7:9ee9::1"
       ];
-      privateKeyFile = "/secrets/wireguard/latias/wg-vps.private";
+      privateKeyFile = "/secrets/wg/latias/wg-vps.private";
 
       peers = [
         {
-          publicKey = secrets.wireguard.altaria.wg0.public;
+          publicKey = secrets.wg.altaria."wg0.public";
           allowedIPs = [
             "0.0.0.0/0"
             "::/0"
@@ -131,11 +131,11 @@
       dns = [
         "10.2.0.1"
       ];
-      privateKeyFile = "/secrets/wireguard/latias/wg-proton.private";
+      privateKeyFile = "/secrets/wg/latias/wg-proton.private";
 
       peers = [
         {
-          publicKey = secrets.wireguard.proton.wg0.public;
+          publicKey = secrets.wg.proton."wg0.public";
           allowedIPs = [
             "0.0.0.0/0"
             "::/0"

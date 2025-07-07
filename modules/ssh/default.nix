@@ -11,9 +11,9 @@ let
 in
 {
   options.my.options.ssh = {
-    authorizedKeyFiles = mkOption {
+    authorizedKeys = mkOption {
       description = "files for authorized keys";
-      type = types.listOf types.path;
+      type = with types; listOf str;
       default = [ ];
     };
 
@@ -32,7 +32,7 @@ in
 
     networking.firewall.allowedTCPPorts = [ 22 ];
 
-    users.users.baldo.openssh.authorizedKeys.keyFiles = cfg.authorizedKeyFiles;
+    users.users.baldo.openssh.authorizedKeys.keys = cfg.authorizedKeys;
 
     services.fail2ban.enable = cfg.fail2ban;
   };

@@ -31,11 +31,11 @@
     tmux.tmux-main-session = true;
 
     wireguard.server = {
-      privateKeyFile = "/secrets/wireguard/altaria/wg0.private";
+      privateKeyFile = "/secrets/wg/altaria/wg0.private";
       externalInterface = machine.external-interface;
       peers = [
         {
-          publicKey = secrets.wireguard.latias.wg0.public;
+          publicKey = secrets.wg.latias."wg-vps.public";
           allowedIPs = [
             "10.0.0.2/32"
             "fdc9:281f:04d7:9ee9::2/128"

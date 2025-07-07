@@ -15,7 +15,7 @@
 
   my.options = {
     ssh = {
-      authorizedKeyFiles = [ secrets.ssh-pub-keys.latias ];
+      authorizedKeys = [ secrets.ssh.latias."id_ed25519.pub" ];
       fail2ban = true;
     };
 
