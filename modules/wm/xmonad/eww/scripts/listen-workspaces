@@ -3,7 +3,7 @@
 output_info_on_newline() {
     while read -r XMONAD_INFO; do
         # shellcheck disable=SC2001
-        CURRENT_WS=$(sed 's/.*"\(.*\)"/\1/' <<<"$XMONAD_INFO")
+        CURRENT_WS=$(sed 's/.*"\(.*\)"/\1/; s/.*> //; s/ <.*//' <<<"$XMONAD_INFO")
         get-workspaces-info "$CURRENT_WS"
     done
 }
