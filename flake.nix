@@ -18,7 +18,9 @@
           ethernet-device = "enp33s0";
         };
         umbreon = { };
-        altaria = { };
+        altaria = {
+          external-interface = "enp1s0";
+        };
       };
 
       lib = inputs.nixpkgs.lib;
