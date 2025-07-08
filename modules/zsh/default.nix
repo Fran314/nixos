@@ -60,6 +60,7 @@ with lib;
 
           ls = "lsd";
           ll = "lsd -l";
+          lg = "lsd -l --git";
           lh = "lsd -lhA --group-directories-first";
           lt = "lsd -lhAtr";
           tree = "lsd --tree -I .git -I node_modules -I target";
@@ -152,8 +153,14 @@ with lib;
 
               # Git
               glog = "git log --all --decorate --oneline --graph -15";
-              gsus = "git status --porcelain";
-              giff = "git diff";
+              gd = "git diff";
+              gdw = "git diff --word-diff=color";
+              gdc = "git diff --cached";
+              gdcw = "git diff --cached --word-diff=color";
+              gdwc = "git diff --cached --word-diff=color";
+              gs = "git status";
+              ga = "git add .";
+              gc = "git commit";
 
               # yt-dlp
               yt = "noglob yt-dlp";
