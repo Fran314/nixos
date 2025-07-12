@@ -169,6 +169,7 @@
     darktable
     libreoffice
     gparted
+    zathura
 
     flatpak
     appimage-run
@@ -196,6 +197,7 @@
       ]
     ))
     jupyter
+    typst
     nodejs
     godot_4
     fritzing # utility to draw arduino circuit diagrams (hardly ever used, added only for opening old files from very old projects)
