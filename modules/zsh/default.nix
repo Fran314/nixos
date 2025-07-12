@@ -67,6 +67,7 @@ with lib;
           treeh = "lsd --tree -I .git -I node_modules -I target -l -git --date \"+%Y-%m-%d %H:%M:%S\"";
 
           cdtemp = "cd $(mktemp -d)";
+          cdot = "cd ~/.dotfiles/nixos";
           cdmedia = "cd \"$(find /run/media/\"$USER\" -maxdepth 1 -mindepth 1 | head -n 1)\" || exit";
           cdlt = "cd $(ls -td -- */ | head -n 1)";
 

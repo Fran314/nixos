@@ -30,6 +30,12 @@ with lib;
               "image/png" = [ "org.gnome.eog.desktop" ];
               "image/webp" = [ "org.gnome.eog.desktop" ];
 
+              "audio/aac" = [ "vlc.desktop" ];
+              "audio/mpeg" = [ "vlc.desktop" ];
+              "audio/ogg" = [ "vlc.desktop" ];
+              "audio/wav" = [ "vlc.desktop" ];
+              "audio/webm" = [ "vlc.desktop" ];
+
               "video/mp4" = [ "vlc.desktop" ];
               "video/mpeg" = [ "vlc.desktop" ];
               "video/ogg" = [ "vlc.desktop" ];
