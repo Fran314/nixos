@@ -84,6 +84,7 @@ TEMPD=$(mktemp -d)
 cd /path/to/export/mountpoint
 ./secrets-manager import . --target "$TEMPD" --profile altaria
 rsync -r "$TEMPD/" root@XX.YY.ZZ.WW:/mnt/secrets/
+rsync -r "$TEMPD/" root@XX.YY.ZZ.WW:/secrets/
 rm -r "$TEMPD"
 ```
 
