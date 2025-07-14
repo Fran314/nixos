@@ -10,18 +10,29 @@ function precmd() {
 
 	ERROR_CODE_PROMPT='%(?.. %B%F{1}[%?]%b%f)'
 
-	USERNAME_PROMPT=' %B%F{4}%n%b%f@%m'
+	# USERNAME_PROMPT=' %B%F{4}%n%b%f@%m'
+	# if [ "$(id -u)" -eq 0 ]; then
+	# 	USERNAME_PROMPT=' %B%F{1}%n%b%f@%m'
+	# fi
+	USERNAME_COLOR=$'\033[1;34m'
+	BLANK=$'\033[0m'
 	if [ "$(id -u)" -eq 0 ]; then
-		USERNAME_PROMPT=' %B%F{1}%n%b%f@%m'
+		USERNAME_COLOR=$'\033[1;34m'
 	fi
+	COLORED_USERNAME="$USERNAME_COLOR$USER$BLANK"
+	USERNAME_PROMPT=" $COLORED_USERNAME@$HOST"
 
 	if [[ "${name+x}" != "" ]]; then
 		if [[ "$name" == "nix-shell-env" ]]; then
+			DEV_PROMPT=$'\033[1;33mdev\033[0m'
+			USERNAME_PROMPT=" $COLORED_USERNAME+$DEV_PROMPT@$HOST"
 			# USERNAME_PROMPT+=$' [\033[1;33mdev\033[0m]'
-			USERNAME_PROMPT=$' [\033[1;33mdev\033[0m]'
+			# USERNAME_PROMPT=$' [\033[1;33mdev\033[0m]'
 		elif [[ "$name" == "shell" ]]; then
+			SHELL_PROMPT=$'\033[1;33mshell\033[0m'
+			USERNAME_PROMPT=" $COLORED_USERNAME+$SHELL_PROMPT@$HOST"
 			# USERNAME_PROMPT+=$' [\033[1;33mshell\033[0m]'
-			USERNAME_PROMPT=$' [\033[1;33mshell\033[0m]'
+			# USERNAME_PROMPT=$' [\033[1;33mshell\033[0m]'
 		fi
 	fi
 
