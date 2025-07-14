@@ -15,6 +15,11 @@
   ];
 
   my.options = {
+    ssh = {
+      authorizedKeys = [ secrets.ssh.latias."id_ed25519.pub" ];
+      fail2ban = true;
+    };
+
     zsh = {
       hostIcon = "󰅟";
       welcome = {
