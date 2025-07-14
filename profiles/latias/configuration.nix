@@ -22,7 +22,10 @@
     ../../modules/gaming
   ];
 
-  networking.firewall.allowedTCPPorts = [ 8080 ];
+  networking.firewall.allowedTCPPorts = [
+    2234
+    8080
+  ];
 
   my.options.wm.use = lib.mkDefault "xmonad";
   # specialisation.gnome.configuration = {
@@ -158,6 +161,7 @@
     telegram-desktop
     eog # image viewer
     picard # mp3 tagger
+    nicotine-plus # soulseek client
 
     ### Occasional usage
     spotify
