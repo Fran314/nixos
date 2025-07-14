@@ -37,8 +37,8 @@ with lib;
         g = builtins.toString cfg.textColor.g;
         b = builtins.toString cfg.textColor.b;
         color = "${r};${g};${b}";
-        image = builtins.toString ./${machine.name};
-        variant = builtins.toString (if cfg.variant then ./${machine.name}-variant else ./${machine.name});
+        image = "${./${machine.name}}";
+        variant = if cfg.variant then "${./${machine.name}-variant}" else "${./${machine.name}}";
 
       in
       {
