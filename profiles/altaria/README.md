@@ -22,61 +22,95 @@ For this installation you will need:
 - your laptop (`local`)
 - the secrets-flash-drive
 
-### Step 1: Bootstrap throug Hetzner Console
-
-> [!CAUTION]  
-> The first step is to download and run a script from this repository. You
-> should NEVER blindly download and run a script from the internet, so take your
-> time to inspect it and make sure that you understand every command.
->
-> The reason behind this step is that it is incredibly tedious to do the steps
-> done by the script manually, as the Hetzner console is incredibly slow and
-> doesn't map correctly with the italian keyboard.
+### Step 1: mount the ISO
 
 Mount the NixOS minimal ISO onto the VPS (you can find it already available in
 the ISO Images section). Power off and on the VPS.
 
-Open the Hetzner Console, which should boot into the ISO. Once in, download the
-following script:
+Open the Hetzner Console, which should boot you into the the NixOS ISO as the
+`nixos` user.
+
+The Hetzner Console is terrible, so you would like to access the VPS via SSH. To
+do so, create a password for the `root` user with the following command. It is
+strongly recommended to use only alphanumeric characters because the Hetzner
+Console has issue with non alphanumeric characters. This password is only
+temporary and will be used only for installing the system. The `root` account in
+the resulting system will not have this password.
 
 ```bash
-curl -O https://raw.githubusercontent.com/Fran314/nixos/refs/heads/main/profiles/altaria/bootstrap/install
+sudo passwd
 ```
 
-Note that when you paste this in the Hetzner Console (you can do it by
-right-clicking), some characters might be swapped for others, in particular `:`
-will become `;` (you can type `:` by pressing `ç`).
+You may now close the Hetzner Console forever.
 
-**INSPECT THE SCRIPT** and make sure to understand it, then run
+You should now be able to connect via SSH to `root` with password
+authentication. The rest of the installation process will be done via SSH.
+
+### Step 2: create partitions
+
+Run the following commands to create the partitions for boot, SWAP and the root
+partition.
 
 ```bash
-sudo bash install
+# to create a partition table
+parted /dev/sda --script mklabel msdos
+
+# to create a boot partition
+parted /dev/sda --script mkpart primary ext4 1MiB 513MiB
+parted /dev/sda --script set 1 boot on
+mkfs.ext4 -L boot /dev/sda1
+
+# to create a swap partition of 8GB
+parted /dev/sda --script mkpart primary linux-swap 513MiB 8577MiB
+mkswap -L swap /dev/sda2
+swapon /dev/sda2
+
+# to create the root partition
+parted /dev/sda --script mkpart primary ext4 8577MiB 100%
+mkfs.ext4 -L nixos /dev/sda3
+
+mount /dev/disk/by-label/nixos /mnt
+mkdir /mnt/boot
+mount /dev/disk/by-label/boot /mnt/boot
 ```
 
-In this order, you will be asked to:
+### Step 3: import secrets
 
-- press `y` twice for creating the ext4 filesystems
-- create (and confirm) a password for the account `baldo`
+Import the secrets to `/mnt/secrets`. To do so, execute the following commands
+as `root` from a local machine with access to the secrets-flash-drive
 
-Once you have done this, the system should shut off automatically. You can now
-close the console forever, unmount the ISO and power on again the VPS.
+```bash
+TEMPD=$(mktemp -d)
+cd /path/to/export/mountpoint
+./secrets-manager import . --target "$TEMPD" --profile altaria
+rsync -r "$TEMPD/" root@XX.YY.ZZ.WW:/mnt/secrets/
+rm -r "$TEMPD"
+```
 
-You should now be able to connect through ssh to the account `baldo` with the
-password you just set. Note that when the system will be fully installed,
-password authentication for SSH will be disabled.
+where `XX.YY.ZZ.WW` is the IP address of the VPS.
 
-### Step 2: install the secrets
+### Step 4: install the configuration
 
-The actual `altaria` profile requires secrets to be succesfully installed.
+Install the configuration with
 
-Install the secrets on the machine as described in
-[this section](#importing-the-secrets)
+```bash
+nixos-install --no-root-passwd --flake github:Fran314/nixos#altaria
+```
 
-### Step 2: through SSH
+Then set the password for the `baldo` account with
 
-Confirm that you succesfully logged in.
+```bash
+nixos-enter --root /mnt -c 'passwd baldo'
+```
 
-Clone the repository on the VPS with
+You can now turn off the VPS, unmount the ISO and turn on again the VPS.
+
+### Step 5: finalization
+
+You should be able to access the VPS via SSH on `baldo` with public key
+authentication, without password.
+
+Confirm this, and once in clone locally the configuration repo with
 
 ```bash
 git clone https://github.com/Fran314/nixos.git ~/.dotfiles/nixos
@@ -84,8 +118,6 @@ git clone https://github.com/Fran314/nixos.git ~/.dotfiles/nixos
 
 (Note that the link is an `https://` and not a `git@` because the VPS doesn't
 have, and shouldn't have, credentials)
-
-### Step 3: setup
 
 Some services require manual setup after the install. See the
 [services setup](#services-setup) chapter.
