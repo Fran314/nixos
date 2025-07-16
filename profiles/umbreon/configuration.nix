@@ -42,6 +42,7 @@
 
       jellyfin = true;
       qbittorrent = true;
+      slskd = true;
       handbrake = true;
     };
   };

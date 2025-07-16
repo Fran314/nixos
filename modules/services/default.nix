@@ -12,6 +12,7 @@
     ./jellyfin
     ./pihole
     ./qbittorrent
+    ./slskd
     ./radicale
     ./vaultwarden
   ];
