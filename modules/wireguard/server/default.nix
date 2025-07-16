@@ -52,16 +52,6 @@ in
       ];
     };
 
-    # enable dnsmasq and only serve DNS requests to the WireGuard interface
-    services = {
-      dnsmasq = {
-        enable = true;
-        settings = {
-          interface = "wg0";
-        };
-      };
-    };
-
     networking.wg-quick.interfaces = {
       wg0 = {
         # Determines the IP/IPv6 address and subnet of the client's end of the tunnel interface

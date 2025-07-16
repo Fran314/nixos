@@ -1,6 +1,7 @@
 {
   pkgs,
   secrets,
+  machine,
   ...
 }:
 
@@ -11,6 +12,7 @@
     ../../modules/full-cli
     ../../modules/services
     ../../modules/ssh
+    ../../modules/wireguard/server
   ];
 
   my.options = {
@@ -44,6 +46,20 @@
       qbittorrent = true;
       slskd = true;
       handbrake = true;
+    };
+
+    wireguard.server = {
+      privateKeyFile = "/secrets/wg/umbreon/wg0.private";
+      externalInterface = machine.external-interface;
+      peers = [
+        {
+          publicKey = secrets.wg.latias."wg-home.public";
+          allowedIPs = [
+            "10.0.0.2/32"
+            "fdc9:281f:04d7:9ee9::2/128"
+          ];
+        }
+      ];
     };
   };
 

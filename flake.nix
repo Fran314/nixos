@@ -17,7 +17,9 @@
           wifi-device = "wlp35s0";
           ethernet-device = "enp33s0";
         };
-        umbreon = { };
+        umbreon = {
+          external-interface = "eno1";
+        };
         altaria = {
           external-interface = "enp1s0";
         };

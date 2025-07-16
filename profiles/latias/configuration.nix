@@ -102,6 +102,30 @@
   programs.appimage.binfmt = true;
 
   networking.wg-quick.interfaces = {
+    wg-home = {
+      autostart = false;
+      address = [
+        "10.0.0.2/24"
+        "fdc9:281f:04d7:9ee9::2/64"
+      ];
+      dns = [
+        "10.0.0.1"
+        "fdc9:281f:04d7:9ee9::1"
+      ];
+      privateKeyFile = "/secrets/wg/latias/wg-home.private";
+
+      peers = [
+        {
+          publicKey = secrets.wg.umbreon."wg0.public";
+          allowedIPs = [
+            "0.0.0.0/0"
+            "::/0"
+          ];
+          endpoint = "home.baldino.dev:51820";
+          persistentKeepalive = 25;
+        }
+      ];
+    };
     wg-vps = {
       autostart = false;
       address = [
