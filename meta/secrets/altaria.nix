@@ -7,7 +7,6 @@ let
         inherit sha256;
       }
     );
-
 in
 {
   wg.latias."wg-vps.public" = fetch-secret {
@@ -17,5 +16,9 @@ in
   ssh.latias."id_ed25519.pub" = fetch-secret {
     path = "ssh/latias/id_ed25519.pub";
     sha256 = "sha256:1bb90xpw58vygy5qhr1zcc820r74jrnkhcq5fakwfkccp21wqsyg";
+  };
+  samba.altaria."device" = fetch-secret {
+    path = "samba/altaria/device";
+    sha256 = "sha256:1ifyzgmh5myl12apgahaadapmfwak5rdyvxdkr8sjfsd57cyym50";
   };
 }
