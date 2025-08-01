@@ -198,6 +198,7 @@
     libreoffice
     gparted
     zathura
+    chromium
 
     flatpak
     appimage-run
@@ -206,9 +207,10 @@
     tldr
     tgpt
     pkgs-unstable.yt-dlp # needs unstable because not-up-to-date versions
-    #						  stop working fairly quickly
+    #                      stop working fairly quickly
     rar
     unrar
+    cpulimit
 
     ### Developement
     # # use 'github:oxalica/rust-overlay' instead
