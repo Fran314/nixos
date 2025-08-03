@@ -76,6 +76,13 @@ mkIf config.my.options.wm.xmonad.enable {
         text = my-utils.readInterpolate ./smart-playerctl;
       })
       (pkgs.writeShellApplication {
+        name = "screen-saver-toggle";
+        runtimeInputs = with pkgs; [
+          xorg.xset
+        ];
+        text = my-utils.readInterpolate ./screen-saver-toggle;
+      })
+      (pkgs.writeShellApplication {
         name = "bluetooth-manager";
         runtimeInputs = with pkgs; [
           bluez-experimental # bluetoothctl

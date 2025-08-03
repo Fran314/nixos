@@ -7,6 +7,7 @@
 (include "./topbar/workspaces-bar/eww.yuck")
 (include "./topbar/date-bar/eww.yuck")
 
+(include "./topbar/stats-bar/caffeine.yuck")
 (include "./topbar/stats-bar/do-not-disturb.yuck")
 (include "./topbar/stats-bar/wifi.yuck")
 (include "./topbar/stats-bar/bluetooth.yuck")
@@ -20,6 +21,7 @@
 		:halign "end"
 		:spacing 15
 		:space-evenly false
+		(caffeine-stats)
 		(do-not-disturb-stats)
 		(wifi-stats)
 		(divider)

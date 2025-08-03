@@ -1,0 +1,15 @@
+(defpoll caffeine :initial '900' :interval "1s" 'xset q | grep -oP "timeout:\\s*\\K\\d*"')
+
+(defwidget caffeine-stats []
+	(box
+		:visible {caffeine == "0"}
+		:style "padding: 5px 0;"
+		:space-evenly false
+		:spacing 8
+		(image
+			:path 'topbar/stats-bar/icons/caffeine.svg'
+			:image-width 18 :image-height 18
+		)
+		(divider)
+	)
+)

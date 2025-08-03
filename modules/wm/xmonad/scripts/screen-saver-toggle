@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+TIMEOUT=$(xset q | grep -oP "timeout:\s*\K\d*")
+
+if [[ $TIMEOUT -eq 0 ]]; then
+	xset s blank && xset s 900
+else
+	xset s off
+fi
