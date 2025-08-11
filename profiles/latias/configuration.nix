@@ -198,7 +198,6 @@
     libreoffice
     gparted
     zathura
-    chromium
 
     flatpak
     appimage-run
