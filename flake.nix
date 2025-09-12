@@ -73,6 +73,7 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    devenv.url = "github:cachix/devenv/v1.8.1";
 
     nixvim.url = "github:Fran314/nixvim";
   };

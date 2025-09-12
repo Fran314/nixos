@@ -3,6 +3,7 @@
   config,
   pkgs,
   pkgs-unstable,
+  inputs,
   secrets,
   ...
 }:
@@ -230,6 +231,7 @@
     nodejs
     godot_4
     fritzing # utility to draw arduino circuit diagrams (hardly ever used, added only for opening old files from very old projects)
+    inputs.devenv.packages.${pkgs.system}.default
 
     ### Productivity
     (octaveFull.withPackages (
@@ -241,6 +243,8 @@
       ]
     ))
   ];
+
+  programs.direnv.enable = true;
 
   ##################
   #   BOOTLOADER   #
