@@ -68,7 +68,6 @@ with lib;
 
           cdtemp = "cd $(mktemp -d)";
           cdot = "cd ~/.dotfiles/nixos";
-          cdmedia = "cd \"$(find /run/media/\"$USER\" -maxdepth 1 -mindepth 1 | head -n 1)\" || exit";
           cdlt = "cd $(ls -td -- */ | head -n 1)";
 
           dir-size-sort = "du -sh ./* ./.* 2>/dev/null | sort -h";
@@ -76,30 +75,9 @@ with lib;
           nix-shell = "nix-shell --run zsh";
         };
 
-        interactiveShellInit = # bash
-          ''
-            # "Alias" to inject the environment shell into 'nix develop'
-            nix() {
-              if [[ $1 == "develop" ]]; then
-                shift
-                command nix develop -c zsh "$@"
-              else
-                command nix "$@"
-              fi
-            }
-
-            source ${pkgs.zsh-fzf-history-search}/share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh
-
-            export PATH="$PATH:$HOME/.local/bin"
-            export TERM=xterm-256color
-
-            # To allow to tab-complete .. to ../
-            zstyle ':completion:*' special-dirs true
-
-            # To allow ctrl+arrow to work
-            bindkey "^[[1;5C" forward-word
-            bindkey "^[[1;5D" backward-word
-          '';
+        interactiveShellInit = my-utils.readInterpolateWith {
+          fzf-history-search = "${pkgs.zsh-fzf-history-search}";
+        } ./interactive-init.sh;
         promptInit = my-utils.readInterpolateWith { host-icon = cfg.hostIcon; } ./prompt-init.sh;
         # syntaxHighlighting.enable = true;
       };
