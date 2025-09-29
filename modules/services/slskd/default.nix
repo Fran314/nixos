@@ -23,10 +23,26 @@ with lib;
           tls internal
         '';
       };
+      virtualHosts."inspect.slskd.home" = {
+        serverAliases = [ "inspect.slskd.lan" ];
+        extraConfig = ''
+          reverse_proxy http://localhost:8292
+          tls internal
+        '';
+      };
+      virtualHosts."tag.slskd.home" = {
+        serverAliases = [ "tag.slskd.lan" ];
+        extraConfig = ''
+          reverse_proxy http://localhost:8293
+          tls internal
+        '';
+      };
     };
     networking.firewall = {
       allowedTCPPorts = [
         5030
+        8292
+        8293
       ];
     };
   };

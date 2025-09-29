@@ -13,6 +13,8 @@
     inputs.nixvim.packages.${system}.default
     age
 
+    python3
+
     imagemagick
     mediainfo
     exiftool

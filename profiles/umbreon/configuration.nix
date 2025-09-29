@@ -63,12 +63,24 @@
     };
   };
 
+  services.ddclient = {
+    enable = true;
+
+    username = "baldino.dev"; # this option was called "login" in the original ddclient.conf
+    protocol = "namecheap";
+    server = "dynamicdns.park-your-domain.com";
+    domains = [ "home" ];
+    passwordFile = "/secrets/ddclient/umbreon/baldino.dev";
+  };
+
   environment.systemPackages = with pkgs; [
     ### CLI utils
     tldr
     imagemagick
     mediainfo
     pdftk
+
+    ffmpeg
   ];
 
   ##################
