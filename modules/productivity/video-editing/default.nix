@@ -19,6 +19,7 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       ffmpeg-full
+      ffmpeg-normalize
 
       pkgs-unstable.shotcut
       # davinci-resolve

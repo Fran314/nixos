@@ -62,7 +62,8 @@ with lib;
           ll = "lsd -l";
           lg = "lsd -l --git";
           lh = "lsd -lhA --group-directories-first";
-          lt = "lsd -lhAtr";
+          lt = "lsd -lhtr";
+          lth = "lsd -lhAtr";
           tree = "lsd --tree -I .git -I node_modules -I target";
           treeh = "lsd --tree -I .git -I node_modules -I target -l -git --date \"+%Y-%m-%d %H:%M:%S\"";
 
@@ -144,6 +145,7 @@ with lib;
               # yt-dlp
               yt = "noglob yt-dlp";
               ytmp3 = "noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3";
+              ytmp4 = "noglob yt-dlp -t mp4";
               yt100m = "noglob yt-dlp --format \"[filesize<100M]\"";
               yt200m = "noglob yt-dlp --format \"[filesize<200M]\"";
               yt500m = "noglob yt-dlp --format \"[filesize<500M]\"";

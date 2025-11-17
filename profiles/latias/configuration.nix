@@ -231,7 +231,8 @@
     nodejs
     godot_4
     fritzing # utility to draw arduino circuit diagrams (hardly ever used, added only for opening old files from very old projects)
-    inputs.devenv.packages.${pkgs.system}.default
+    pkgs-unstable.devenv
+    # inputs.devenv.packages.${pkgs.system}.default
 
     ### Productivity
     (octaveFull.withPackages (
