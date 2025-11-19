@@ -13,7 +13,10 @@
     ../../modules/basics
     ../../modules/ssh
     ../../modules/wireguard/server
-    ../../modules/services/swing-website
+    ../../modules/services/storage-box
+    ../../modules/services/swinginup-website
+    ../../modules/services/videos-website
+    ../../modules/services/music-catalogue
   ];
 
   my.options = {

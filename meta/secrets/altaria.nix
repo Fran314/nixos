@@ -21,4 +21,8 @@ in
     path = "samba/altaria/device";
     sha256 = "sha256:1ifyzgmh5myl12apgahaadapmfwak5rdyvxdkr8sjfsd57cyym50";
   };
+  caddy.altaria."music-catalogue.basic-auth" = fetch-secret {
+    path = "caddy/altaria/music-catalogue.basic-auth";
+    sha256 = "sha256:1fll9i4g6vdvwd8x356ixsazn7icgs35d566xn8r6b0kbsga0bhs";
+  };
 }
