@@ -6,7 +6,7 @@
 let
   secrets-manager = pkgs.callPackage (builtins.fetchGit {
     url = "https://github.com/Fran314/secrets-manager-rs";
-    rev = "521423fa544a68d0341bd3479c3eeb4002a92193";
+    rev = "2af98b782c20b0902b7f7c250c3d986556c4dbaf";
   }) { };
 in
 {
