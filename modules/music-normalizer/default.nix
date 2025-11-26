@@ -6,7 +6,7 @@
 let
   music-normalizer = pkgs.callPackage (builtins.fetchGit {
     url = "https://github.com/Fran314/music-normalizer";
-    rev = "f2624db6395b730becec573edc230bd440492328";
+    rev = "8be66630a9fe437bf4c5dc520e14123ef6f7e552";
   }) { };
 in
 {
