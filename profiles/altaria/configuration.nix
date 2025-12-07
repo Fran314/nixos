@@ -17,6 +17,9 @@
     ../../modules/services/swinginup-website
     ../../modules/services/videos-website
     ../../modules/services/music-catalogue
+    ../../modules/services/bentopdf
+
+    ../../modules/virtualization
   ];
 
   my.options = {
@@ -37,6 +40,8 @@
         variant = true;
       };
     };
+
+    virtualization.docker.enable = true;
 
     tmux.tmux-main-session = true;
 
