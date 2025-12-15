@@ -111,10 +111,10 @@ in
         ${pkgs.lightlocker}/bin/light-locker --idle-hint &
       '';
       systemd.targets.hybrid-sleep.enable = true;
-      services.logind.extraConfig = ''
-        IdleAction=hybrid-sleep
-        IdleActionSec=60s
-      '';
+      services.logind.settings.Login = {
+        IdleAction = "hybrid-sleep";
+        IdleActionSec = "60s";
+      };
 
       services.libinput.touchpad.naturalScrolling = true;
     })

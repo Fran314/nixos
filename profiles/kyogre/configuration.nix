@@ -80,11 +80,11 @@
   services.devmon.enable = true;
   services.gvfs.enable = true;
 
-  # MTP for android file transfer
-  services.udev.packages = [
-    pkgs.libmtp.out
-    pkgs.android-udev-rules
-  ];
+  # # MTP for android file transfer
+  # services.udev.packages = [
+  #   pkgs.libmtp.out
+  #   pkgs.android-udev-rules
+  # ];
 
   # Necessary for running appimages
   programs.appimage.binfmt = true;

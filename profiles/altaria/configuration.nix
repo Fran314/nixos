@@ -63,7 +63,7 @@
   environment.variables.EDITOR = "nvim";
 
   environment.systemPackages = with pkgs; [
-    inputs.nixvim.packages.${system}.nvim-minimal
+    inputs.nixvim.packages.${stdenv.hostPlatform.system}.nvim-minimal
     # neovim
   ];
 

@@ -11,7 +11,7 @@
   environment.variables.EDITOR = "nvim";
 
   environment.systemPackages = with pkgs; [
-    inputs.nixvim.packages.${system}.default
+    inputs.nixvim.packages.${stdenv.hostPlatform.system}.default
     age
 
     python3

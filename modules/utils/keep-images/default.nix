@@ -12,8 +12,11 @@
 python3Packages.buildPythonPackage rec {
   pname = "keep-images";
   version = "0.1.0"; # in version.txt
+  pyproject = true;
 
   src = ./src;
+
+  build-system = [ python3Packages.setuptools ];
 
   buildInputs = [
     libwnck
