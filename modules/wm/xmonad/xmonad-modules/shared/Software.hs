@@ -38,7 +38,7 @@ persistentProcesses =
     ,
         ( "telegram"
         , \w -> runQuery (className =? "TelegramDesktop" <&&> title /=? "Media viewer" <&&> title /=? "Choose Files") w
-        , spawn "telegram-desktop"
+        , spawn "Telegram"
         )
     ,
         ( "spotify"

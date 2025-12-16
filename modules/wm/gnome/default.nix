@@ -168,7 +168,7 @@ with lib;
 
           "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1" = {
             binding = "<Super>t";
-            command = "telegram-desktop";
+            command = "Telegram";
             name = "Launch Telegram";
           };
 
