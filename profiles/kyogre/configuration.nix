@@ -54,6 +54,7 @@
       new-project = true;
       bookletify = true;
       poke2term = true;
+      dl = true;
     };
   };
 

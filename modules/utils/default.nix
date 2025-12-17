@@ -22,6 +22,7 @@ with lib;
     new-project = mkEnableOption "";
     bookletify = mkEnableOption "";
     poke2term = mkEnableOption "";
+    dl = mkEnableOption "";
   };
 
   config = {
@@ -118,6 +119,17 @@ with lib;
             "E501" # Ignore 'line too long' errors
           ];
         } (builtins.readFile ./poke2term)
+      ))
+
+      (mkIf cfg.dl (
+        pkgs.writeShellApplication {
+          name = "dl";
+          runtimeInputs = [
+            pkgs.wget
+            pkgs-unstable.yt-dlp
+          ];
+          text = builtins.readFile ./dl;
+        }
       ))
     ];
   };

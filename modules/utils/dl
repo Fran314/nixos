@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+print_help() {
+    echo "dl"
+    echo ""
+    echo "Script to automagically download contents based on the url"
+    echo ""
+    echo "USAGE: dl [OPTIONS] SOURCE"
+    echo ""
+    echo "The behaviour of the script depends on the given source:"
+    echo " - YouTube links (sources starting with 'https://www.youtube.com/' or"
+    echo "        'https://youtu.be/') will be downloaded using yt-dlp, defaulting to .mp4"
+    echo " - Anything else will be downloaded with wget"
+    echo ""
+    echo "OPTIONS:"
+    echo "    -h, --help                 print help text"
+    echo "    -o, --output OUTPUT        set the name of the output file. If downloading"
+    echo "                               with yt-dlp, it is not necessary to add the file"
+    echo "                               extension. If added anyway, it will be stripped"
+    echo "                               and then added back by yt-dlp itself"
+    echo "    --mp3                      if downloading with yt-dlp, downlaod in mp3"
+}
+
+print_error() {
+    print_help
+    echo ""
+    echo "ERROR: $1"
+    exit 1
+}
+
+POSITIONAL_ARGS=()
+OUTPUT=""
+MP3=0
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+    -h | --help)
+        print_help
+        exit 0
+        ;;
+    -o | --output)
+        if [[ -z ${2+x} ]] || [[ "$2" == "" ]]; then
+            print_error "Output flag given but output name missing"
+        fi
+        OUTPUT="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    --mp3)
+        MP3=1
+        shift # past argument
+        ;;
+    -*)
+        print_error "Unknown option $1"
+        ;;
+    *)
+        POSITIONAL_ARGS+=("$1") # save positional arg
+        shift                   # past argument
+        ;;
+    esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+if [[ -z ${1+x} ]]; then
+    print_error "Source not given"
+fi
+
+SOURCE="$1"
+
+if [[ "$SOURCE" =~ ^https://www.youtube.com/*|^https://youtu.be/* ]]; then
+    PRESET="mp4"
+    if [[ $MP3 -eq 1 ]]; then
+        PRESET="mp3"
+    fi
+
+    if [[ "$OUTPUT" != "" ]]; then
+        yt-dlp -t "$PRESET" "$SOURCE" -o "$OUTPUT"
+    else
+        yt-dlp -t "$PRESET" "$SOURCE"
+    fi
+else
+    if [[ "$OUTPUT" != "" ]]; then
+        wget -O "$OUTPUT" "$SOURCE"
+    else
+        wget "$SOURCE"
+    fi
+fi

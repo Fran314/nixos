@@ -142,13 +142,8 @@ with lib;
               ga = "git add .";
               gc = "git commit";
 
-              # yt-dlp
-              yt = "noglob yt-dlp";
-              ytmp3 = "noglob yt-dlp -f \"bestaudio\" -x --audio-format mp3";
-              ytmp4 = "noglob yt-dlp -t mp4";
-              yt100m = "noglob yt-dlp --format \"[filesize<100M]\"";
-              yt200m = "noglob yt-dlp --format \"[filesize<200M]\"";
-              yt500m = "noglob yt-dlp --format \"[filesize<500M]\"";
+              # Adds noglob to utility script `dl`, see the utilities module to find the script
+              dl = "noglob dl";
 
               # Rust stuff
               cclippy = "cargo clippy --workspace --all-targets --all-features";
