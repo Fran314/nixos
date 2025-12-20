@@ -12,6 +12,10 @@ cdmedia() {
 	fi
 }
 
+mkcd() {
+	mkdir -p -- "$1" && cd -P -- "$1" || exit
+}
+
 # "Alias" to inject the environment shell into 'nix develop'
 nix() {
 	if [[ $1 == "develop" ]]; then
