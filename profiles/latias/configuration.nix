@@ -52,7 +52,7 @@
     productivity = {
       video-editing.enable = true;
       three-d-modeling.enable = true;
-      lean4.enable = true;
+      # lean4.enable = true;
     };
     utils = {
       keep-images = true;
@@ -188,6 +188,7 @@
     eog # image viewer
     picard # mp3 tagger
     nicotine-plus # soulseek client
+    pkgs-unstable.vscode.fhs
 
     ### Occasional usage
     spotify

@@ -27,7 +27,10 @@
 
       lib = inputs.nixpkgs.lib;
       # pkgs = import inputs.nixpkgs { inherit system; };
-      pkgs-unstable = import inputs.nixpkgs-unstable { inherit system; };
+      pkgs-unstable = import inputs.nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
       mkConfiguration =
         machine:
