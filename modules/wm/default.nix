@@ -105,10 +105,9 @@ in
       # the screen go black) so I'm leaving it here
       services.xserver.displayManager.sessionCommands = ''
         xset -dpms      # Disable Energy Star, as we are going to suspend anyway and it may hide "success" on that
-
-        xset s blank    # `noblank` may be useful for debugging 
-        xset s 900      # seconds
-        # xset s off
+        # xset s blank    # `noblank` may be useful for debugging 
+        # xset s 900      # seconds
+        xset s off
         ${pkgs.lightlocker}/bin/light-locker --idle-hint &
       '';
       systemd.targets.hybrid-sleep.enable = true;
