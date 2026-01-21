@@ -201,6 +201,7 @@
     libreoffice
     gparted
     zathura
+    sioyek
 
     flatpak
     appimage-run
