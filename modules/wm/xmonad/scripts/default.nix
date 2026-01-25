@@ -129,6 +129,37 @@ mkIf config.my.options.wm.xmonad.enable {
           nmcli c up "$(nmcli -t -f device,active,uuid con | grep '^${machine.wifi-device}:yes' | cut -d: -f3)"
         '';
       })
+      (pkgs.writeShellApplication {
+        name = "toggle-hotspot";
+        runtimeInputs = with pkgs; [
+          networkmanager
+          libnotify
+        ];
+        text = ''
+          HOTSPOT_ID="Hotspot di Baldo"
+
+          # if active, disconnect
+          if nmcli connection show --active | grep -q "$HOTSPOT_ID"; then
+              nmcli connection down id "$HOTSPOT_ID"
+              # nmcli device connect wlan0
+              exit 0
+          fi
+
+          # if not active, try to find and connect (5 attempts)
+          for _ in {1..5}; do
+              nmcli device wifi rescan
+              sleep 2
+
+              if nmcli device wifi list | grep -q "$HOTSPOT_ID"; then
+                  nmcli connection up id "$HOTSPOT_ID"
+                  exit 0
+              fi
+          done
+
+          notify-send "Hotspot" "Could not find \"$HOTSPOT_ID\""
+          exit 1
+        '';
+      })
     ])
   ];
 }

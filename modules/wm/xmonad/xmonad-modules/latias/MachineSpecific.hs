@@ -37,6 +37,7 @@ machineSpecificKeys modMask =
         -- other
         [ ((modMask, xK_s), myMonitorManager)
         , ((modMask, xK_u), spawn "reconnect-wifi")
+        , ((modMask .|. shiftMask, xK_u), spawn "toggle-hotspot")
         -- , ((modMask, xK_v), spawn "~/.local/bin/vpn-toggle")
         ]
 

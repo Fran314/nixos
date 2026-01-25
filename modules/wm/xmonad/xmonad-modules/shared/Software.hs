@@ -98,7 +98,7 @@ injectKeys modMask keys =
           , ((modMask, xK_minus), spawn "smart-playerctl next")
           , ((modMask, xK_period), spawn "smart-playerctl play-pause")
           , ((modMask, xK_comma), spawn "smart-playerctl previous")
-          , ((modMask .|. shiftMask, xK_u), spawn "firefox-toggle-full-screen")
+          -- , ((modMask .|. shiftMask, xK_u), spawn "firefox-toggle-full-screen")
           ]
             ++ (machineSpecificKeys modMask)
         )

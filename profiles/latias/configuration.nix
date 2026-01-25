@@ -26,6 +26,8 @@
   networking.firewall.allowedTCPPorts = [
     2234
     8080
+
+    53317 # localsend
   ];
 
   my.options.wm.use = lib.mkDefault "xmonad";
@@ -202,6 +204,7 @@
     gparted
     zathura
     sioyek
+    localsend
 
     flatpak
     appimage-run
