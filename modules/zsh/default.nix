@@ -62,6 +62,7 @@ with lib;
           ll = "lsd -l";
           lg = "lsd -l --git";
           lh = "lsd -lhA --group-directories-first";
+          lhg = "lsd -lhA --group-directories-first --git";
           lt = "lsd -lhtr";
           lth = "lsd -lhAtr";
           tree = "lsd --tree -I .git -I node_modules -I target";
