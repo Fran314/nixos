@@ -16,6 +16,8 @@
 
     python3
 
+    just
+
     imagemagick
     mediainfo
     exiftool
