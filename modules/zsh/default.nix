@@ -146,6 +146,8 @@ with lib;
               # Adds noglob to utility script `dl`, see the utilities module to find the script
               dl = "noglob dl";
 
+              claude = "nix run github:sadjow/claude-code-nix --";
+
               # Rust stuff
               cclippy = "cargo clippy --workspace --all-targets --all-features";
               # rscov="cargo tarpaulin --skip-clean --ignore-tests --target-dir ./target/test-coverage --out lcov --output-dir ./target/test-coverage";
