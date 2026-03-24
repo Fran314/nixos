@@ -67,6 +67,7 @@
       bookletify = true;
       poke2term = true;
       dl = true;
+      music-normalizer = true;
     };
   };
 

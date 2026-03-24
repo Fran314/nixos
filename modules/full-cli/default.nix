@@ -3,7 +3,6 @@
 {
   imports = [
     ../secrets-manager
-    ../music-normalizer
   ];
 
   nixpkgs.config.allowUnfree = true;
