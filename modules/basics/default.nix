@@ -42,6 +42,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "kvm"
     ];
   };
 
