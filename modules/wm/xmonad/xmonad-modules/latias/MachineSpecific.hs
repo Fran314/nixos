@@ -22,6 +22,15 @@ myMonitorManager =
            )
         >> (spawn "eww close monitor-menu")
 
+myVPNManager =
+    (spawn "eww open vpn-menu")
+        >> ( submap . M.fromList $
+                [ ((0, xK_a), spawn "toggle-vpn home")
+                , ((0, xK_s), spawn "toggle-vpn proton")
+                ]
+           )
+        >> (spawn "eww close vpn-menu")
+
 machineSpecificKeys :: KeyMask -> [((KeyMask, KeySym), X ())]
 machineSpecificKeys modMask =
     -- hardware interaction
@@ -37,8 +46,8 @@ machineSpecificKeys modMask =
         -- other
         [ ((modMask, xK_s), myMonitorManager)
         , ((modMask, xK_u), spawn "reconnect-wifi")
-        , ((modMask .|. shiftMask, xK_u), spawn "toggle-hotspot")
-        -- , ((modMask, xK_v), spawn "~/.local/bin/vpn-toggle")
+        , ((modMask .|. shiftMask, xK_u), myVPNManager)
+        , ((modMask .|. controlMask, xK_u), spawn "toggle-hotspot")
         ]
 
 machineSpecificManageHook :: ManageHook

@@ -1,0 +1,61 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;			VPN MENU			;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defpoll vpn-home :initial 'inactive' :interval "2s" 'systemctl is-active wg-quick-wg-home.service || true') ; The command gives an error code when is inactive, and the error code breaks the poll variable
+(defpoll vpn-proton :initial 'inactive' :interval "2s" 'systemctl is-active wg-quick-wg-proton.service || true')
+
+(defwidget vpn-menu-entry [key label icon]
+	(box
+		:space-evenly false
+		:spacing 12
+		(label :class 'key-label'  :text key)
+		(image :path 'vpn-menu/icons/${icon}.svg'
+			:image-width 35
+			:image-height 30
+		)
+		(label :text label)
+	)
+)
+
+(defwindow vpn-menu
+	:monitor 0
+	:geometry (geometry
+		:x "-30"
+		;; :y "-30"
+		:y '-65'
+		:anchor "bottom right"
+	)
+	:stacking "fg"
+	:windowtype "dialog"
+	:wm-ignore true
+	(box
+		:class 'vpn-menu-content'
+		:orientation 'vertical'
+		:spacing 16
+		(vpn-menu-entry :key 'a' :label 'Home' :icon "home-${vpn-home}")
+		(vpn-menu-entry :key 's' :label 'Proton' :icon "proton-${vpn-proton}")
+	)
+)
+
+(defwidget vpn-stats []
+	(box
+		:visible {vpn-home == "active" || vpn-proton == "active"}
+		:style "padding: 5px 0;"
+		:space-evenly false
+		:spacing 8
+		(box
+			(image
+				:visible {vpn-proton == "active"}
+				:path 'vpn-menu/icons/proton-active.svg'
+				:image-width 21 :image-height 18
+			)
+			(image
+				:visible {vpn-home == "active"}
+				:path 'vpn-menu/icons/home-active.svg'
+				:image-width 21 :image-height 18
+			)
+		)
+		(divider)
+	)
+)

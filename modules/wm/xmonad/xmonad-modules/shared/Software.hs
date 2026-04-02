@@ -79,7 +79,7 @@ injectKeys modMask keys =
           , ((modMask, xK_c), spawnPersistent "calcolatrice")
           , ((modMask .|. shiftMask, xK_e), spawn "eww open power-menu")
           , ((modMask, xK_e), spawn "eww active-windows | grep topbar && eww close topbar || eww open topbar")
-          , ((modMask, xK_F8), spawn "dunstctl set-paused toggle && eww update notifications=$(dunstctl is-paused)")
+          , ((modMask, xK_F8), spawn "dunstctl set-paused toggle && eww poll do-not-disturb")
           , ((modMask, xK_a), spawn "rofi -show drun")
           , ((modMask, xK_z), spawn "alacritty")
           , ((modMask, xK_F2), spawn "firefox")
@@ -88,7 +88,7 @@ injectKeys modMask keys =
           , -- ((modMask .|. shiftMask, xK_f),     spawn "~/.local/bin/picom-manager toggle"),
             ((mod1Mask .|. controlMask, xK_l), spawn "lockscreen")
           , -- , ((modMask, xK_F10), spawn "screen-saver-toggle && notify $(xset q | grep -oP \"timeout:\\s*\\K\\d*)\"")
-            ((modMask, xK_F10), spawn "screen-saver-toggle && eww update caffeine=$(xset q | grep -oP 'timeout:\\s*\\K\\d*')")
+            ((modMask, xK_F10), spawn "screen-saver-toggle && eww poll caffeine")
           , ((0, xK_Print), spawn "screenshot")
           , ((modMask, xK_g), spawn "screencast")
           , ((modMask .|. shiftMask, xK_g), spawn "pkill -SIGINT screencast")

@@ -178,6 +178,34 @@
     };
   };
 
+  security.sudo.extraRules = [
+    {
+      users = [
+        "baldo"
+      ];
+      commands = [
+        {
+          # command = "${pkgs.systemd}/bin/systemctl start wg-quick-wg-home.service";
+          command = "/run/current-system/sw/bin/systemctl start wg-quick-wg-home.service";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/systemctl stop wg-quick-wg-home.service";
+          options = [ "NOPASSWD" ];
+        }
+
+        {
+          command = "/run/current-system/sw/bin/systemctl start wg-quick-wg-proton.service";
+          options = [ "NOPASSWD" ];
+        }
+        {
+          command = "/run/current-system/sw/bin/systemctl stop wg-quick-wg-proton.service";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
+
   environment.systemPackages = with pkgs; [
     # for pactl
     pulseaudioFull

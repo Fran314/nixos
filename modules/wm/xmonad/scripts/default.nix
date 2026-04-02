@@ -160,6 +160,21 @@ mkIf config.my.options.wm.xmonad.enable {
           exit 1
         '';
       })
+      (pkgs.writeShellApplication {
+        name = "toggle-vpn";
+        runtimeInputs = with pkgs; [
+          networkmanager
+          libnotify
+        ];
+        text = ''
+          if systemctl is-active --quiet "wg-quick-wg-$1.service"; then
+              sudo systemctl stop "wg-quick-wg-$1.service"
+          else
+              sudo systemctl start "wg-quick-wg-$1.service"
+          fi
+          eww poll "vpn-$1"
+        '';
+      })
     ])
   ];
 }

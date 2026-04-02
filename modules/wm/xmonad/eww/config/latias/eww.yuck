@@ -2,6 +2,7 @@
 (include "./color-picker-menu/eww.yuck")
 (include "./monitor-menu/eww.yuck")
 (include "./bluetooth-menu/eww.yuck")
+(include "./vpn-menu/eww.yuck")
 
 (include "./topbar/divider.yuck")
 (include "./topbar/workspaces-bar/eww.yuck")
@@ -21,6 +22,7 @@
 		:halign "end"
 		:spacing 15
 		:space-evenly false
+		(vpn-stats)
 		(caffeine-stats)
 		(do-not-disturb-stats)
 		(wifi-stats)
