@@ -52,21 +52,31 @@ with lib;
           # the default behaviour of zsh.
         ];
 
-        shellAliases = {
+        shellAliases = rec {
           cp = "cp -i";
           mv = "mv -i";
           rmt = "\\mv -ft $@ ~/.trash/";
           empty-trash = "\\rm -rf ~/.trash && mkdir ~/.trash";
 
-          ls = "lsd";
-          ll = "lsd -l";
-          lg = "lsd -l --git";
-          lh = "lsd -lhA --group-directories-first";
-          lhg = "lsd -lhA --group-directories-first --git";
-          lt = "lsd -lhtr";
-          lth = "lsd -lhAtr";
-          tree = "lsd --tree -I .git -I node_modules -I target";
-          treeh = "lsd --tree -I .git -I node_modules -I target -l -git --date \"+%Y-%m-%d %H:%M:%S\"";
+          # ls = "lsd";
+          # ll = "lsd -l";
+          # lg = "lsd -l --git";
+          # lh = "lsd -lhA --group-directories-first";
+          # lhg = "lsd -lhA --group-directories-first --git";
+          # lt = "lsd -lhtr";
+          # lth = "lsd -lhAtr";
+          # tree = "lsd --tree -I .git -I node_modules -I target";
+          # treeh = "lsd --tree -I .git -I node_modules -I target -l -git --date \"+%Y-%m-%d %H:%M:%S\"";
+
+          ls = "eza --icons";
+          ll = "${ls} -lg";
+          lh = "${ll} -A --group-directories-first --git";
+          lg = "${lh} --git-ignore";
+          lt = "${ll} -s new";
+          lth = "${lh} -s new";
+          lht = lth;
+          tree = "${ll} -A --git --tree -I '.git|node_modules'";
+          treeg = "${tree} --git-ignore";
 
           cdtemp = "cd $(mktemp -d)";
           cdot = "cd ~/.dotfiles/nixos";
@@ -77,9 +87,13 @@ with lib;
           nix-shell = "nix-shell --run zsh";
         };
 
-        interactiveShellInit = my-utils.readInterpolateWith {
-          fzf-history-search = "${pkgs.zsh-fzf-history-search}";
-        } ./interactive-init.sh;
+        interactiveShellInit =
+          (my-utils.readInterpolateWith {
+            fzf-history-search = "${pkgs.zsh-fzf-history-search}";
+          } ./interactive-init.sh)
+          + ''
+            [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+          '';
         promptInit = my-utils.readInterpolateWith { host-icon = cfg.hostIcon; } ./prompt-init.sh;
         # syntaxHighlighting.enable = true;
       };
@@ -145,8 +159,6 @@ with lib;
 
               # Adds noglob to utility script `dl`, see the utilities module to find the script
               dl = "noglob dl";
-
-              claude = "nix run github:sadjow/claude-code-nix --";
 
               # Rust stuff
               cclippy = "cargo clippy --workspace --all-targets --all-features";

@@ -55,7 +55,7 @@
     bat
     bottom
     file
-    lsd
+    eza
     tree
     rsync
     ripgrep
