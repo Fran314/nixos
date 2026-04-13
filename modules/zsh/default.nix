@@ -102,6 +102,7 @@ with lib;
       # work correctly
       environment.systemPackages = with pkgs; [
         git
+        eza
       ];
 
       # To enable system packages completion

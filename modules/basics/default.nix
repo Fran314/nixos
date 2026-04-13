@@ -55,7 +55,6 @@
     bat
     bottom
     file
-    eza
     tree
     rsync
     ripgrep
