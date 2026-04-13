@@ -3,6 +3,7 @@
   config,
   pkgs,
   my-utils,
+  machine,
   ...
 }:
 
@@ -117,15 +118,35 @@ mkIf cfg.enable {
       ];
       text = builtins.readFile ./listen-workspaces;
     })
+    # (pkgs.writeShellApplication {
+    #   name = "listen-wifi";
+    #   runtimeInputs = with pkgs; [
+    #     gnugrep
+    #     networkmanager
+    #     format-bytes
+    #     coreutils
+    #   ];
+    #   text = my-utils.readRemoveStopWith { network-device = machine.wifi-device; } ./listen-network;
+    # })
+    # (pkgs.writeShellApplication {
+    #   name = "listen-ethernet";
+    #   runtimeInputs = with pkgs; [
+    #     gnugrep
+    #     networkmanager
+    #     format-bytes
+    #     coreutils
+    #   ];
+    #   text = my-utils.readRemoveStopWith { network-device = machine.ethernet-device; } ./listen-network;
+    # })
     (pkgs.writeShellApplication {
-      name = "listen-wifi";
+      name = "listen-network";
       runtimeInputs = with pkgs; [
         gnugrep
         networkmanager
         format-bytes
         coreutils
       ];
-      text = my-utils.readRemoveStop ./listen-wifi;
+      text = builtins.readFile ./listen-network;
     })
     (pkgs.writeShellApplication {
       name = "listen-audio";

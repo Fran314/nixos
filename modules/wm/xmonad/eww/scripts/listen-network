@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+SLEEP_DURATION=2
+
+LAST_DEVICE=""
+RX=0
+TX=0
+LASTID=""
+SHOULD_EXPAND="false"
+
+while true; do
+    # Find current default network device
+    NET_DEVICE=$(ip route show default | awk '/default/ {print $5; exit}')
+    NET_TYPE=$(nmcli -t -f DEVICE,TYPE device | awk -F: -v dev="$NET_DEVICE" '$1==dev && ($2=="ethernet" || $2=="wifi") {print $2}')
+
+    if [[ -n "$NET_TYPE" ]]; then
+        if [[ "$NET_DEVICE" != "$LAST_DEVICE" ]]; then
+            LAST_DEVICE="$NET_DEVICE"
+            RX=$(cat /sys/class/net/"$NET_DEVICE"/statistics/rx_bytes 2>/dev/null || echo 0)
+            TX=$(cat /sys/class/net/"$NET_DEVICE"/statistics/tx_bytes 2>/dev/null || echo 0)
+            LASTID=""
+        fi
+
+        NEWRX=$(cat /sys/class/net/"$NET_DEVICE"/statistics/rx_bytes 2>/dev/null || echo 0)
+        NEWTX=$(cat /sys/class/net/"$NET_DEVICE"/statistics/tx_bytes 2>/dev/null || echo 0)
+
+        DIFFRX=$(((NEWRX - RX) / SLEEP_DURATION))
+        DIFFTX=$(((NEWTX - TX) / SLEEP_DURATION))
+
+        RX=$NEWRX
+        TX=$NEWTX
+
+        CONNECTION=$(nmcli device show "$NET_DEVICE" | grep -oP "GENERAL.CONNECTION: *\K.*")
+
+        if [[ "$CONNECTION" != "$LASTID" ]]; then
+            SHOULD_EXPAND="true"
+        else
+            SHOULD_EXPAND="false"
+        fi
+        LASTID=$CONNECTION
+
+        echo "{ \"state\": \"connected\", \"type\": \"$NET_TYPE\", \"connection\": \"$CONNECTION\", \"rx\": $(format-bytes "$DIFFRX"), \"tx\": $(format-bytes "$DIFFTX"), \"should-expand\": \"$SHOULD_EXPAND\" }"
+
+    else
+        LAST_DEVICE=""
+        LASTID=""
+        RX=0
+        TX=0
+
+        echo "{ \"state\": \"disconnected\", \"type\": \"\", \"connection\": \"\", \"rx\": $(format-bytes "0"), \"tx\": $(format-bytes "0"), \"should-expand\": \"false\" }"
+    fi
+
+    sleep "$SLEEP_DURATION"
+done
