@@ -81,6 +81,9 @@
     pdftk
 
     ffmpeg
+
+    smartmontools
+    e2fsprogs
   ];
 
   ##################
