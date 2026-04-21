@@ -278,6 +278,8 @@
         symbolic
       ]
     ))
+
+    pkgs-unstable.ollama
   ];
 
   programs.direnv.enable = true;
