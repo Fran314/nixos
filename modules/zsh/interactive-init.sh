@@ -29,7 +29,7 @@ nix() {
 source "<nix-interpolate:fzf-history-search>/share/zsh-fzf-history-search/zsh-fzf-history-search.plugin.zsh"
 
 export PATH="$PATH:$HOME/.local/bin"
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 # To allow to tab-complete .. to ../
 zstyle ':completion:*' special-dirs true
