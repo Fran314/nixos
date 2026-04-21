@@ -18,9 +18,8 @@ mkcd() {
 
 # "Alias" to inject the environment shell into 'nix develop'
 nix() {
-	if [[ $1 == "develop" ]]; then
-		shift
-		command nix develop -c zsh "$@"
+	if [[ $1 == "develop" ]] && [[ ! " $* " =~ " -c " ]] && [[ ! " $* " =~ " --command " ]]; then
+		command nix "$@" -c zsh
 	else
 		command nix "$@"
 	fi
