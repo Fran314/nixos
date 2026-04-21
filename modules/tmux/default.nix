@@ -79,6 +79,8 @@ with lib;
           # Window navigation (no prefix)
           bind -n M-H previous-window
           bind -n M-L next-window
+          bind -n M-Tab last-window
+          bind -n C-Tab next-window
 
           # Splits (open in current pane's directory)
           bind v split-window -h -c "#{pane_current_path}"

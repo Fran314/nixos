@@ -15,6 +15,15 @@
           # theme from https://github.com/alacritty/alacritty-theme
           general.import = [ "~/.config/alacritty/catppuccin-macchiato.toml" ];
 
+          keyboard.bindings = [
+            {
+              # Distinguish Tab vs Ctrl+Tab
+              key = "Tab";
+              mods = "Control";
+              chars = "\\u001b[9;5u";
+            }
+          ];
+
           colors.primary.background = "#28282A";
           font = {
             normal = {

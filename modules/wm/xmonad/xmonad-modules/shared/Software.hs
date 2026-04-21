@@ -86,7 +86,7 @@ injectKeys modMask keys =
           , ((controlMask .|. shiftMask, xK_p), spawn "firefox --private-window")
           , ((modMask, xK_d), spawn "duplicate-alacritty")
           , -- ((modMask .|. shiftMask, xK_f),     spawn "~/.local/bin/picom-manager toggle"),
-            ((mod1Mask .|. controlMask, xK_l), spawn "lockscreen")
+            ((modMask, xK_l), spawn "lockscreen")
           , -- , ((modMask, xK_F10), spawn "screen-saver-toggle && notify $(xset q | grep -oP \"timeout:\\s*\\K\\d*)\"")
             ((modMask, xK_F10), spawn "screen-saver-toggle && eww poll caffeine")
           , ((0, xK_Print), spawn "screenshot")

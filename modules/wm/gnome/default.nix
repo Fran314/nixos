@@ -179,7 +179,7 @@ with lib;
           };
 
           "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3" = {
-            binding = "<Ctrl><Alt>l";
+            binding = "<Super>l";
             command = "dm-tool lock";
             name = "Lock Screen";
           };
